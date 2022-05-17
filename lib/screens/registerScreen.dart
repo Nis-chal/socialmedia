@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:socialmedia/components/roundedbtn.dart';
+import 'package:socialmedia/screens/loginScreen.dart';
 import '../constants.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import './registerScreen.dart';
 
-class LoginScreen extends StatefulWidget {
-  static const String id = 'login_screen';
+class RegisterScreen extends StatefulWidget {
+  static const String id = 'register_screen';
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   bool showSpinner = false;
   late String email;
   late String password;
+  late String username;
+  late String location;
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +55,37 @@ class _LoginScreenState extends State<LoginScreen> {
                   keyboardType: TextInputType.emailAddress,
                   textAlign: TextAlign.left,
                   onChanged: (value) {
+                    username = value;
+                    //Do something with the user input.
+                  },
+                  decoration: kTextFieldDecoration.copyWith(
+                      hintText: 'Enter your username'),
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  textAlign: TextAlign.left,
+                  onChanged: (value) {
                     email = value;
                     //Do something with the user input.
                   },
                   decoration: kTextFieldDecoration.copyWith(
                       hintText: 'Enter your email'),
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  textAlign: TextAlign.left,
+                  onChanged: (value) {
+                    email = value;
+                    //Do something with the user input.
+                  },
+                  decoration: kTextFieldDecoration.copyWith(
+                      hintText: 'Enter your location'),
                 ),
                 SizedBox(
                   height: 8.0,
@@ -77,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 24.0,
                 ),
                 RoundedButton(
-                  title: 'Log In',
+                  title: 'Register',
                   colour: Color(0xFF363636),
                   onPressed: () {},
                 ),
@@ -85,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      "Dont't have account ",
+                      "Already have a account ",
                       textAlign: TextAlign.end,
                     ),
                     SizedBox(
@@ -93,12 +121,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     GestureDetector(
                       child: Text(
-                        ' Register',
+                        ' login',
                         textAlign: TextAlign.end,
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       onTap: () {
-                        Navigator.pushNamed(context, RegisterScreen.id);
+                        Navigator.pushNamed(context, LoginScreen.id);
                       },
                     )
                   ],
