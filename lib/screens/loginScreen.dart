@@ -4,6 +4,7 @@ import 'package:socialmedia/components/roundedbtn.dart';
 import '../constants.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import './registerScreen.dart';
+import './navigationdrawer.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
@@ -81,6 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   title: 'Log In',
                   colour: Color(0xFF363636),
                   onPressed: () {
+                    Navigator.pushNamed(context, NavigationDrawer.id);
                   },
                 ),
                 Row(

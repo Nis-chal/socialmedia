@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:socialmedia/screens/loginScreen.dart';
 import 'package:socialmedia/screens/registerScreen.dart';
+import 'package:socialmedia/screens/navigationdrawer.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       routes: {
         LoginScreen.id: (context) => LoginScreen(),
         RegisterScreen.id: (context) => RegisterScreen(),
-        
+        NavigationDrawer.id: (context) => NavigationDrawer(),
       },
     );
   }
