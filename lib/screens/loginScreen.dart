@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:socialmedia/components/roundedbtn.dart';
+
 import '../constants.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import './registerScreen.dart';
@@ -79,7 +80,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 RoundedButton(
                   title: 'Log In',
                   colour: Color(0xFF363636),
-                  onPressed: () {},
+                  onPressed: () {
+                  },
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
