@@ -3,6 +3,9 @@ import 'package:socialmedia/components/roundedbtn.dart';
 import 'package:socialmedia/screens/loginScreen.dart';
 import '../constants.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
 
 class RegisterScreen extends StatefulWidget {
   static const String id = 'register_screen';
@@ -17,6 +20,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late String password;
   late String username;
   late String location;
+
+
+  File? img;
+  Future _loadImage(ImageSource imageSource) async {
+    try {
+      final image = await ImagePicker().pickImage(source: imageSource);
+      if (image != null) {
+        setState(() {
+          img = File(image.path);
+        });
+      } else {
+        return;
+      }
+    } catch (e) {
+      debugPrint('Failed to pick Image $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
