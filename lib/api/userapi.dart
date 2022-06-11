@@ -11,6 +11,34 @@ import 'package:flutter/foundation.dart';
 
 
 class UserApi{
+
+  Future<bool> login(String email, String password) async{
+    bool isLogin= false;
+   
+    var url = baseUrl + loginUrl;
+    var dio = HttpServices().getDiorInstance();
+    try{
+      var response = await dio.post(
+        url,
+        data:{
+
+        "email":email,
+        "password":password,
+        }
+      
+      
+        );
+      if(response.statusCode == 200){
+        LoginResponse loginResponse = LoginResponse.fromJson(response.data);
+        token = loginResponse.token;
+        isLogin = true;
+      }
+    }catch(e){
+      debugPrint(e.toString());
+    }
+    return isLogin;
+  }
+  
   Future<bool>registerUser(User user) async{
     bool isLogin= false;
 

@@ -201,18 +201,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         SizedBox(
                           width: 4.0,
                         ),
-                        // GestureDetector(
-                        //   child: Text(
-                        //     ' login',
-                        //     textAlign: TextAlign.end,
-                        //     style: TextStyle(fontWeight: FontWeight.bold),
-                        //   ),
-                        //   onTap: () {
+                        GestureDetector(
+                          child: Text(
+                            ' login',
+                            textAlign: TextAlign.end,
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          onTap: () {
               
-                        //     Navigator.pushNamed(context, LoginScreen.id);
+                            Navigator.pushNamed(context, LoginScreen.id);
                            
-                        //   },
-                        // )
+                          },
+                        )
                       ],
                     ),
                   ],
