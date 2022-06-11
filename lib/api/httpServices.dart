@@ -1,4 +1,4 @@
-import  '../utils//url.dart';
+import  'package:socialmedia/utils//url.dart';
 import "package:dio/dio.dart";
 class HttpServices{
 
