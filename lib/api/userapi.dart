@@ -8,12 +8,14 @@ import 'package:socialmedia/utils/url.dart';
 import 'package:socialmedia/models/User.dart';
 import 'package:socialmedia/response/LoginResponse.dart';
 import 'package:flutter/foundation.dart';
+import 'package:socialmedia/response/logindispatch.dart';
 
 
 class UserApi{
 
-  Future<bool> login(String email, String password) async{
+  Future<bool> login(User user) async{
     bool isLogin= false;
+   
    
     var url = baseUrl + loginUrl;
     var dio = HttpServices().getDiorInstance();
@@ -22,8 +24,8 @@ class UserApi{
         url,
         data:{
 
-        "email":email,
-        "password":password,
+        "email":user.email,
+        "password":user.password,
         }
       
       
@@ -38,9 +40,14 @@ class UserApi{
     }
     return isLogin;
   }
-  
-  Future<bool>registerUser(User user) async{
+
+  Future<LoginDispatch>registerUser(User user) async{
     bool isLogin= false;
+
+    final loginaction = LoginDispatch();
+    loginaction.login = false;
+
+    
 
 
     try{
@@ -67,17 +74,24 @@ class UserApi{
       if (response.statusCode == 201){
         LoginResponse loginResponse = LoginResponse.fromJson(response.data);
         token = loginResponse.token;
-        isLogin = true;
+        loginaction.login = true;
       }
+      
 
 
-    }catch(e){
+    }on DioError catch(e){
+        
+        loginaction.errorMsg = e.response!.data['msg'];
+
+    }
+    catch(e){
+      
       debugPrint(e.toString());
 
       
 
     }
-    return isLogin;
+    return loginaction;
 
   
   }

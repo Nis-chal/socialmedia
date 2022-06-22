@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:socialmedia/models/User.dart';
 import 'package:socialmedia/repository/UserRepository.dart';
+import 'package:socialmedia/response/logindispatch.dart';
 
 
 
@@ -31,22 +32,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passwordController = TextEditingController();
 
 
-  _displayMessage(msg){
-    if(msg){
+  _displayMessage(type,msg){
+
+    final String message = msg?? "error";
+    
+    if(type){
       MotionToast.success(description: Text('success register')).show(context);
     }else{
-      MotionToast.warning(description: Text('error register')).show(context);
+      MotionToast.warning(description: Text('$message new')).show(context);
     }
 
   }
 
   _registerUser(User user) async{
-    bool isLogin = await UserRepository().registerUser(user);
-    if(isLogin){
-      _displayMessage(true);
+    LoginDispatch isLogin = await UserRepository().registerUser(user);
+    bool isLog = isLogin.login!;
+    if(isLog){
+      _displayMessage(true,'sucess');
 
     }else{
-      _displayMessage(false);
+      _displayMessage(false,isLogin.errorMsg!);
     }
   }
 
