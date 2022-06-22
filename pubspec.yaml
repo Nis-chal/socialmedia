@@ -38,6 +38,8 @@ dependencies:
   json_serializable: ^6.2.0
   dio: ^4.0.6
   motion_toast: ^2.1.9
+  shared_preferences: ^2.0.15
+  carousel_slider: ^4.1.1
 
 dev_dependencies:
   flutter_test:

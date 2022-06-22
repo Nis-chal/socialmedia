@@ -18,7 +18,14 @@ class _FeedScreenState extends State<FeedScreen> {
       address: 'london',
       date: '2022/1/2',
       image:
+      [
+
           'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
+          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
+          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
+          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
+          
+      ],
       description: 'yolo',
       userimage:
           'https://images.unsplash.com/photo-1611643378160-39d6dd915b69?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YW5pbWF0aW9ufGVufDB8fDB8fA%3D%3D&w=1000&q=80',
@@ -27,8 +34,15 @@ class _FeedScreenState extends State<FeedScreen> {
       username: "blender",
       address: 'london',
       date: '2022/1/2',
-      image:
-          'https://images.unsplash.com/photo-1611643378160-39d6dd915b69?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YW5pbWF0aW9ufGVufDB8fDB8fA%3D%3D&w=1000&q=80',
+        image:
+      [
+
+          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
+          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
+          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
+          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
+          
+      ],
       description: 'yolo',
       userimage:
           'https://images.unsplash.com/photo-1611643378160-39d6dd915b69?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YW5pbWF0aW9ufGVufDB8fDB8fA%3D%3D&w=1000&q=80',

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:socialmedia/api/httpServices.dart';
@@ -9,6 +10,7 @@ import 'package:socialmedia/models/User.dart';
 import 'package:socialmedia/response/LoginResponse.dart';
 import 'package:flutter/foundation.dart';
 import 'package:socialmedia/response/logindispatch.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class UserApi{
@@ -30,9 +32,17 @@ class UserApi{
       
       
         );
+        
+        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+        String userdata = jsonEncode(response.data['user']);
+        sharedPreferences.setString('userdata',userdata);
+      
+
+
       if(response.statusCode == 200){
         LoginResponse loginResponse = LoginResponse.fromJson(response.data);
         token = loginResponse.token;
+        sharedPreferences.setString('token','$token');
         isLogin = true;
       }
     }catch(e){
