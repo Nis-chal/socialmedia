@@ -21,6 +21,8 @@ class UserApi{
    
     var url = baseUrl + loginUrl;
     var dio = HttpServices().getDiorInstance();
+
+    
     try{
       var response = await dio.post(
         url,

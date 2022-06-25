@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './like_animation.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import '../utils/url.dart';
 
 class PostCard extends StatefulWidget {
   @override
@@ -50,7 +51,7 @@ class _PostCardState extends State<PostCard> {
                 CircleAvatar(
                   radius: 10,
                   backgroundImage: NetworkImage(
-                    widget.userimage!,
+                   '$baseUr${widget.userimage!}',
                   ),
                 ),
                 Expanded(
@@ -133,7 +134,7 @@ class _PostCardState extends State<PostCard> {
           decoration: BoxDecoration(
             color: Colors.amber
           ),
-          child: Image.network(i,fit: BoxFit.cover,),
+          child: Image.network('$baseUr$i',fit: BoxFit.cover,),
         );
       },
     );
@@ -225,13 +226,13 @@ class _PostCardState extends State<PostCard> {
                       style: const TextStyle(color: Colors.black),
                       children: [
                         TextSpan(
-                          text: 'username',
+                          text: '${widget.username}',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         TextSpan(
-                          text: ' description',
+                          text: ' ${widget.description}',
                         ),
                       ],
                     ),
