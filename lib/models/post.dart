@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Post {
-  String? username, address, date, image, description,userimage;
+  String? username, address, date,  description,userimage;
+
+  List<String>? image;
 
   Post({
     

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import './like_animation.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import '../utils/url.dart';
 
 class PostCard extends StatefulWidget {
   @override
   State<PostCard> createState() => _PostCardState();
-  String? image, username, description, date, address, userimage;
+  String?  username, description, date, address, userimage;
+  List<String>? image;
   PostCard(
       {this.image,
       this.username,
@@ -48,7 +51,7 @@ class _PostCardState extends State<PostCard> {
                 CircleAvatar(
                   radius: 10,
                   backgroundImage: NetworkImage(
-                    widget.userimage!,
+                   '$baseUr${widget.userimage!}',
                   ),
                 ),
                 Expanded(
@@ -114,15 +117,30 @@ class _PostCardState extends State<PostCard> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.35,
-                  width: double.infinity,
-                  child: Image.network(
-                    widget.image ??
-                        'https://images.unsplash.com/photo-1611643378160-39d6dd915b69?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YW5pbWF0aW9ufGVufDB8fDB8fA%3D%3D&w=1000&q=80',
-                    fit: BoxFit.cover,
-                  ),
-                ),
+              
+
+                CarouselSlider(
+  options: CarouselOptions(
+    height: MediaQuery.of(context).size.height * 0.35,
+                aspectRatio: 2.0,
+                enlargeCenterPage: true,
+                viewportFraction: 1,),
+  items: widget.image!.map((i) {
+    return Builder(
+      builder: (BuildContext context) {
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          margin: EdgeInsets.symmetric(horizontal: 5.0),
+          decoration: BoxDecoration(
+            color: Colors.amber
+          ),
+          child: Image.network('$baseUr$i',fit: BoxFit.cover,),
+        );
+      },
+    );
+  }).toList(),
+),
+
                 AnimatedOpacity(
                   duration: const Duration(milliseconds: 200),
                   opacity: isLikeAnimating ? 1 : 0,
@@ -208,13 +226,13 @@ class _PostCardState extends State<PostCard> {
                       style: const TextStyle(color: Colors.black),
                       children: [
                         TextSpan(
-                          text: 'username',
+                          text: '${widget.username}',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         TextSpan(
-                          text: ' description',
+                          text: ' ${widget.description}',
                         ),
                       ],
                     ),

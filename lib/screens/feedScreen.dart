@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:socialmedia/components/post_card.dart';
 import 'package:socialmedia/models/post.dart';
+import 'package:socialmedia/models/Posts.dart';
+import '../response/FeedsResponse.dart';
+import '../repository/PostRepository.dart';
 
 class FeedScreen extends StatefulWidget {
   static const String id = 'feed_screen';
@@ -18,7 +21,14 @@ class _FeedScreenState extends State<FeedScreen> {
       address: 'london',
       date: '2022/1/2',
       image:
+      [
+
           'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
+          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
+          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
+          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
+          
+      ],
       description: 'yolo',
       userimage:
           'https://images.unsplash.com/photo-1611643378160-39d6dd915b69?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YW5pbWF0aW9ufGVufDB8fDB8fA%3D%3D&w=1000&q=80',
@@ -27,8 +37,15 @@ class _FeedScreenState extends State<FeedScreen> {
       username: "blender",
       address: 'london',
       date: '2022/1/2',
-      image:
-          'https://images.unsplash.com/photo-1611643378160-39d6dd915b69?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YW5pbWF0aW9ufGVufDB8fDB8fA%3D%3D&w=1000&q=80',
+        image:
+      [
+
+          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
+          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
+          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
+          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
+          
+      ],
       description: 'yolo',
       userimage:
           'https://images.unsplash.com/photo-1611643378160-39d6dd915b69?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YW5pbWF0aW9ufGVufDB8fDB8fA%3D%3D&w=1000&q=80',
@@ -59,9 +76,15 @@ class _FeedScreenState extends State<FeedScreen> {
       body: Container(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              ListView.separated(
+          child:FutureBuilder<FeedsResponse?>(
+          future: PostRepository().getFeeds(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.data != null) {
+                // ProductResponse productResponse = snapshot.data!;
+                List<Posts> postlst = snapshot.data!.posts!;
+
+                return ListView.separated(
                   itemCount: postlst.length,
                   separatorBuilder: (context, index) => const Divider(),
                   shrinkWrap: true,
@@ -70,38 +93,62 @@ class _FeedScreenState extends State<FeedScreen> {
                     return SizedBox(
                       height: 550,
                       child: PostCard(
-                        username: postlst[index].username,
-                        image: postlst[index].image,
-                        date: postlst[index].date,
-                        address: postlst[index].address,
+                        username: postlst[index].userid!.username!,
+                        image: postlst[index].images,
+                        date: postlst[index].createdAt,
+                        address: postlst[index].location,
                         description: postlst[index].description,
-                        userimage: postlst[index].userimage,
+                        userimage: postlst[index].userid!.profilePicture,
                       ),
                     );
-                  }),
+                  }
+                  );
 
-              // PostCard(
-              //   username: 'name',
-              //   image: null,
-              //   date: 'sdfds',
-              //   address: 'sdfds',
-              //   description: 'sdfdsf',
-              //   userimage:
-              //       'https://myrepublica.nagariknetwork.com/uploads/media/2019/July/Kung-Fu-Panda.jpg',
-              // ),
+              } else {
+                return const Center(
+                  child: Text("No data"),
+                );
+              }
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                ),
+              );
+            }
+          },
+        ), 
 
-              // PostCard(
-              //   username: 'name',
-              //   image:
-              //       'https://myrepublica.nagariknetwork.com/uploads/media/2019/July/Kung-Fu-Panda.jpg',
-              //   date: 'sdfds',
-              //   address: 'sdfds',
-              //   description: 'sdfdsf',
-              //   userimage:
-              //       'https://myrepublica.nagariknetwork.com/uploads/media/2019/July/Kung-Fu-Panda.jpg',
-              // ),
-            ],
-          ),
+          // Column(
+          //   children: [
+          //     ListView.separated(
+          //         itemCount: postlst.length,
+          //         separatorBuilder: (context, index) => const Divider(),
+          //         shrinkWrap: true,
+          //         physics: NeverScrollableScrollPhysics(),
+          //         itemBuilder: (context, index) {
+          //           return SizedBox(
+          //             height: 550,
+          //             child: PostCard(
+          //               username: postlst[index].username,
+          //               image: postlst[index].image,
+          //               date: postlst[index].date,
+          //               address: postlst[index].address,
+          //               description: postlst[index].description,
+          //               userimage: postlst[index].userimage,
+          //             ),
+          //           );
+          //         }),
+
+              
+          //   ],
+          // ),
         ),
       ),
     );
