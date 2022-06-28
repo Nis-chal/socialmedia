@@ -3,14 +3,22 @@ import 'package:flutter/material.dart';
 
 
 class ResponsiveLayout extends StatelessWidget {
+  final Widget watchBody;
   final Widget mobileBody;
-  final Widget desktopBody;
   
 
-  ResponsiveLayout({required this.mobileBody,required this.desktopBody});
+  ResponsiveLayout({required this.watchBody,required this.mobileBody});
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return LayoutBuilder(builder: (context,constraints){
+      if(constraints.maxWidth  < 370 ){
+        return watchBody;
+
+      }else{
+        return mobileBody;
+
+      }
+    });
   }
 }
