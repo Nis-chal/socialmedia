@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:socialmedia/screens/feedScreen.dart';
 import 'package:socialmedia/screens/loginScreen.dart';
+import 'package:socialmedia/screens/add_post.dart';
 
 class NavigationDrawer extends StatefulWidget {
   static const String id = 'NavigagtionDrawer_screen';
@@ -15,7 +16,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
 
   List<Widget> lstWidget = [
     FeedScreen(),
-    LoginScreen(),
+    AddPost(),
     LoginScreen(),
     LoginScreen()
   ];
