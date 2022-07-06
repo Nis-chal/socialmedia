@@ -121,7 +121,7 @@ class _PostCardState extends State<PostCard> {
 
                 CarouselSlider(
   options: CarouselOptions(
-    height: MediaQuery.of(context).size.height * 0.35,
+    height: MediaQuery.of(context).size.height * 0.55,
                 aspectRatio: 2.0,
                 enlargeCenterPage: true,
                 viewportFraction: 1,),

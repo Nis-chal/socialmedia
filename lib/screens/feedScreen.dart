@@ -91,7 +91,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return SizedBox(
-                      height: 550,
+                      height: 700,
                       child: PostCard(
                         username: postlst[index].userid!.username!,
                         image: postlst[index].images,

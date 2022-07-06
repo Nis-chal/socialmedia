@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _navigateToScreen(bool isLogin){
     if(isLogin){
-      Navigator.pushReplacementNamed(context, NavigationDrawer.id);
+      Navigator.pushNamed(context, NavigationDrawer.id);
     }
     else{
       MotionToast.error(description: const Text('Enter user or passowrd')).show(context);
