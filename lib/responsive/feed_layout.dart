@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './responsive_layout.dart';
 import '../wearhouse/WearFeedScreen.dart';
 import '../screens/FeedScreen.dart';
+import "package:socialmedia/screens/navigationdrawer.dart";
 
 class FeedLayout extends StatelessWidget {
   const FeedLayout({Key? key}) : super(key: key);
@@ -10,6 +11,6 @@ class FeedLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveLayout(watchBody: WearFeedScreen(), mobileBody: FeedScreen());
+    return ResponsiveLayout(watchBody: WearFeedScreen(), mobileBody: NavigationDrawer());
   }
 }

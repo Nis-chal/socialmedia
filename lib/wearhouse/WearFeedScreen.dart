@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:socialmedia/components/post_card.dart';
+// import 'package:socialmedia/components/post_card.dart';
 import 'package:socialmedia/models/Posts.dart';
 import '../response/FeedsResponse.dart';
 import '../repository/PostRepository.dart';
+import 'package:socialmedia/wearhouse/components/wearProductCard.dart';
 
 class WearFeedScreen extends StatefulWidget {
   static const String id = 'WearFeed_screen';
@@ -38,8 +39,8 @@ class _WearFeedScreenState extends State<WearFeedScreen> {
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return SizedBox(
-                      height: 550,
-                      child: PostCard(
+                      height: MediaQuery.of(context).size.height,
+                      child: WearPostCard(
                         username: postlst[index].userid!.username!,
                         image: postlst[index].images,
                         date: postlst[index].createdAt,

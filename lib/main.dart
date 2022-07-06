@@ -4,6 +4,7 @@ import 'package:socialmedia/screens/loginScreen.dart';
 import 'package:socialmedia/screens/registerScreen.dart';
 import 'package:socialmedia/screens/navigationdrawer.dart';
 import './responsive/login_layout.dart';
+import 'package:socialmedia/responsive/feed_layout.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         LoginScreen.id: (context) => LoginScreen(),
         RegisterScreen.id: (context) => RegisterScreen(),
         NavigationDrawer.id: (context) => NavigationDrawer(),
+        FeedLayout.id:(context)=>FeedLayout(),
       },
     );
   }

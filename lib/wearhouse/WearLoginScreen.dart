@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:socialmedia/responsive/feed_layout.dart';
 import '../constants.dart';
 import 'package:motion_toast/motion_toast.dart';
 import '../repository/UserRepository.dart';
@@ -32,13 +33,14 @@ final _formKey = GlobalKey<FormState>();
       }
 
     }catch(e){
+      print(e);
 
     }
   }
 
   _navigateToScreen(bool isLogin){
     if(isLogin){
-      Navigator.pushReplacementNamed(context, NavigationDrawer.id);
+      Navigator.pushReplacementNamed(context, FeedLayout.id);
     }
     else{
       MotionToast.error(description: const Text('Enter user or passowrd')).show(context);
