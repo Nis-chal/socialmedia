@@ -55,5 +55,60 @@ Future<FeedsResponse?>feeds() async{
 }
 
 
+Future<bool>addPost(List<File> images,String description) async{
+  
 
+    bool posts;
+
+
+
+  var postsurl = baseUrl + addPostUrl;
+ List<MultipartFile> uploadList = [];
+ FormData formData;
+
+
+  try{
+    var dio = HttpServices().getDiorInstance();
+    // Obtain shared preferences.
+    final prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('token');
+
+    for (var file in images){
+        var mimeType = lookupMimeType(file.path);
+
+      MultipartFile multipartFile = await MultipartFile.fromFile(file.path,
+       filename: file.path.split("/").last,
+        contentType: MediaType("image", mimeType!.split("/")[1]),
+      );
+      
+
+      uploadList.add(multipartFile);
+    }
+    FormData formData = FormData.fromMap({
+      "images":uploadList
+    });
+    var response = await dio.post(
+      postsurl,
+      data:formData,
+      options:Options(headers: {HttpHeaders.authorizationHeader:"Bearer $token"}),
+
+    
+    );
+    if (response.statusCode == 200) {
+        posts = true;
+      } else {
+        posts= false;
+      }
+
+
+  }catch(e){
+    throw Exception(e);
+
+  }
+
+  return posts;
+
+
+
+}
 }
