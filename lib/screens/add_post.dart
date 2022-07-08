@@ -30,7 +30,20 @@ class _AddPostState extends State<AddPost> {
   }
 
 
+  _addProduct(List<File> images, String location) async {
+    bool isAdded = await PostRepository().addFeed(_imageList, location);
+   
+  }
 
+    _displayMessage(bool isAdded) {
+    if (isAdded) {
+      MotionToast.success(description: const Text("Post added successfully"))
+          .show(context);
+    } else {
+      MotionToast.error(description: const Text("Error adding post"))
+          .show(context);
+    }
+  }
    
   @override
   Widget build(BuildContext context) {
@@ -82,7 +95,7 @@ class _AddPostState extends State<AddPost> {
           ),
 
           ElevatedButton(onPressed: (){
-            // _addProduct(_imageList, "new");
+            _addProduct(_imageList, "new");
           }, child: Text('submit'))
       ],
     ),
