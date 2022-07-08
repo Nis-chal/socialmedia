@@ -3,11 +3,15 @@ import 'package:dio/dio.dart';
 
 import '../api/postapi.dart';
 import '../response/FeedsResponse.dart';
+import 'package:socialmedia/models/Posts.dart';
+
 
 class PostRepository{
   Future<FeedsResponse?> getFeeds() async {
     return PostAPI().feeds();
   }
+
+ 
 
 
 

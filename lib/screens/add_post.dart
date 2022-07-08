@@ -2,6 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:socialmedia/repository/PostRepository.dart';
+import 'package:socialmedia/models/Posts.dart';
+
+import 'package:motion_toast/motion_toast.dart';
 class AddPost extends StatefulWidget {
   AddPost({Key? key}) : super(key: key);
 
@@ -11,17 +15,23 @@ class AddPost extends StatefulWidget {
 
 class _AddPostState extends State<AddPost> {
   final ImagePicker _picker = ImagePicker();
-  late  List<XFile> _imageList = [];
+  final  List<File> _imageList = [];
+  File? img;
   void imageSelect() async{
-    final XFile? selectedImage = await _picker.pickImage(source: ImageSource.gallery);
+    final selectedImage = await _picker.pickImage(source: ImageSource.gallery);
     if(selectedImage!.path.isNotEmpty){
       
-      _imageList.add(selectedImage);
-    }
     setState(() {
+      img =File(selectedImage.path) ;
       
+      _imageList.add(File(selectedImage.path));
     });
+    }
   }
+
+
+
+   
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: SafeArea(child: Column(
@@ -70,6 +80,10 @@ class _AddPostState extends State<AddPost> {
           
                 }),
           ),
+
+          ElevatedButton(onPressed: (){
+            // _addProduct(_imageList, "new");
+          }, child: Text('submit'))
       ],
     ),
     ),

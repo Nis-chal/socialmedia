@@ -9,5 +9,6 @@ const productUrl = "";
 const loginUrl = "auth/login";
 const registerUrl = "auth/register";
 const getFeedsUrl = "posts/getposts";
+const addPostUrl = "posts/upload";
 
 String? token;

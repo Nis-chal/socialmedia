@@ -1,12 +1,17 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../response/FeedsResponse.dart';
 import '../utils/url.dart';
 import '../api/httpServices.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socialmedia/models/Posts.dart';
+import 'package:mime/mime.dart';
+
+
 
 
 class PostAPI{
@@ -48,4 +53,7 @@ Future<FeedsResponse?>feeds() async{
 
 
 }
+
+
+
 }
