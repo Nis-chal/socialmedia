@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
 import './like_animation.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import '../utils/url.dart';
-
+import 'package:socialmedia/screens/ImageSlider.dart';
+import 'package:socialmedia/components/bottom_sheet.dart';
 class PostCard extends StatefulWidget {
   @override
   State<PostCard> createState() => _PostCardState();
   String?  username, description, date, address, userimage;
-  List<String>? image;
+  List<String>? image,likesid,commentsid,saved;
+  
   PostCard(
       {this.image,
       this.username,
       this.description,
       this.date,
       this.address,
-      this.userimage});
+      this.userimage,
+      this.likesid,
+      this.commentsid,
+      this.saved
+      
+      });
 }
 
 class _PostCardState extends State<PostCard> {
@@ -73,38 +79,7 @@ class _PostCardState extends State<PostCard> {
                     ),
                   ),
                 ),
-                IconButton(
-                  onPressed: () {
-                    showDialog(
-                      useRootNavigator: false,
-                      context: context,
-                      builder: (context) {
-                        return Dialog(
-                          child: ListView(
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              shrinkWrap: true,
-                              children: [
-                                'Delete',
-                              ]
-                                  .map(
-                                    (e) => InkWell(
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 12, horizontal: 16),
-                                          child: Text(e),
-                                        ),
-                                        onTap: () {
-                                          // remove the dialog box
-                                          Navigator.of(context).pop();
-                                        }),
-                                  )
-                                  .toList()),
-                        );
-                      },
-                    );
-                  },
-                  icon: const Icon(Icons.more_vert),
-                )
+                BottomTab()
               ],
             ),
           ),
@@ -119,27 +94,28 @@ class _PostCardState extends State<PostCard> {
               children: [
               
 
-                CarouselSlider(
-  options: CarouselOptions(
-    height: MediaQuery.of(context).size.height * 0.55,
-                aspectRatio: 2.0,
-                enlargeCenterPage: true,
-                viewportFraction: 1,),
-  items: widget.image!.map((i) {
-    return Builder(
-      builder: (BuildContext context) {
-        return Container(
-          width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.symmetric(horizontal: 5.0),
-          decoration: BoxDecoration(
-            color: Colors.amber
-          ),
-          child: Image.network('$baseUr$i',fit: BoxFit.cover,),
-        );
-      },
-    );
-  }).toList(),
-),
+//                 CarouselSlider(
+//   options: CarouselOptions(
+//     height: MediaQuery.of(context).size.height * 0.55,
+//                 aspectRatio: 2.0,
+//                 enlargeCenterPage: true,
+//                 viewportFraction: 1,),
+//   items: widget.image!.map((i) {
+//     return Builder(
+//       builder: (BuildContext context) {
+//         return Container(
+//           width: MediaQuery.of(context).size.width,
+//           margin: EdgeInsets.symmetric(horizontal: 5.0),
+//           decoration: BoxDecoration(
+//             color: Colors.amber
+//           ),
+//           child: Image.network('$baseUr$i',fit: BoxFit.cover,),
+//         );
+//       },
+//     );
+//   }).toList(),
+// ),
+ImageSlider(listofImage: widget.image),
 
                 AnimatedOpacity(
                   duration: const Duration(milliseconds: 200),
@@ -213,7 +189,7 @@ class _PostCardState extends State<PostCard> {
                         .subtitle2!
                         .copyWith(fontWeight: FontWeight.w800),
                     child: Text(
-                      '11 likes',
+                      '${widget.likesid?.length} likes',
                       style: Theme.of(context).textTheme.bodyText2,
                     )),
                 Container(
@@ -241,7 +217,7 @@ class _PostCardState extends State<PostCard> {
                 InkWell(
                     child: Container(
                       child: Text(
-                        'View all 10 comments',
+                        'View all ${widget.commentsid?.length} comments',
                         style: const TextStyle(
                           fontSize: 16,
                           color: Color.fromARGB(255, 152, 149, 149),

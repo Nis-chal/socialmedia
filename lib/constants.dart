@@ -39,3 +39,5 @@ const kWTextFieldDecoration = InputDecoration(
 );
 
 const mobileWidth = 600;
+
+const secodaryColor = Color(0X42BDBDBD);

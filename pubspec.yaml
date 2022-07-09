@@ -40,6 +40,9 @@ dependencies:
   motion_toast: ^2.1.9
   shared_preferences: ^2.0.15
   carousel_slider: ^4.1.1
+  photo_view: ^0.14.0
+  tuple: ^2.0.0
+  smooth_page_indicator: ^1.0.0+2
 
 dev_dependencies:
   flutter_test:
