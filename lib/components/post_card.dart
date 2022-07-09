@@ -3,12 +3,15 @@ import './like_animation.dart';
 import '../utils/url.dart';
 import 'package:socialmedia/screens/ImageSlider.dart';
 import 'package:socialmedia/components/bottom_sheet.dart';
+
+import 'package:timeago/timeago.dart ' as timeago;
 class PostCard extends StatefulWidget {
   @override
   State<PostCard> createState() => _PostCardState();
-  String?  username, description, date, address, userimage;
+  String?  username, description, address, userimage,updatedAt;
   List<String>? image,likesid,commentsid,saved;
-  
+  DateTime? createdAt,date;
+
   PostCard(
       {this.image,
       this.username,
@@ -18,7 +21,9 @@ class PostCard extends StatefulWidget {
       this.userimage,
       this.likesid,
       this.commentsid,
-      this.saved
+      this.saved,
+      this.updatedAt,
+      this.createdAt
       
       });
 }
@@ -26,6 +31,8 @@ class PostCard extends StatefulWidget {
 class _PostCardState extends State<PostCard> {
   int commentLen = 0;
   bool isLikeAnimating = false;
+ 
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -228,7 +235,7 @@ ImageSlider(listofImage: widget.image),
                     onTap: () {}),
                 Container(
                   child: Text(
-                    '1 Day',
+                    timeago.format(widget.createdAt!) ,
                     style: const TextStyle(
                       color: Colors.black,
                     ),

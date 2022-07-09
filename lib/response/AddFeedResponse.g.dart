@@ -8,10 +8,15 @@ part of 'AddFeedResponse.dart';
 
 AddFeedResponse _$AddFeedResponseFromJson(Map<String, dynamic> json) =>
     AddFeedResponse(
-      images: json['images'],
+      images:
+          (json['images'] as List<dynamic>).map((e) => e as String).toList(),
+      description: json['description'] as String?,
+      location: json['location'] as String?,
     );
 
 Map<String, dynamic> _$AddFeedResponseToJson(AddFeedResponse instance) =>
     <String, dynamic>{
       'images': instance.images,
+      'description': instance.description,
+      'location': instance.location,
     };

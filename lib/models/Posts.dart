@@ -15,8 +15,9 @@ class Posts {
   List<String>? commentsid;
   UserInfo? userid;
   List<String>? saved;
-  String? createdAt;
+  DateTime? createdAt;
   String? updatedAt;
+  
 
   Posts(
     {

@@ -100,6 +100,9 @@ class _FeedScreenState extends State<FeedScreen> {
                         description: postlst[index].description,
                         userimage: postlst[index].userid!.profilePicture,
                         likesid: postlst[index].likesid,
+                        commentsid: postlst[index].commentsid,
+                        updatedAt: postlst[index].updatedAt,
+                        createdAt: postlst[index].createdAt,
                       ),
                     );
                   }

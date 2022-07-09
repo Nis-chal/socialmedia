@@ -1,13 +1,12 @@
 import 'dart:io';
 import 'package:json_annotation/json_annotation.dart';
-
 part 'AddFeedResponse.g.dart';
 
 
 @JsonSerializable()
 class AddFeedResponse{
 
-  List<File> images;
+  List<String> images;
   String? description;
   String? location;
 
