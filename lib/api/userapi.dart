@@ -43,6 +43,8 @@ class UserApi{
 
       if(response.statusCode == 200){
         LoginResponse loginResponse = LoginResponse.fromJson(response.data);
+         String userdata = jsonEncode(response.data['user']);
+        sharedPreferences.setString('userdata',userdata);
         token = loginResponse.token;
         sharedPreferences.setString('token','$token');
         isLogin = true;

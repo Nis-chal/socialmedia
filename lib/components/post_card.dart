@@ -5,15 +5,18 @@ import 'package:socialmedia/screens/ImageSlider.dart';
 import 'package:socialmedia/components/bottom_sheet.dart';
 
 import 'package:timeago/timeago.dart ' as timeago;
+import 'package:get/get.dart';
 class PostCard extends StatefulWidget {
   @override
   State<PostCard> createState() => _PostCardState();
-  String?  username, description, address, userimage,updatedAt;
+  String?  username, description, address, userimage,updatedAt,id;
   List<String>? image,likesid,commentsid,saved;
   DateTime? createdAt,date;
 
   PostCard(
-      {this.image,
+      {
+        this.id,
+      this.image,
       this.username,
       this.description,
       this.date,
@@ -30,9 +33,28 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   int commentLen = 0;
-  bool isLikeAnimating = false;
- 
+  var isLikeAnimating = false.obs;
+  var liked = false.obs;
   
+
+
+
+  
+
+
+  
+  late var likelength = widget.likesid!.length.obs;
+
+  void increament(){
+   
+    likelength++;
+    liked.value = true;
+
+
+
+
+    
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -92,9 +114,14 @@ class _PostCardState extends State<PostCard> {
           ),
           GestureDetector(
             onDoubleTap: () {
-              setState(() {
-                isLikeAnimating = true;
-              });
+
+              
+                isLikeAnimating.value = true ;
+
+              
+              
+              
+              
             },
             child: Stack(
               alignment: Alignment.center,
@@ -124,11 +151,13 @@ class _PostCardState extends State<PostCard> {
 // ),
 ImageSlider(listofImage: widget.image),
 
+               Obx(()=>
+
                 AnimatedOpacity(
                   duration: const Duration(milliseconds: 200),
-                  opacity: isLikeAnimating ? 1 : 0,
+                  opacity: isLikeAnimating.isTrue ? 1 : 0,
                   child: LikeAnimation(
-                    isAnimating: isLikeAnimating,
+                    isAnimating: isLikeAnimating.isTrue,
                     child: const Icon(
                       Icons.favorite,
                       color: Colors.white,
@@ -138,12 +167,23 @@ ImageSlider(listofImage: widget.image),
                       milliseconds: 400,
                     ),
                     onEnd: () {
-                      setState(() {
-                        isLikeAnimating = false;
-                      });
+                      
+                        isLikeAnimating.value = false;
+
+                        if (liked.isTrue){
+
+                        likelength--;
+                        liked.value = false;
+                        }else{
+
+                        increament();
+                        }
+                    
                     },
                   ),
                 ),
+               ),
+            
               ],
             ),
           ),
@@ -153,8 +193,12 @@ ImageSlider(listofImage: widget.image),
               LikeAnimation(
                 isAnimating: false,
                 smallLike: true,
-                child: IconButton(
-                  icon: isLikeAnimating
+                child: 
+                Obx((() => 
+                
+                IconButton(
+                  
+                  icon: liked.value
                       ? const Icon(
                           Icons.favorite,
                           color: Colors.red,
@@ -163,7 +207,12 @@ ImageSlider(listofImage: widget.image),
                           Icons.favorite_border,
                         ),
                   onPressed: () {},
+                )
                 ),
+                )
+
+
+                
               ),
               IconButton(
                   icon: const Icon(
@@ -195,10 +244,15 @@ ImageSlider(listofImage: widget.image),
                         .textTheme
                         .subtitle2!
                         .copyWith(fontWeight: FontWeight.w800),
-                    child: Text(
-                      '${widget.likesid?.length} likes',
+                    child: 
+                    Obx(() => 
+                    
+                    Text(
+                      '$likelength likes',
                       style: Theme.of(context).textTheme.bodyText2,
-                    )),
+                    ),
+                    ),
+                    ),
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.only(

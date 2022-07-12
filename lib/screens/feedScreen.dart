@@ -93,6 +93,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     return SizedBox(
                       height: 720,
                       child: PostCard(
+                        id: postlst[index].id,
                         username: postlst[index].userid!.username!,
                         image: postlst[index].images,
                         date: postlst[index].createdAt,
