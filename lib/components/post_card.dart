@@ -10,6 +10,7 @@ import 'package:timeago/timeago.dart ' as timeago;
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialmedia/models/User.dart';
+import 'package:socialmedia/repository/PostRepository.dart';
 class PostCard extends StatefulWidget {
   @override
   State<PostCard> createState() => _PostCardState();
@@ -75,6 +76,9 @@ class _PostCardState extends State<PostCard> {
   late var likelength = widget.likesid!.length.obs;
 
   void increament(){
+
+    PostRepository().likePost(widget.id);
+
    
     likelength++;
     liked.value = true;

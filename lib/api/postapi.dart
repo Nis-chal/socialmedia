@@ -122,7 +122,7 @@ class PostAPI{
 
 
 
-    var postsurl = baseUrl + likeUrl + postid;
+    var postsurl = baseUrl + '$likeUrl$postid';
    
 
 
@@ -133,7 +133,7 @@ class PostAPI{
       final String? token = prefs.getString('token');
 
     
-      Response response = await dio.post(
+      Response response = await dio.patch(
         postsurl,
        
         options:Options(headers: {HttpHeaders.authorizationHeader:"Bearer $token"}),
