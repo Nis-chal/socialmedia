@@ -159,4 +159,50 @@ class PostAPI{
 
 
   }
+
+
+  Future<bool>unlikePost({postid}) async{
+    
+
+    bool posts;
+
+
+
+    var postsurl = baseUrl + '$unlikeUrl$postid';
+   
+
+
+    try{
+      var dio = HttpServices().getDiorInstance();
+      // Obtain shared preferences.
+      final prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+
+    
+      Response response = await dio.patch(
+        postsurl,
+       
+        options:Options(headers: {HttpHeaders.authorizationHeader:"Bearer $token"}),
+
+      
+      );
+      if (response.statusCode == 200) {
+          posts = true;
+        } else {
+          posts= false;
+        }
+
+
+    }catch(e){
+      throw Exception(e);
+
+    }
+
+    
+
+    return posts;
+
+
+
+  }
 }

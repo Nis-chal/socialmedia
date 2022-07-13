@@ -11,5 +11,7 @@ const registerUrl = "auth/register";
 const getFeedsUrl = "posts/getposts";
 const addPostUrl = "posts/upload";
 const likeUrl = "posts/likepost/";
+const unlikeUrl = "posts/unlikepost/";
+
 
 String? token;
