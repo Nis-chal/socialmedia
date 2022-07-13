@@ -204,6 +204,7 @@ ImageSlider(listofImage: widget.image),
                         isLikeAnimating.value = false;
 
                         if (liked.isTrue){
+                          PostRepository().unlikePost(widget.id);
 
                         likelength--;
                         liked.value = false;

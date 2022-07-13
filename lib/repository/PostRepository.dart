@@ -19,6 +19,10 @@ class PostRepository{
     return await PostAPI().likePost(postid: postid);
   }
 
+   Future<bool>unlikePost(String? postid)async{
+    return await PostAPI().unlikePost(postid: postid);
+  }
+
 
 
 
