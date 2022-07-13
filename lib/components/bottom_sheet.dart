@@ -18,33 +18,28 @@ class BottomTab extends StatelessWidget {
   Widget buildSheet(){
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0 ,vertical: 10),
-      height: 400,
-      decoration: BoxDecoration(borderRadius: BorderRadius.only(topRight: Radius.circular(90),topLeft: Radius.circular(10))),
+      height: 300,
+      decoration:const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topRight: Radius.circular(30),topLeft: Radius.circular(30))),
       child: Column(children: [
 
         Row(
-          
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           
           children: [
             Expanded(
-              child: Container(
-                height: 70,
-                width: 100,
-            
-               
-                decoration: BoxDecoration(color: secodaryColor,borderRadius: BorderRadius.all(Radius.circular(7))),
-              
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(primary: Colors.blue,shadowColor: Colors.transparent),
+                onPressed: (){},
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children:[
-              
+                
                   Icon(Icons.delete,
                   color: Color(0xFFB1ABAB),
                   ),
                   Text("Delete")
                   ],
                 ),
-                
               ),
             ),
             SizedBox(
@@ -110,6 +105,6 @@ class BottomTab extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    return buildBottom(onClicked: ()=>showModalBottomSheet(context: context, builder: (BuildContext context)=>buildSheet()));
+    return buildBottom(onClicked: ()=>showModalBottomSheet(context: context,backgroundColor: Colors.transparent,  builder: (BuildContext context)=>buildSheet()));
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:socialmedia/components/roundedbtn.dart';
 
@@ -8,6 +10,7 @@ import './navigationdrawer.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:socialmedia/models/User.dart';
 import 'package:socialmedia/repository/UserRepository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -25,6 +28,26 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+   @override
+  void initState() {
+    super.initState();
+    _autoLogin();
+  }
+
+  _autoLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    
+      final String? token = (prefs.getString('token') ?? '');
+
+      if(token!.isNotEmpty){
+        Navigator.pushNamed(context, NavigationDrawer.id);
+
+
+      }
+      
+
+    
+  }
   _login(User user) async{
     try{
       UserRepository userRepository = UserRepository();
