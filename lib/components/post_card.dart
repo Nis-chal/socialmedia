@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import './like_animation.dart';
 import '../utils/url.dart';
@@ -6,13 +8,15 @@ import 'package:socialmedia/components/bottom_sheet.dart';
 
 import 'package:timeago/timeago.dart ' as timeago;
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socialmedia/models/User.dart';
 class PostCard extends StatefulWidget {
   @override
   State<PostCard> createState() => _PostCardState();
   String?  username, description, address, userimage,updatedAt,id;
   List<String>? image,likesid,commentsid,saved;
   DateTime? createdAt,date;
-
+ 
   PostCard(
       {
         this.id,
@@ -31,15 +35,39 @@ class PostCard extends StatefulWidget {
       });
 }
 
+
+
 class _PostCardState extends State<PostCard> {
   int commentLen = 0;
   var isLikeAnimating = false.obs;
   var liked = false.obs;
-  
+  var userliked = false;
+  late var  likeslist = widget.likesid;
 
 
 
-  
+  var userid = ''.obs;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCounter();
+  }
+
+  _loadCounter() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      var data = (prefs.getString('userdata') ?? '');
+        var userdatas = User.fromJson(jsonDecode(data.toString()));  
+       var userid = userdatas.id.toString();
+
+      if(likeslist!.contains(userid)){
+        liked.value = true;
+        debugPrint(userid);
+
+      }
+    });
+  }
 
 
   
