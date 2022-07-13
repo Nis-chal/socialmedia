@@ -18,13 +18,22 @@ class _AddPostState extends State<AddPost> {
   final  List<File> _imageList = [];
   File? img;
   void imageSelect() async{
-    final selectedImage = await _picker.pickImage(source: ImageSource.gallery);
-    if(selectedImage!.path.isNotEmpty){
+    final selectedImage = await _picker.pickMultiImage();
+    if(selectedImage!.isNotEmpty){
       
     setState(() {
-      img =File(selectedImage.path) ;
+
+      // selectedImage.map((item){
+
+        
+      //     return _imageList.add(File(item.path));
+      // } );
+      for(var image in selectedImage){
+
+      img =File(image.path) ;
       
-      _imageList.add(File(selectedImage.path));
+      _imageList.add(File(image.path));
+      }
     });
     }
   }
