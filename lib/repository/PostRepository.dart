@@ -15,6 +15,10 @@ class PostRepository{
     return await PostAPI().addPost(images ,description);
   }
 
+  Future<bool>likePost(String? postid)async{
+    return await PostAPI().likePost(postid: postid);
+  }
+
 
 
 

@@ -56,6 +56,7 @@ class _PostCardState extends State<PostCard> {
 
   _loadCounter() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    
     setState(() {
       var data = (prefs.getString('userdata') ?? '');
         var userdatas = User.fromJson(jsonDecode(data.toString()));  
@@ -63,7 +64,7 @@ class _PostCardState extends State<PostCard> {
 
       if(likeslist!.contains(userid)){
         liked.value = true;
-        debugPrint(userid);
+       
 
       }
     });
