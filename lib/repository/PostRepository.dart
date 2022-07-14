@@ -23,6 +23,10 @@ class PostRepository{
     return await PostAPI().unlikePost(postid: postid);
   }
 
+  Future<Posts?>postDetail(String postid)async{
+    return await PostAPI().postDetail(postid);
+  }
+
 
 
 

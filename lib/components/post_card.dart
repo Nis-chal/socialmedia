@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialmedia/models/User.dart';
 import 'package:socialmedia/repository/PostRepository.dart';
+import 'package:socialmedia/screens/post/post_edit.dart';
 class PostCard extends StatefulWidget {
   @override
   State<PostCard> createState() => _PostCardState();
@@ -117,7 +118,7 @@ class _PostCardState extends State<PostCard> {
             child: Row(
               children: [
                 CircleAvatar(
-                  radius: 10,
+                  radius: 15,
                   backgroundImage: NetworkImage(
                    '$baseUr${widget.userimage!}',
                   ),
@@ -137,11 +138,25 @@ class _PostCardState extends State<PostCard> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        
+                        Visibility(
+                          visible: widget.address != null?true:false,
+                          child: Text(widget.address?? '')
+                          
+                          ),
                       ],
                     ),
                   ),
                 ),
-                BottomTab()
+                BottomTab(postid: widget.id,onClicked: () {
+
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) => const SecondRoute()))
+                }, location: widget.address,
+                images: widget.image,
+                username: widget.username,
+                userimage: widget.userimage!,
+                description: widget.description,
+                )
               ],
             ),
           ),

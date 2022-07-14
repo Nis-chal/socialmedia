@@ -205,4 +205,43 @@ class PostAPI{
 
 
   }
+
+
+  Future<Posts?>postDetail(String postid) async{
+      // Future.delayed(const Duration(seconds: 2), () {});
+
+      Posts? posts;
+
+
+
+    var postsurl = baseUrl + getFeedsUrl + postid;
+
+    try{
+      var dio = HttpServices().getDiorInstance();
+      // Obtain shared preferences.
+      final prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      var response = await dio.get(
+        postsurl,
+        options:Options(headers: {HttpHeaders.authorizationHeader:"Bearer $token"}),
+
+      
+      );
+      if (response.statusCode == 200) {
+          posts = Posts.fromJson(response.data);
+        } else {
+          posts= null;
+        }
+
+
+    }catch(e){
+      throw Exception(e);
+
+    }
+
+    return posts;
+
+
+
+  }
 }
