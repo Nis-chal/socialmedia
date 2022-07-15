@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:socialmedia/response/PostDetailResponse.dart';
 
 import '../api/postapi.dart';
 import '../response/FeedsResponse.dart';
@@ -23,7 +24,7 @@ class PostRepository{
     return await PostAPI().unlikePost(postid: postid);
   }
 
-  Future<Posts?>postDetail(String postid)async{
+  Future<PostDetailResponse?>postDetail(String postid)async{
     return await PostAPI().postDetail(postid);
   }
 

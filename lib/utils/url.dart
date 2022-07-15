@@ -13,6 +13,7 @@ const addPostUrl = "posts/upload";
 const likeUrl = "posts/likepost/";
 const unlikeUrl = "posts/unlikepost/";
 const updatePostUrl = "posts/updatepost/";
+const postDetailUrl = "posts/postdetail/";
 
 
 String? token;

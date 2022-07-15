@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:socialmedia/components/post_card.dart';
 import 'package:socialmedia/models/Posts.dart';
 import 'package:socialmedia/repository/PostRepository.dart';
+import 'package:socialmedia/response/PostDetailResponse.dart';
 class PostDetailScreen extends StatefulWidget {
     static const String id = 'postedit_screen';
 
@@ -13,35 +14,13 @@ class PostDetailScreen extends StatefulWidget {
 }
 
 class _PostDetailScreenState extends State<PostDetailScreen> {
- @override
-  void initState() {
-    _postdetial();
-    
-    super.initState();
-  }
+
   String?  username, description, address, userimage,updatedAt,id;
   List<String>? image,likesid,commentsid,saved;
   DateTime? createdAt,date;
 
 
-  _postdetial()async{
-    PostRepository postRepository = PostRepository();
-    Posts? post = await postRepository.postDetail(widget.args!);
-    setState(() {
-      username=post?.userid?.username;
-      userimage = post?.userid?.profilePicture;
-      description =post?.description;
-      address = post?.location;
-      updatedAt = post?.updatedAt;
-      image = post?.images;
-      commentsid =post?.commentsid;
-      saved = post?.saved;
-      createdAt = post?.createdAt;
-      date = post?.createdAt;
 
-    });
-
-  }
 
   
 
@@ -50,19 +29,70 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
 
     return Scaffold(
       body: SafeArea(child:
-      PostCard(
-        address:address ,
-      username: username,
-      userimage: userimage,
-      description: description,
-      updatedAt: updatedAt,
-      image: image,
-      commentsid: commentsid,
-      saved: saved,
-      createdAt: createdAt,
-      date: date,
+
+      FutureBuilder<PostDetailResponse?>(
+        future: PostRepository().postDetail(widget.args!),
+        builder:(context,snapshot){
+          if(snapshot.connectionState == ConnectionState.done){
+            if(snapshot.data !=null){
+
+              Posts? feed = snapshot.data!.post ;
+              String? f =feed?.location;
+              return (
+
+                
+
+                  PostCard(
+        address:feed!.location ,
+      username: feed.userid!.username??"hello",
+      userimage: feed.userid!.profilePicture??"sdf",
+      description: feed.description,
+      updatedAt: feed.updatedAt,
+      image: feed.images,
+      commentsid:feed.commentsid,
+      saved: feed.saved,
+      createdAt:feed. createdAt,
+      date: feed.createdAt,
 
       )
+
+      //             PostCard(
+      //   address:address ,
+      // username: username,
+      // userimage: userimage,
+      // description: description,
+      // updatedAt: updatedAt,
+      // image: image,
+      // commentsid: commentsid,
+      // saved: saved,
+      // createdAt: createdAt,
+      // date: date,
+
+      // )
+              );
+              
+            }else{
+              return const Center(
+                  child: Text("No data"),
+                );
+
+            }
+          }
+          else if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }else {
+              return const Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                ),
+              );
+            }
+
+
+      } ,)
+   
        ),
     );
   }
