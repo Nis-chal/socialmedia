@@ -6,6 +6,7 @@ import 'package:socialmedia/screens/navigationdrawer.dart';
 import './responsive/login_layout.dart';
 import 'package:socialmedia/responsive/feed_layout.dart';
 import 'package:socialmedia/screens/post/post_edit.dart';
+import 'package:socialmedia/screens/post/post_detail.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
         RegisterScreen.id: (context) => RegisterScreen(),
         NavigationDrawer.id: (context) => NavigationDrawer(),
         FeedLayout.id:(context)=>FeedLayout(),
-        PostEditScreen.id:(context) => PostEditScreen() 
+        PostEditScreen.id:(context) => PostEditScreen(),
+        PostDetailScreen.id:((context) => PostDetailScreen(ModalRoute.of(context)!.settings.arguments as String)), 
       },
     );
   }

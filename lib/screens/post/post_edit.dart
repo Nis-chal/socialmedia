@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:socialmedia/repository/PostRepository.dart';
 import 'package:socialmedia/screens/ImageSlider.dart';
+import 'package:socialmedia/screens/post/post_detail.dart';
 import 'package:socialmedia/utils/url.dart';
 
 
 class PostEditScreen extends StatefulWidget {
     static const String id = 'edit_screen';
 
-  PostEditScreen({Key? key}) : super(key: key);
+  PostEditScreen( {Key? key}) : super(key: key);
 
   @override
   State<PostEditScreen> createState() => _PostEditScreenState();
@@ -16,6 +17,10 @@ class PostEditScreen extends StatefulWidget {
 class _PostEditScreenState extends State<PostEditScreen> {
   final _location = TextEditingController() ;
   final _description = TextEditingController() ;
+
+  _updateUser(){
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +60,13 @@ class _PostEditScreenState extends State<PostEditScreen> {
                 ),
                 ),
                 Text("Edit Info",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400),),
-                ElevatedButton(onPressed: (){
-                         PostRepository().updatePost(_location.text, _description.text, args['postid'],args['postimage']);
+                ElevatedButton(onPressed: ()async{
+
+                  bool post =  await PostRepository().updatePost(_location.text, _description.text, args['postid'],args['postimage']);
+
+                  if(post){
+                    Navigator.pushNamed(context, PostDetailScreen.id,arguments: args['postid']!);
+                  }
 
                 }, child: Text('Done'),
                 style: ElevatedButton.styleFrom(
