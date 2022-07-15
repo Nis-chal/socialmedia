@@ -28,6 +28,15 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+
+      appBar: AppBar(
+        title: Text('Post Detail'),
+
+        leading: IconButton(onPressed: (() {
+          
+        }),
+        icon: Icon(Icons.back_hand),
+      ),),
       body: SafeArea(child:
 
       FutureBuilder<PostDetailResponse?>(
@@ -37,38 +46,41 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             if(snapshot.data !=null){
 
               Posts? feed = snapshot.data!.post ;
-              String? f =feed?.location;
-              return (
-
-                
-
-                  PostCard(
-        address:feed!.location ,
-      username: feed.userid!.username??"hello",
-      userimage: feed.userid!.profilePicture??"sdf",
-      description: feed.description,
-      updatedAt: feed.updatedAt,
-      image: feed.images,
-      commentsid:feed.commentsid,
-      saved: feed.saved,
-      createdAt:feed. createdAt,
-      date: feed.createdAt,
-
-      )
-
-      //             PostCard(
-      //   address:address ,
-      // username: username,
-      // userimage: userimage,
-      // description: description,
-      // updatedAt: updatedAt,
-      // image: image,
-      // commentsid: commentsid,
-      // saved: saved,
-      // createdAt: createdAt,
-      // date: date,
-
-      // )
+              return SizedBox(
+                height: 720,
+                child: (
+              
+                  
+              
+                    PostCard(
+                      address:feed!.location ,
+                    username: feed.userid!.username??"hello",
+                    userimage: feed.userid!.profilePicture??"sdf",
+                    description: feed.description,
+                    updatedAt: feed.updatedAt,
+                    image: feed.images,
+                    commentsid:feed.commentsid,
+                    saved: feed.saved,
+                    createdAt:feed. createdAt,
+                    date: feed.createdAt,
+                    likesid: feed.likesid,
+              
+                    )
+              
+                    //             PostCard(
+                    //   address:address ,
+                    // username: username,
+                    // userimage: userimage,
+                    // description: description,
+                    // updatedAt: updatedAt,
+                    // image: image,
+                    // commentsid: commentsid,
+                    // saved: saved,
+                    // createdAt: createdAt,
+                    // date: date,
+              
+                    // )
+                ),
               );
               
             }else{
