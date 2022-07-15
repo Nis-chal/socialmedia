@@ -246,14 +246,14 @@ class PostAPI{
   }
 
 
-  Future<bool>updatePost(String description,String location) async{
+  Future<bool>updatePost({String? description,String? location,String? id,List<String>? networkpath}) async{
     
 
     bool posts;
 
 
 
-    var postsurl = baseUrl + addPostUrl;
+    var postsurl = baseUrl + updatePostUrl + id!;
 
 
     try{
@@ -265,7 +265,8 @@ class PostAPI{
      
       FormData formData = FormData.fromMap({
         "location":location,
-        "description":description
+        "description":description,
+        "networkpath":networkpath
       });
       var response = await dio.patch(
         postsurl,

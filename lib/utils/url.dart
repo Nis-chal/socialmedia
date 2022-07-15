@@ -12,6 +12,7 @@ const getFeedsUrl = "posts/getposts";
 const addPostUrl = "posts/upload";
 const likeUrl = "posts/likepost/";
 const unlikeUrl = "posts/unlikepost/";
+const updatePostUrl = "posts/updatepost/";
 
 
 String? token;

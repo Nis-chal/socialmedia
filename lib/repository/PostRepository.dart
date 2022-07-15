@@ -27,6 +27,10 @@ class PostRepository{
     return await PostAPI().postDetail(postid);
   }
 
+     Future<bool>updatePost(String? location ,String? description,String? id,List<String>? networkpath)async{
+    return await PostAPI().updatePost(location:location, description:description,id: id,networkpath: networkpath);
+  }
+
 
 
 

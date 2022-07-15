@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:socialmedia/repository/PostRepository.dart';
 import 'package:socialmedia/screens/ImageSlider.dart';
 import 'package:socialmedia/utils/url.dart';
 
@@ -54,7 +55,10 @@ class _PostEditScreenState extends State<PostEditScreen> {
                 ),
                 ),
                 Text("Edit Info",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400),),
-                ElevatedButton(onPressed: (){}, child: Text('Done'),
+                ElevatedButton(onPressed: (){
+                         PostRepository().updatePost(_location.text, _description.text, args['postid'],args['postimage']);
+
+                }, child: Text('Done'),
                 style: ElevatedButton.styleFrom(
 
                   primary: Colors.transparent,
