@@ -244,4 +244,54 @@ class PostAPI{
 
 
   }
+
+
+  Future<bool>updatePost(String description,String location) async{
+    
+
+    bool posts;
+
+
+
+    var postsurl = baseUrl + addPostUrl;
+
+
+    try{
+      var dio = HttpServices().getDiorInstance();
+      // Obtain shared preferences.
+      final prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+
+     
+      FormData formData = FormData.fromMap({
+        "location":location,
+        "description":description
+      });
+      var response = await dio.patch(
+        postsurl,
+        data:formData,
+        options:Options(headers: {HttpHeaders.authorizationHeader:"Bearer $token"}),
+
+      
+      );
+      if (response.statusCode == 200) {
+          posts = true;
+        } else {
+          posts= false;
+        }
+
+
+    }catch(e){
+      throw Exception(e);
+
+    }
+
+    
+
+    return posts;
+
+
+
+  }
+
 }
