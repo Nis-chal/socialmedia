@@ -296,4 +296,50 @@ class PostAPI{
 
   }
 
+
+  Future<bool>deletePost({postid}) async{
+    
+
+    bool posts;
+
+
+
+    var postsurl = baseUrl + '$postDetailUrl$postid';
+   
+
+
+    try{
+      var dio = HttpServices().getDiorInstance();
+      // Obtain shared preferences.
+      final prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+
+    
+      Response response = await dio.delete(
+        postsurl,
+       
+        options:Options(headers: {HttpHeaders.authorizationHeader:"Bearer $token"}),
+
+      
+      );
+      if (response.statusCode == 200) {
+          posts = true;
+        } else {
+          posts= false;
+        }
+
+
+    }catch(e){
+      throw Exception(e);
+
+    }
+
+    
+
+    return posts;
+
+
+
+  }
+
 }

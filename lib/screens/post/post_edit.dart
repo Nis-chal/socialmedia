@@ -18,9 +18,7 @@ class _PostEditScreenState extends State<PostEditScreen> {
   final _location = TextEditingController() ;
   final _description = TextEditingController() ;
 
-  _updateUser(){
-    
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +64,7 @@ class _PostEditScreenState extends State<PostEditScreen> {
 
                   if(post){
                     Navigator.pushNamed(context, PostDetailScreen.id,arguments: args['postid']!);
+                    
                   }
 
                 }, child: Text('Done'),

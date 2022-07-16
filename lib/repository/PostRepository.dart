@@ -33,6 +33,11 @@ class PostRepository{
   }
 
 
+  Future<bool>deletePost(String? postid)async{
+    return await PostAPI().deletePost(postid: postid);
+  }
+
+
 
 
   

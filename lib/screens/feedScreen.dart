@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:socialmedia/components/post_card.dart';
 import 'package:socialmedia/models/post.dart';
 import 'package:socialmedia/models/Posts.dart';
@@ -15,6 +16,8 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
+
+  RxBool onDelete = true.obs;
   
   @override
   Widget build(BuildContext context) {
@@ -55,21 +58,24 @@ class _FeedScreenState extends State<FeedScreen> {
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    return SizedBox(
-                      height: 720,
-                      child: PostCard(
-                        id: postlst[index].id,
-                        username: postlst[index].userid!.username!,
-                        image: postlst[index].images,
-                        date: postlst[index].createdAt,
-                        address: postlst[index].location,
-                        description: postlst[index].description,
-                        userimage: postlst[index].userid!.profilePicture,
-                        likesid: postlst[index].likesid,
-                        commentsid: postlst[index].commentsid,
-                        updatedAt: postlst[index].updatedAt,
-                        createdAt: postlst[index].createdAt,
-                      ),
+                    return (
+                    
+                    PostCard(
+                      id: postlst[index].id,
+                      username: postlst[index].userid!.username!,
+                      image: postlst[index].images,
+                      date: postlst[index].createdAt,
+                      address: postlst[index].location,
+                      description: postlst[index].description,
+                      userimage: postlst[index].userid!.profilePicture,
+                      likesid: postlst[index].likesid,
+                      commentsid: postlst[index].commentsid,
+                      updatedAt: postlst[index].updatedAt,
+                      createdAt: postlst[index].createdAt,
+                     
+                    )
+                    
+                    
                     );
                   }
                   );

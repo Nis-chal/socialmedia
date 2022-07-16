@@ -4,9 +4,9 @@ import 'package:socialmedia/screens/post/post_edit.dart';
 class BottomTab extends StatefulWidget {
   
   String? postid,username,location,description,userimage;
-  VoidCallback? onClicked;
+  VoidCallback? onDelete;
   List<String>? images;
-  BottomTab({Key? key,this.postid,this.onClicked,this.images,this.username,this.location,this.description,this.userimage}): super(key: key);
+  BottomTab({Key? key,this.postid,this.onDelete,this.images,this.username,this.location,this.description,this.userimage}): super(key: key);
 
   @override
   State<BottomTab> createState() => _BottomTabState();
@@ -46,10 +46,23 @@ class _BottomTabState extends State<BottomTab> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children:[
                 
-                  Icon(Icons.delete,
-                  color: Color(0xFFB1ABAB),
-                  ),
+                  ElevatedButton(
+                    onPressed: widget.onDelete,
+                    style: ElevatedButton.styleFrom(
+                  primary: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                                 
+                  onPrimary: Colors.black87,
+                  minimumSize: Size(100, 70)),
+                    child: Column(
+                      children: [
+                        Icon(Icons.delete,
+                        color: Color(0xFFB1ABAB),
+                        ),
                   Text("Delete",style: TextStyle(color: Colors.black),)
+                      ],
+                    ),
+                  ),
                   ],
                 ),
               ),
