@@ -41,6 +41,10 @@ class PostRepository{
     return await PostAPI().savePost(postid: postid);
   }
 
+  Future<bool>unsavePost(String? postid)async{
+    return await PostAPI().unsavePost(postid: postid);
+  }
+
 
 
 
