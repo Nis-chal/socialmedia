@@ -160,10 +160,15 @@ class _PostCardState extends State<PostCard> {
                       ),
                     ),
                   ),
-                  BottomTab(postid: widget.id,onDelete: () {
+                  BottomTab(postid: widget.id,onDelete: ()async {
+
+                    bool post = await PostRepository().deletePost(widget.id);
+                    if(post){
 
                     isDelete.value = false;
                     Navigator.pop(context);
+                    }
+
     
                     // Navigator.push(context, MaterialPageRoute(builder: (context) => const SecondRoute()))
                   }, location: widget.address,
