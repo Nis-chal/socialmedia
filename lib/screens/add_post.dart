@@ -43,7 +43,7 @@ class _AddPostState extends State<AddPost> {
 
 
   _addProduct(List<File> images, String location) async {
-    bool isAdded = await PostRepository().addFeed(_imageList, location);
+    bool isAdded = await PostRepository().addFeed(_imageList, location,"heelo");
    
   }
 

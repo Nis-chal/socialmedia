@@ -12,8 +12,8 @@ class PostRepository{
     return PostAPI().feeds();
   }
 
-   Future<bool>addFeed(List<File> images ,String description)async{
-    return await PostAPI().addPost(images ,description);
+   Future<bool>addFeed(List<File> images ,String description,String location)async{
+    return await PostAPI().addPost(images ,description,location);
   }
 
   Future<bool>likePost(String? postid)async{

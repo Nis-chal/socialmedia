@@ -9,7 +9,6 @@ import '../utils/url.dart';
 import '../api/httpServices.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:socialmedia/models/Posts.dart';
 import 'package:mime/mime.dart';
 
 
@@ -56,7 +55,7 @@ class PostAPI{
   }
 
 
-  Future<bool>addPost(List<File> images,String description) async{
+  Future<bool>addPost(List<File> images,String description,String location) async{
     
 
     bool posts;
@@ -86,7 +85,9 @@ class PostAPI{
         uploadList.add(multipartFile);
       }
       FormData formData = FormData.fromMap({
-        "images":uploadList
+        "images":uploadList,
+        "location":location,
+        "description":description
       });
       var response = await dio.post(
         postsurl,
@@ -95,7 +96,7 @@ class PostAPI{
 
       
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
           posts = true;
         } else {
           posts= false;

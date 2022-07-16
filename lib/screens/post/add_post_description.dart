@@ -73,17 +73,18 @@ class _AddPostDecriptionScreenState extends State<AddPostDecriptionScreen> {
                   shadowColor: Colors.transparent,
                 ),
                 ),
-                Text("Edit Info",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400),),
+                Text("Add Info",style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400),),
                 ElevatedButton(onPressed: ()async{
 
-                  bool post =  await PostRepository().addFeed(args, _description.text);
+                  bool post =  await PostRepository().addFeed(args, _description.text,_location.text);
 
                   if(post){
                     Navigator.pushNamed(context, NavigationDrawer.id);
                     
                   }
 
-                }, child: Text('Done'),
+                },
+                 child: const Text('Done'),
                 style: ElevatedButton.styleFrom(
 
                   primary: Colors.transparent,
