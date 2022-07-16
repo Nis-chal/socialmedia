@@ -43,7 +43,7 @@ class _WearFeedScreenState extends State<WearFeedScreen> {
                       child: WearPostCard(
                         username: postlst[index].userid!.username!,
                         image: postlst[index].images,
-                        date: postlst[index].createdAt,
+                        // date: postlst[index].createdAt,
                         address: postlst[index].location,
                         description: postlst[index].description,
                         userimage: postlst[index].userid!.profilePicture,

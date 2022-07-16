@@ -11,6 +11,7 @@ import 'package:socialmedia/response/LoginResponse.dart';
 import 'package:flutter/foundation.dart';
 import 'package:socialmedia/response/logindispatch.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socialmedia/models/User.dart';
 
 
 class UserApi{
@@ -38,11 +39,20 @@ class UserApi{
         SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
         String userdata = jsonEncode(response.data['user']);
         sharedPreferences.setString('userdata',userdata);
+
+
+      var data = (sharedPreferences.getString('userdata') ?? '');
+
+
+        var userdatas = User.fromJson(jsonDecode(userdata.toString()));  
+       var userid = userdatas.id.toString();
       
 
 
       if(response.statusCode == 200){
         LoginResponse loginResponse = LoginResponse.fromJson(response.data);
+         String userdata = jsonEncode(response.data['user']);
+        sharedPreferences.setString('userdata',userdata);
         token = loginResponse.token;
         sharedPreferences.setString('token','$token');
         isLogin = true;

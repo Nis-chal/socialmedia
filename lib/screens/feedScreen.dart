@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:socialmedia/components/post_card.dart';
 import 'package:socialmedia/models/post.dart';
 import 'package:socialmedia/models/Posts.dart';
@@ -15,42 +16,9 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
-  List<Post> postlst = [
-    Post(
-      username: "new",
-      address: 'london',
-      date: '2022/1/2',
-      image:
-      [
 
-          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
-          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
-          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
-          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
-          
-      ],
-      description: 'yolo',
-      userimage:
-          'https://images.unsplash.com/photo-1611643378160-39d6dd915b69?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YW5pbWF0aW9ufGVufDB8fDB8fA%3D%3D&w=1000&q=80',
-    ),
-    Post(
-      username: "blender",
-      address: 'london',
-      date: '2022/1/2',
-        image:
-      [
-
-          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
-          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
-          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
-          'https://i.pinimg.com/564x/39/2d/7a/392d7ac0aca769d528ec4984359177cd.jpg',
-          
-      ],
-      description: 'yolo',
-      userimage:
-          'https://images.unsplash.com/photo-1611643378160-39d6dd915b69?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YW5pbWF0aW9ufGVufDB8fDB8fA%3D%3D&w=1000&q=80',
-    ),
-  ];
+  RxBool onDelete = true.obs;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,16 +58,25 @@ class _FeedScreenState extends State<FeedScreen> {
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    return SizedBox(
-                      height: 550,
-                      child: PostCard(
-                        username: postlst[index].userid!.username!,
-                        image: postlst[index].images,
-                        date: postlst[index].createdAt,
-                        address: postlst[index].location,
-                        description: postlst[index].description,
-                        userimage: postlst[index].userid!.profilePicture,
-                      ),
+                    return (
+                    
+                    PostCard(
+                      id: postlst[index].id,
+                      username: postlst[index].userid!.username!,
+                      image: postlst[index].images,
+                      date: postlst[index].createdAt,
+                      address: postlst[index].location,
+                      description: postlst[index].description,
+                      userimage: postlst[index].userid!.profilePicture,
+                      likesid: postlst[index].likesid,
+                      commentsid: postlst[index].commentsid,
+                      updatedAt: postlst[index].updatedAt,
+                      createdAt: postlst[index].createdAt,
+                      saved: postlst[index].saved,
+                     
+                    )
+                    
+                    
                     );
                   }
                   );

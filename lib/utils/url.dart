@@ -9,5 +9,14 @@ const productUrl = "";
 const loginUrl = "auth/login";
 const registerUrl = "auth/register";
 const getFeedsUrl = "posts/getposts";
+const addPostUrl = "posts/upload";
+const likeUrl = "posts/likepost/";
+const unlikeUrl = "posts/unlikepost/";
+const updatePostUrl = "posts/updatepost/";
+const postDetailUrl = "posts/postdetail/";
+const savePostUrl = "posts/savepost/";
+const unsavePostUrl = "posts/unsavepost/";
+
+
 
 String? token;

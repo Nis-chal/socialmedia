@@ -2,8 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:socialmedia/repository/PostRepository.dart';
+import 'package:socialmedia/models/Posts.dart';
+
+import 'package:motion_toast/motion_toast.dart';
 class AddPost extends StatefulWidget {
-  AddPost({Key? key}) : super(key: key);
+  static const String id = "addPost_id";
+  final List<File>? arguments;
+  
+  const AddPost(this.arguments, {Key? key}) : super(key: key);
 
   @override
   State<AddPost> createState() => _AddPostState();
@@ -11,27 +18,55 @@ class AddPost extends StatefulWidget {
 
 class _AddPostState extends State<AddPost> {
   final ImagePicker _picker = ImagePicker();
-  late  List<XFile> _imageList = [];
+  late  List<File> _imageList = widget.arguments??[];
+  File? img;
   void imageSelect() async{
-    final XFile? selectedImage = await _picker.pickImage(source: ImageSource.gallery);
-    if(selectedImage!.path.isNotEmpty){
+    final selectedImage = await _picker.pickMultiImage();
+    if(selectedImage!.isNotEmpty){
       
-      _imageList.add(selectedImage);
-    }
     setState(() {
+
+      // selectedImage.map((item){
+
+        
+      //     return _imageList.add(File(item.path));
+      // } );
+      for(var image in selectedImage){
+
+      img =File(image.path) ;
       
+      _imageList.add(File(image.path));
+      }
     });
+    }
   }
+
+
+  _addProduct(List<File> images, String location) async {
+    bool isAdded = await PostRepository().addFeed(_imageList, location,"heelo");
+   
+  }
+
+    _displayMessage(bool isAdded) {
+    if (isAdded) {
+      MotionToast.success(description: const Text("Post added successfully"))
+          .show(context);
+    } else {
+      MotionToast.error(description: const Text("Error adding post"))
+          .show(context);
+    }
+  }
+   
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: SafeArea(child: Column(
       children: [
-        OutlinedButton(
-          onPressed: (){
-            imageSelect();
-          },
-          child: Text('Selected Image'),
-        ),
+        // OutlinedButton(
+        //   onPressed: (){
+        //     imageSelect();
+        //   },
+        //   child: Text('Selected Image'),
+        // ),
           Expanded(
             child: GridView.builder(
               gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(
@@ -54,8 +89,11 @@ class _AddPostState extends State<AddPost> {
                             color: Colors.amber,
                             child:IconButton(
                               onPressed: (){
-                                _imageList.removeAt(index);
+
                                 setState(() {
+                                _imageList.removeAt(index);
+
+                                  
                                   
                                 });
                               }, 
@@ -70,6 +108,10 @@ class _AddPostState extends State<AddPost> {
           
                 }),
           ),
+
+          ElevatedButton(onPressed: (){
+            _addProduct(_imageList, "new");
+          }, child: Text('submit'))
       ],
     ),
     ),

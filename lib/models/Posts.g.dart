@@ -22,7 +22,9 @@ Posts _$PostsFromJson(Map<String, dynamic> json) => Posts(
           : UserInfo.fromJson(json['userid'] as Map<String, dynamic>),
       saved:
           (json['saved'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      createdAt: json['createdAt'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
       updatedAt: json['updatedAt'] as String?,
     );
 
@@ -35,6 +37,6 @@ Map<String, dynamic> _$PostsToJson(Posts instance) => <String, dynamic>{
       'commentsid': instance.commentsid,
       'userid': instance.userid,
       'saved': instance.saved,
-      'createdAt': instance.createdAt,
+      'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt,
     };
