@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:socialmedia/screens/post/add_post_description.dart';
 import 'package:socialmedia/utils/url.dart';
 import 'package:blur/blur.dart';
 class PostCarousel extends StatelessWidget {
@@ -185,7 +186,10 @@ List<File>? _imagelist ;
                           width: 50,
                           color: Colors.white,
                           child: Center(
-                            child: ElevatedButton(onPressed: (){}, child: 
+                            child: ElevatedButton(onPressed: (){
+
+                              Navigator.pushNamed(context, AddPostDecriptionScreen.id,arguments: listofImage);
+                            }, child: 
                             Icon(Icons.arrow_forward,color: Colors.black,)
                             ,style: ElevatedButton.styleFrom(primary: Colors.white,shadowColor: Colors.transparent,padding: const EdgeInsets.all(0)),
                             ),

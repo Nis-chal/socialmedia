@@ -5,6 +5,7 @@ import 'package:socialmedia/components/addPostCarousel.dart';
 import 'package:socialmedia/screens/add_post.dart';
 
 import 'package:socialmedia/screens/loginScreen.dart';
+import 'package:socialmedia/screens/post/add_post_description.dart';
 import 'package:socialmedia/screens/post/postProviewScreen.dart';
 import 'package:socialmedia/screens/registerScreen.dart';
 import 'package:socialmedia/screens/navigationdrawer.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
         AddPost.id:((context) => AddPost(ModalRoute.of(context)!.settings.arguments as List<File>)),
         PostCarousel.id:(context) => PostCarousel(),
         PostPreviewScreen.id:(context) => PostPreviewScreen(ModalRoute.of(context)!.settings.arguments as List<File>),
+        AddPostDecriptionScreen.id:(context) =>AddPostDecriptionScreen()
       },
     );
   }

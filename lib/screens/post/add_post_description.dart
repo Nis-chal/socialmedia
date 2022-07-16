@@ -1,13 +1,51 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:socialmedia/components/fileImageSlider.dart';
+import 'package:socialmedia/models/User.dart';
 import 'package:socialmedia/repository/PostRepository.dart';
+import 'package:socialmedia/responsive/navigation_drawer.dart';
 import 'package:socialmedia/screens/post/post_detail.dart';
-class AddPostDecriptionScreen extends StatelessWidget {
+import 'package:socialmedia/utils/url.dart';
+class AddPostDecriptionScreen extends StatefulWidget {
+   static const String id = "AddPostDescription_id";
    AddPostDecriptionScreen({Key? key}) : super(key: key);
-  
+
+  @override
+  State<AddPostDecriptionScreen> createState() => _AddPostDecriptionScreenState();
+}
+
+class _AddPostDecriptionScreenState extends State<AddPostDecriptionScreen> {
   final _location = TextEditingController() ;
+
   final _description = TextEditingController() ;
+  late String? userImage;
+
+    @override
+  void initState() {
+    super.initState();
+    _loadCounter();
+  }
+
+  _loadCounter() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    
+    setState(() {
+      var data = (prefs.getString('userdata') ?? '');
+        var userdatas = User.fromJson(jsonDecode(data.toString()));  
+       userImage = userdatas.profilePicture.toString();
+
+
+   
+
+      
+
+      
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -41,7 +79,7 @@ class AddPostDecriptionScreen extends StatelessWidget {
                   bool post =  await PostRepository().addFeed(args, _description.text);
 
                   if(post){
-                    // Navigator.pushNamed(context, PostDetailScreen.id,arguments: args['postid']!);
+                    Navigator.pushNamed(context, NavigationDrawer.id);
                     
                   }
 
@@ -63,6 +101,12 @@ class AddPostDecriptionScreen extends StatelessWidget {
                 child: Row(
                   
                   children: [
+                     CircleAvatar(
+                      radius: 20,
+                      backgroundImage: NetworkImage(
+                        '$baseUr$userImage'
+                        ) ,
+                    ),
                     
         
                     
@@ -106,7 +150,7 @@ class AddPostDecriptionScreen extends StatelessWidget {
                                   width: 900,
                                   height: 490,
                                   child: 
-                                ImageSlider(listofImage: args,)
+                                FileImageSlider(listofImage: args,)
                                 ),),
                                 
                                 );
