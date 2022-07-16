@@ -37,6 +37,10 @@ class PostRepository{
     return await PostAPI().deletePost(postid: postid);
   }
 
+  Future<bool>savePost(String? postid)async{
+    return await PostAPI().savePost(postid: postid);
+  }
+
 
 
 

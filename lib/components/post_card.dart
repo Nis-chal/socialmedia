@@ -111,11 +111,17 @@ class _PostCardState extends State<PostCard> {
           //   color: Colors.black,
           // ),
           boxShadow: [
+
+            isDelete.isTrue?
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 5,
               blurRadius: 7,
               offset: Offset(0, 3), // changes position of shadow
+            ):const BoxShadow(color: Colors.transparent,
+               spreadRadius: 0,
+              blurRadius: 0,
+              offset: Offset(0, 0)
             ),
           ],
           color: Colors.white,

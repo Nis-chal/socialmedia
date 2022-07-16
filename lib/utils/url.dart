@@ -14,6 +14,8 @@ const likeUrl = "posts/likepost/";
 const unlikeUrl = "posts/unlikepost/";
 const updatePostUrl = "posts/updatepost/";
 const postDetailUrl = "posts/postdetail/";
+const savePostUrl = "posts/savepost";
+const unsavePostUrl = "posts/unsavepost";
 
 
 
