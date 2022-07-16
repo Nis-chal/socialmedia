@@ -72,6 +72,7 @@ class _FeedScreenState extends State<FeedScreen> {
                       commentsid: postlst[index].commentsid,
                       updatedAt: postlst[index].updatedAt,
                       createdAt: postlst[index].createdAt,
+                      saved: postlst[index].saved,
                      
                     )
                     

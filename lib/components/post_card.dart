@@ -49,6 +49,9 @@ class _PostCardState extends State<PostCard> {
   var userliked = false;
   late var  likeslist = widget.likesid;
 
+  late List<String>? saveList = widget.saved;
+  RxBool userSaved = false.obs;
+
   RxBool isDelete = true.obs;
 
 
@@ -69,11 +72,23 @@ class _PostCardState extends State<PostCard> {
         var userdatas = User.fromJson(jsonDecode(data.toString()));  
        var userid = userdatas.id.toString();
 
-      if(likeslist!.contains(userid)){
-        liked.value = true;
+       liked.value = likeslist!.contains(userid)?true:false;
+       userSaved.value = saveList!.contains(userid)?true:false;
+
+      // if(likeslist!.contains(userid)){
+      //   liked.value = true;
        
 
-      }
+      // }
+
+      // if(saveList!.contains(userid)){
+      //   userSaved.value = true;
+
+      // }
+
+      
+
+      
     });
   }
 
@@ -93,6 +108,16 @@ class _PostCardState extends State<PostCard> {
 
 
     
+  }
+
+
+  void _savePost()async{
+
+    
+    bool post = await PostRepository().savePost(widget.id);
+    if(post){
+      userSaved.value = true;
+    }
   }
   @override
   Widget build(BuildContext context) {
@@ -302,8 +327,21 @@ class _PostCardState extends State<PostCard> {
                 Expanded(
                     child: Align(
                   alignment: Alignment.bottomRight,
-                  child: IconButton(
-                      icon: const Icon(Icons.bookmark_border), onPressed: () {}),
+                  child: 
+                  Obx(()=>
+                  
+                  IconButton(
+                      icon: 
+                      userSaved.value?
+                      const Icon(Icons.bookmark_sharp)
+                      :
+                      const Icon(Icons.bookmark_border)
+
+                      , onPressed: () {
+                        _savePost();
+                      }
+                      ),
+                  )
                 ))
               ],
             ),
