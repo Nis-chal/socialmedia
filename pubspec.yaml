@@ -47,6 +47,7 @@ dependencies:
   intl: ^0.17.0
   timeago: ^3.2.2
   get: ^4.6.5
+  blur: ^3.1.0
 
 dev_dependencies:
   flutter_test:

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:socialmedia/components/addPostCarousel.dart';
 
 import 'package:socialmedia/screens/feedScreen.dart';
 import 'package:socialmedia/screens/loginScreen.dart';
 import 'package:socialmedia/screens/add_post.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:socialmedia/screens/post/postProviewScreen.dart';
 
 // import 'package:socialmedia/responsive/feed_layout.dart';
 import 'ImageSlider.dart';
@@ -25,21 +27,27 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   final  List<File> _imageList = [];
   File? img;
   void imageSelect() async{
-    final selectedImage = await _picker.pickImage(source: ImageSource.gallery);
-    if(selectedImage!.path.isNotEmpty){
+    final selectedImage = await _picker.pickMultiImage();
+    if(selectedImage!.isNotEmpty){
       
     setState(() {
-      img =File(selectedImage.path) ;
+
+      for(var image in selectedImage){
+
+      img =File(image.path) ;
       
-      _imageList.add(File(selectedImage.path));
+      _imageList.add(File(image.path));
+      }
     });
+
+    Navigator.pushNamed(context, PostPreviewScreen.id,arguments: _imageList);
     }
   }
 
   List<Widget> lstWidget = [
     FeedScreen(),
-    AddPost(),
-    LoginScreen(),
+    AddPost(null),
+    PostCarousel(),
     LoginScreen()
   ];
 
@@ -56,7 +64,15 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           setState(() {
             if(index == 3 ){
               imageSelect();
-                Navigator.pushNamed(context, '/resultPage',arguments: _imageList);
+                
+
+
+            }
+
+            if(index == 2 ){
+                  Navigator.pushNamed(context, PostPreviewScreen.id);
+
+                
 
 
             }

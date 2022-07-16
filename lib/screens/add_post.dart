@@ -7,7 +7,10 @@ import 'package:socialmedia/models/Posts.dart';
 
 import 'package:motion_toast/motion_toast.dart';
 class AddPost extends StatefulWidget {
-  AddPost({Key? key}) : super(key: key);
+  static const String id = "addPost_id";
+  final List<File>? arguments;
+  
+  const AddPost(this.arguments, {Key? key}) : super(key: key);
 
   @override
   State<AddPost> createState() => _AddPostState();
@@ -15,7 +18,7 @@ class AddPost extends StatefulWidget {
 
 class _AddPostState extends State<AddPost> {
   final ImagePicker _picker = ImagePicker();
-  final  List<File> _imageList = [];
+  late  List<File> _imageList = widget.arguments??[];
   File? img;
   void imageSelect() async{
     final selectedImage = await _picker.pickMultiImage();
@@ -58,12 +61,12 @@ class _AddPostState extends State<AddPost> {
   Widget build(BuildContext context) {
     return Scaffold(body: SafeArea(child: Column(
       children: [
-        OutlinedButton(
-          onPressed: (){
-            imageSelect();
-          },
-          child: Text('Selected Image'),
-        ),
+        // OutlinedButton(
+        //   onPressed: (){
+        //     imageSelect();
+        //   },
+        //   child: Text('Selected Image'),
+        // ),
           Expanded(
             child: GridView.builder(
               gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(
@@ -86,8 +89,11 @@ class _AddPostState extends State<AddPost> {
                             color: Colors.amber,
                             child:IconButton(
                               onPressed: (){
-                                _imageList.removeAt(index);
+
                                 setState(() {
+                                _imageList.removeAt(index);
+
+                                  
                                   
                                 });
                               }, 
