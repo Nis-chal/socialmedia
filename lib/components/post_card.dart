@@ -119,6 +119,15 @@ class _PostCardState extends State<PostCard> {
       userSaved.value = true;
     }
   }
+
+  void _unsavePost()async{
+
+    
+    bool post = await PostRepository().unsavePost(widget.id);
+    if(post){
+      userSaved.value = false;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return 
@@ -306,7 +315,10 @@ class _PostCardState extends State<PostCard> {
                         : const Icon(
                             Icons.favorite_border,
                           ),
-                    onPressed: () {},
+                    onPressed: () {
+                      
+
+                    },
                   )
                   ),
                   )
@@ -338,7 +350,9 @@ class _PostCardState extends State<PostCard> {
                       const Icon(Icons.bookmark_border)
 
                       , onPressed: () {
-                        _savePost();
+
+                        !userSaved.value?
+                        _savePost():_unsavePost();
                       }
                       ),
                   )
