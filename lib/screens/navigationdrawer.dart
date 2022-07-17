@@ -47,7 +47,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
 
   List<Widget> lstWidget = [
     FeedScreen(),
-    // ProfileScreen(),
+    ProfileScreen(),
     // AddPost(null),
     PostCarousel(),
     LoginScreen()
