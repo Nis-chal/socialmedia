@@ -453,7 +453,7 @@ class PostAPI{
       // Obtain shared preferences.
       final prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('token');
-      Response response = await dio.get(
+      var response = await dio.get(
         postsurl,
         options:Options(headers: {HttpHeaders.authorizationHeader:"Bearer $token"}),
 

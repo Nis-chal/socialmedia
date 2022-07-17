@@ -8,7 +8,7 @@ part of 'ExplorePostResponse.dart';
 
 ExplorePostResponse _$ExplorePostResponseFromJson(Map<String, dynamic> json) =>
     ExplorePostResponse(
-      post: (json['post'] as List<dynamic>?)
+      posts: (json['posts'] as List<dynamic>?)
           ?.map((e) => Posts.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -16,5 +16,5 @@ ExplorePostResponse _$ExplorePostResponseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ExplorePostResponseToJson(
         ExplorePostResponse instance) =>
     <String, dynamic>{
-      'post': instance.post,
+      'posts': instance.posts,
     };

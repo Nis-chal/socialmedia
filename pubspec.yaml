@@ -48,6 +48,7 @@ dependencies:
   timeago: ^3.2.2
   get: ^4.6.5
   blur: ^3.1.0
+  staggered_grid_view_flutter: ^0.0.4
 
 dev_dependencies:
   flutter_test:

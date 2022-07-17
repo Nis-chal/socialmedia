@@ -8,10 +8,10 @@ part 'ExplorePostResponse.g.dart';
 @JsonSerializable()
 class ExplorePostResponse{
   
-  List <Posts>? post;
+  List<Posts>? posts;
   
 
-  ExplorePostResponse({this.post});
+  ExplorePostResponse({this.posts});
 
    factory ExplorePostResponse.fromJson(Map<String,dynamic>json){
     return _$ExplorePostResponseFromJson(json);
