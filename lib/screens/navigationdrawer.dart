@@ -7,6 +7,7 @@ import 'package:socialmedia/screens/add_post.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:socialmedia/screens/post/postProviewScreen.dart';
+import 'package:socialmedia/screens/profile/profileScreen.dart';
 
 // import 'package:socialmedia/responsive/feed_layout.dart';
 import 'ImageSlider.dart';
@@ -46,7 +47,8 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
 
   List<Widget> lstWidget = [
     FeedScreen(),
-    AddPost(null),
+    // ProfileScreen(),
+    // AddPost(null),
     PostCarousel(),
     LoginScreen()
   ];
