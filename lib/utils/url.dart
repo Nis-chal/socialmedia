@@ -16,6 +16,7 @@ const updatePostUrl = "posts/updatepost/";
 const postDetailUrl = "posts/postdetail/";
 const savePostUrl = "posts/savepost/";
 const unsavePostUrl = "posts/unsavepost/";
+const getProfileUrl = "profile/";
 
 
 
