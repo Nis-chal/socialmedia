@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:socialmedia/response/PostDetailResponse.dart';
+import 'package:socialmedia/response/postResponse/ExplorePostResponse.dart';
 
 import '../response/FeedsResponse.dart';
 import '../utils/url.dart';
@@ -433,6 +434,44 @@ class PostAPI{
     
 
     return posts;
+
+
+
+  }
+
+  Future<ExplorePostResponse?>exploreFeeds() async{
+      Future.delayed(const Duration(seconds: 2), () {});
+
+      ExplorePostResponse? explorePostResponse;
+
+
+
+    var postsurl = baseUrl + exploreFeedsUrl;
+
+    try{
+      var dio = HttpServices().getDiorInstance();
+      // Obtain shared preferences.
+      final prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      Response response = await dio.get(
+        postsurl,
+        options:Options(headers: {HttpHeaders.authorizationHeader:"Bearer $token"}),
+
+      
+      );
+      if (response.statusCode == 200) {
+          explorePostResponse = ExplorePostResponse.fromJson(response.data);
+        } else {
+          explorePostResponse= null;
+        }
+
+
+    }catch(e){
+      throw Exception(e);
+
+    }
+
+    return explorePostResponse;
 
 
 

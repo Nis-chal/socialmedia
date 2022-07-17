@@ -7,16 +7,15 @@ import 'package:socialmedia/components/addPostCarousel.dart';
 import 'package:socialmedia/models/User.dart';
 
 import 'package:socialmedia/screens/feedScreen.dart';
-import 'package:socialmedia/screens/loginScreen.dart';
 import 'package:socialmedia/screens/add_post.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:socialmedia/screens/post/postProviewScreen.dart';
 import 'package:socialmedia/screens/profile/profileScreen.dart';
 import 'package:socialmedia/utils/url.dart';
+import 'package:socialmedia/screens/post/explorePost.dart';
 
 // import 'package:socialmedia/responsive/feed_layout.dart';
-import 'ImageSlider.dart';
 
 class NavigationDrawer extends StatefulWidget {
   static const String id = 'NavigagtionDrawer_screen';
@@ -89,7 +88,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   Widget build(BuildContext context) {
   List<Widget> lstWidget = [
     FeedScreen(),
-    FeedScreen(),
+    ExplorePost(),
     FeedScreen(),
     Obx(() => 
     ProfileScreen(userid.value),

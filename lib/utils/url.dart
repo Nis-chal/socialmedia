@@ -17,6 +17,7 @@ const postDetailUrl = "posts/postdetail/";
 const savePostUrl = "posts/savepost/";
 const unsavePostUrl = "posts/unsavepost/";
 const getProfileUrl = "profile/";
+const exploreFeedsUrl = 'explorepost';
 
 
 
