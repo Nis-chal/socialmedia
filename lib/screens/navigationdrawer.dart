@@ -13,6 +13,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:socialmedia/screens/post/postProviewScreen.dart';
 import 'package:socialmedia/screens/profile/profileScreen.dart';
+import 'package:socialmedia/utils/url.dart';
 
 // import 'package:socialmedia/responsive/feed_layout.dart';
 import 'ImageSlider.dart';
@@ -36,6 +37,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   File? img;
 
   RxString userid = ''.obs;
+  RxString userpic = ''.obs;
 
 
   @override
@@ -51,6 +53,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
       var data = (prefs.getString('userdata') ?? '');
         var userdatas = User.fromJson(jsonDecode(data.toString()));  
         userid.value = userdatas.id.toString();
+        userpic.value = userdatas.profilePicture!;
 
 
       
@@ -86,7 +89,12 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   Widget build(BuildContext context) {
   List<Widget> lstWidget = [
     FeedScreen(),
-    ProfileScreen(userid.value)
+    FeedScreen(),
+    FeedScreen(),
+    Obx(() => 
+    ProfileScreen(userid.value),
+    ),
+
    
   ];
     
@@ -102,43 +110,44 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           setState(() {
              
 
-            if(index == 3 ){
+            if(index == 2 ){
               imageSelect();
                 
 
 
             }
-            // if(index ==1){
+            // if(index == 3){
             //       Navigator.pushNamed(context, ProfileScreen.id,arguments: userid.value);
 
 
             // }
 
-            if(index == 2 ){
-                  Navigator.pushNamed(context, PostPreviewScreen.id);
+            // if(index == 3 ){
+            //       Navigator.pushNamed(context, PostPreviewScreen.id);
 
                 
 
 
-            }
+            // }
             _selectedIndex.value = index;
           });
         },
-        items: const [
-          BottomNavigationBarItem(
+        items:  [
+          const BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Cart',
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.add_a_photo_sharp),
             label: 'Add',
           ),
+          
           BottomNavigationBarItem(
-            icon: Icon(Icons.verified_user),
+            icon: CircleAvatar(backgroundImage:NetworkImage('$baseUr${userpic.value}',)),
             label: 'profile',
           ),
         ],
