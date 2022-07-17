@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialmedia/components/addPostCarousel.dart';
+import 'package:socialmedia/models/User.dart';
 
 import 'package:socialmedia/screens/feedScreen.dart';
 import 'package:socialmedia/screens/loginScreen.dart';
@@ -20,13 +25,41 @@ class NavigationDrawer extends StatefulWidget {
 }
 
 class _NavigationDrawerState extends State<NavigationDrawer> {
-  int _selectedIndex = 0;
+
+
+  RxInt _selectedIndex = 0.obs;
 
 
   final ImagePicker _picker = ImagePicker();
   
   final  List<File> _imageList = [];
   File? img;
+
+  RxString userid = ''.obs;
+
+
+  @override
+  void initState() {
+    _loadCounter();
+    super.initState();
+  }
+
+  _loadCounter() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    
+    setState(() {
+      var data = (prefs.getString('userdata') ?? '');
+        var userdatas = User.fromJson(jsonDecode(data.toString()));  
+        userid.value = userdatas.id.toString();
+
+
+      
+
+      
+    });
+  }
+ 
+ 
   void imageSelect() async{
     final selectedImage = await _picker.pickMultiImage();
     if(selectedImage!.isNotEmpty){
@@ -44,32 +77,42 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     Navigator.pushNamed(context, PostPreviewScreen.id,arguments: _imageList);
     }
   }
+  
 
-  List<Widget> lstWidget = [
-    FeedScreen(),
-    ProfileScreen(),
-    // AddPost(null),
-    PostCarousel(),
-    LoginScreen()
-  ];
+  
+ 
 
   @override
   Widget build(BuildContext context) {
+  List<Widget> lstWidget = [
+    FeedScreen(),
+    ProfileScreen(userid.value)
+   
+  ];
+    
+  
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color.fromARGB(255, 228, 228, 228),
-        currentIndex: _selectedIndex,
+        currentIndex: _selectedIndex.value,
         unselectedItemColor: Colors.grey,
         selectedItemColor: Color.fromARGB(255, 95, 95, 95),
         elevation: 10,
         onTap: (index) {
           setState(() {
+             
+
             if(index == 3 ){
               imageSelect();
                 
 
 
             }
+            // if(index ==1){
+            //       Navigator.pushNamed(context, ProfileScreen.id,arguments: userid.value);
+
+
+            // }
 
             if(index == 2 ){
                   Navigator.pushNamed(context, PostPreviewScreen.id);
@@ -78,7 +121,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
 
 
             }
-            _selectedIndex = index;
+            _selectedIndex.value = index;
           });
         },
         items: const [
@@ -100,7 +143,9 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           ),
         ],
       ),
-      body: lstWidget[_selectedIndex],
+      body: lstWidget[_selectedIndex.value],
     );
   }
+  
+  
 }
