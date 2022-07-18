@@ -12,7 +12,6 @@ import 'package:socialmedia/models/User.dart';
 import 'package:socialmedia/repository/UserRepository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
 
@@ -22,13 +21,12 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool showSpinner = false;
-  
 
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-   @override
+  @override
   void initState() {
     super.initState();
     _autoLogin();
@@ -36,40 +34,33 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _autoLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    
-      final String? token = (prefs.getString('token') ?? '');
 
-      if(token!.isNotEmpty){
-        Navigator.pushNamed(context, NavigationDrawer.id);
+    final String? token = (prefs.getString('token') ?? '');
 
-
-      }
-      
-
-    
+    if (token!.isNotEmpty) {
+      Navigator.pushNamed(context, NavigationDrawer.id);
+    }
   }
-  _login(User user) async{
-    try{
+
+  _login(User user) async {
+    try {
       UserRepository userRepository = UserRepository();
       bool isLogin = await userRepository.login(user);
-      if(isLogin){
+      if (isLogin) {
         _navigateToScreen(true);
-      }else{
+      } else {
         _navigateToScreen(false);
         MotionToast.warning(description: Text('error login')).show(context);
       }
-
-    }catch(e){
-
-    }
+    } catch (e) {}
   }
 
-  _navigateToScreen(bool isLogin){
-    if(isLogin){
+  _navigateToScreen(bool isLogin) {
+    if (isLogin) {
       Navigator.pushNamed(context, NavigationDrawer.id);
-    }
-    else{
-      MotionToast.error(description: const Text('Enter user or passowrd')).show(context);
+    } else {
+      MotionToast.error(description: const Text('Enter user or passowrd'))
+          .show(context);
     }
   }
 
@@ -107,7 +98,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     textAlign: TextAlign.left,
-                  
                     decoration: kTextFieldDecoration.copyWith(
                         hintText: 'Enter your email'),
                   ),
@@ -119,9 +109,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: true,
                     keyboardType: TextInputType.emailAddress,
 
-            
                     // textAlign: TextAlign.center,
-                   
+
                     decoration: kTextFieldDecoration.copyWith(
                         hintText: 'Enter your password'),
                   ),
@@ -132,15 +121,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     title: 'Log In',
                     colour: Color(0xFF363636),
                     onPressed: () {
-                       if (_formKey.currentState!.validate()) {
-                      User user = User(
-                        email: _emailController.text,
-                       
-                        password: _passwordController.text,
-                      );
+                      if (_formKey.currentState!.validate()) {
+                        User user = User(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                        );
 
-                      _login(user);
-                    }
+                        _login(user);
+                      }
                     },
                   ),
                   Row(

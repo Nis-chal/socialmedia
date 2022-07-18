@@ -6,9 +6,9 @@ part 'ProfileSearchResponse.g.dart';
 
 @JsonSerializable()
 class ProfileSearchResponse {
-  List<User>? user;
+  List<User>? users;
 
-  ProfileSearchResponse({required this.user});
+  ProfileSearchResponse({required this.users});
 
   factory ProfileSearchResponse.fromJson(Map<String, dynamic> json) {
     return _$ProfileSearchResponseFromJson(json);

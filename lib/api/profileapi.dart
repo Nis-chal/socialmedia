@@ -49,7 +49,7 @@ class ProfileApi{
     ProfileSearchResponse? profileSearchResponse;
 
 
-    var postsurl = baseUrl + getProfileUrl + username;
+    var postsurl = baseUrl + searchProfileUrl + username;
 
     try {
       var dio = HttpServices().getDiorInstance();

@@ -5,8 +5,11 @@ import 'package:get/get.dart';
 import 'package:socialmedia/components/post_card.dart';
 import 'package:socialmedia/components/post_cardv2.dart';
 import 'package:socialmedia/models/Posts.dart';
+import 'package:socialmedia/models/User.dart';
 import 'package:socialmedia/repository/PostRepository.dart';
+import 'package:socialmedia/repository/ProfileRepository.dart';
 import 'package:socialmedia/response/postResponse/ExplorePostResponse.dart';
+import 'package:socialmedia/response/profileResponse/ProfileSearchResponse.dart';
 import 'package:socialmedia/utils/url.dart';
 import 'package:staggered_grid_view_flutter/staggered_grid_view_flutter.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
@@ -15,13 +18,14 @@ import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 class ExplorePost extends StatelessWidget {
   ExplorePost({Key? key}) : super(key: key);
 
-  final search = TextEditingController();
+  final search = TextEditingController().obs;
   RxBool issearch = true.obs;
   RxBool isview = true.obs;
   RxBool isexplore = false.obs;
   final controller = CarouselController();
   RxInt activeIndex = 0.obs;
   RxInt intialpost = 0.obs;
+  RxString searchvalue = "".obs;
 
   Widget buildImage(Posts post, int index) => Container(
       color: Colors.white,
@@ -76,20 +80,25 @@ class ExplorePost extends StatelessWidget {
                                       ),
                                     ),
                                     Expanded(
-                                      child: CupertinoSearchTextField(
-                                        borderRadius: BorderRadius.circular(20),
-                                        controller: search,
-                                        onChanged: (value) {
-                                          isexplore.value = true;
-                                          search.text = value;
-                                        },
+                                      child: Container(
+                                        margin: EdgeInsets.only(bottom: 4),
+                                        child: CupertinoSearchTextField(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          onChanged: (value) {
+                                            isexplore.value = true;
+                                            search.value.text = value;
+                                            searchvalue.value =
+                                                value.isEmpty ? "0" : value;
+                                          },
+                                        ),
                                       ),
                                     ),
                                   ],
                                 ),
                               )
-                            : Container(
-                                height: 30,
+                            : SizedBox(
+                                height: 25,
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
@@ -120,8 +129,69 @@ class ExplorePost extends StatelessWidget {
                       ),
                       Obx(() {
                         return Visibility(
-                            visible: isexplore.value ? true : false,
-                            child: Text('searchpage'));
+                          visible: isexplore.value ? true : false,
+                          child: FutureBuilder<ProfileSearchResponse?>(
+                              future: ProfileRepository()
+                                  .profileSearch(search.value.text),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  if (snapshot.data != null) {
+                                    List<User> userinfo = snapshot.data!.users!;
+                                    return SingleChildScrollView(
+                                      child: Container(
+                                          color: Colors.white,
+                                          height: 500 - 56,
+                                          child: ListView.builder(
+                                            itemCount: userinfo.length,
+                                            itemBuilder: ((context, index) {
+                                              return Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 2),
+                                                child: Row(
+                                                  children: [
+                                                    CircleAvatar(
+                                                      backgroundImage: NetworkImage(
+                                                          '$baseUr${userinfo[index].profilePicture}'),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 4,
+                                                    ),
+                                                    Column(
+                                                      children: [
+                                                        Text(userinfo[index]
+                                                            .username!),
+                                                        Text(userinfo[index]
+                                                            .name!)
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              );
+                                            }),
+                                          )),
+                                    );
+                                  } else {
+                                    return const Center(
+                                      child: Text("No data"),
+                                    );
+                                  }
+                                } else if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                } else {
+                                  return const Center(
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Colors.blue),
+                                    ),
+                                  );
+                                }
+                              }),
+                        );
                       }),
                       Obx(() {
                         return Expanded(
