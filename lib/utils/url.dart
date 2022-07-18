@@ -19,6 +19,8 @@ const unsavePostUrl = "posts/unsavepost/";
 const getProfileUrl = "profile/";
 const exploreFeedsUrl = 'posts/explorepost';
 
+const searchProfileUrl = 'profile/search?username=';
+
 
 
 String? token;

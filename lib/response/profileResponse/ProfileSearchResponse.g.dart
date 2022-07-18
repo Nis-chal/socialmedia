@@ -9,7 +9,9 @@ part of 'ProfileSearchResponse.dart';
 ProfileSearchResponse _$ProfileSearchResponseFromJson(
         Map<String, dynamic> json) =>
     ProfileSearchResponse(
-      user: User.fromJson(json['user'] as Map<String, dynamic>),
+      user: (json['user'] as List<dynamic>?)
+          ?.map((e) => User.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$ProfileSearchResponseToJson(

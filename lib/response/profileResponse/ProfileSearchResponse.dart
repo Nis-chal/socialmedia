@@ -6,7 +6,7 @@ part 'ProfileSearchResponse.g.dart';
 
 @JsonSerializable()
 class ProfileSearchResponse {
-  User user;
+  List<User>? user;
 
   ProfileSearchResponse({required this.user});
 
