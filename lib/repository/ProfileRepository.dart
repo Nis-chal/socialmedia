@@ -10,4 +10,8 @@ class ProfileRepository {
   Future<ProfileSearchResponse?> profileSearch(String username) async {
     return ProfileApi().profileSearch(username);
   }
+
+  Future<bool?> followuser(String userid) async {
+    return ProfileApi().followUser(userid);
+  }
 }
