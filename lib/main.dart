@@ -6,6 +6,7 @@ import 'package:socialmedia/screens/add_post.dart';
 
 import 'package:socialmedia/screens/loginScreen.dart';
 import 'package:socialmedia/screens/post/add_post_description.dart';
+import 'package:socialmedia/screens/post/explorePostVerticalView.dart';
 import 'package:socialmedia/screens/post/postProviewScreen.dart';
 import 'package:socialmedia/screens/profile/profileScreen.dart';
 import 'package:socialmedia/screens/registerScreen.dart';
@@ -42,6 +43,9 @@ class MyApp extends StatelessWidget {
         PostPreviewScreen.id:(context) => PostPreviewScreen(ModalRoute.of(context)!.settings.arguments as List<File>),
         AddPostDecriptionScreen.id:(context) =>AddPostDecriptionScreen(),
         ProfileScreen.id:(context) => ProfileScreen(ModalRoute.of(context)!.settings.arguments as String),
+        
+        ExploreVerticalView.id:(context) => ExploreVerticalView(ModalRoute.of(context)!.settings.arguments as Map)
+
       },
     );
   }

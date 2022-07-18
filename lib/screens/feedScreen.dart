@@ -18,6 +18,7 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
 
   RxBool onDelete = true.obs;
+  final controller = ScrollController();
   
   @override
   Widget build(BuildContext context) {
