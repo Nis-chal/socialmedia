@@ -10,6 +10,7 @@ import 'package:socialmedia/repository/PostRepository.dart';
 import 'package:socialmedia/repository/ProfileRepository.dart';
 import 'package:socialmedia/response/postResponse/ExplorePostResponse.dart';
 import 'package:socialmedia/response/profileResponse/ProfileSearchResponse.dart';
+import 'package:socialmedia/screens/profile/profileScreen.dart';
 import 'package:socialmedia/utils/url.dart';
 import 'package:staggered_grid_view_flutter/staggered_grid_view_flutter.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
@@ -26,6 +27,9 @@ class ExplorePost extends StatelessWidget {
   RxInt activeIndex = 0.obs;
   RxInt intialpost = 0.obs;
   RxString searchvalue = "".obs;
+  RxString profileid = "".obs;
+
+  final contoller = PageController(initialPage: 0);
 
   Widget buildImage(Posts post, int index) => Container(
       color: Colors.white,
@@ -51,241 +55,300 @@ class ExplorePost extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-          child: FutureBuilder<ExplorePostResponse?>(
-            future: PostRepository().exploreFeeds(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.data != null) {
-                  // ProductResponse productResponse = snapshot.data!;
-                  List<Posts> postlst = snapshot.data!.posts!;
+          child: PageView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: contoller,
+              children: [
+                FutureBuilder<ExplorePostResponse?>(
+                  future: PostRepository().exploreFeeds(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.data != null) {
+                        // ProductResponse productResponse = snapshot.data!;
+                        List<Posts> postlst = snapshot.data!.posts!;
 
-                  return Column(
-                    children: [
-                      Obx(
-                        () => issearch.value
-                            ? GestureDetector(
-                                onTap: (() {
-                                  isexplore.value = true;
-                                }),
-                                child: Row(
-                                  children: [
-                                    Visibility(
-                                      visible: isexplore.value ? true : false,
-                                      child: IconButton(
-                                        onPressed: () {
-                                          isexplore.value = false;
-                                        },
-                                        icon: const Icon(Icons.arrow_back_ios),
-                                        padding: const EdgeInsets.all(0),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        margin: EdgeInsets.only(bottom: 4),
-                                        child: CupertinoSearchTextField(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          onChanged: (value) {
-                                            isexplore.value = true;
-                                            search.value.text = value;
-                                            searchvalue.value =
-                                                value.isEmpty ? "0" : value;
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : SizedBox(
-                                height: 25,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    IconButton(
-                                      onPressed: () {
-                                        isview.value = true;
-                                        issearch.value = true;
-                                      },
-                                      icon: const Icon(Icons.arrow_back_ios),
-                                      padding: const EdgeInsets.all(0),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.3),
-                                      child: const Text(
-                                        'Explore',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16),
+                        return Column(
+                          children: [
+                            Obx(
+                              () => issearch.value
+                                  ? GestureDetector(
+                                      onTap: (() {
+                                        isexplore.value = true;
+                                      }),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              margin: const EdgeInsets.only(
+                                                  bottom: 4),
+                                              child: CupertinoSearchTextField(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                onChanged: (value) {
+                                                  isexplore.value = true;
+                                                  search.value.text = value;
+                                                  searchvalue.value =
+                                                      value.isEmpty
+                                                          ? "0"
+                                                          : value;
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                          Visibility(
+                                            visible:
+                                                isexplore.value ? true : false,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                isexplore.value = false;
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 4.0),
+                                                child: Text(
+                                                  'cancel',
+                                                  style: TextStyle(
+                                                      color:
+                                                          Colors.blue.shade400,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     )
-                                  ],
+                                  : SizedBox(
+                                      height: 25,
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          IconButton(
+                                            onPressed: () {
+                                              isview.value = true;
+                                              issearch.value = true;
+                                            },
+                                            icon: const Icon(
+                                                Icons.arrow_back_ios),
+                                            padding: const EdgeInsets.all(0),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.3),
+                                            child: const Text(
+                                              'Explore',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                            ),
+                            Obx(() {
+                              return Visibility(
+                                visible: isexplore.value ? true : false,
+                                child: FutureBuilder<ProfileSearchResponse?>(
+                                    future: ProfileRepository()
+                                        .profileSearch(search.value.text),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.done) {
+                                        if (snapshot.data != null) {
+                                          List<User> userinfo =
+                                              snapshot.data!.users!;
+                                          return SingleChildScrollView(
+                                            child: Container(
+                                                color: Colors.white,
+                                                height: 500 - 56,
+                                                child: ListView.builder(
+                                                  itemCount: userinfo.length,
+                                                  itemBuilder:
+                                                      ((context, index) {
+                                                    return ElevatedButton(
+                                                      onPressed: () {
+                                                        profileid.value =
+                                                            userinfo[index].id!;
+                                                        contoller.animateToPage(
+                                                          2,
+                                                          duration:
+                                                              const Duration(
+                                                                  seconds: 1),
+                                                          curve:
+                                                              Curves.easeInOut,
+                                                        );
+                                                      },
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 2),
+                                                        child: Row(
+                                                          children: [
+                                                            CircleAvatar(
+                                                              backgroundImage:
+                                                                  NetworkImage(
+                                                                      '$baseUr${userinfo[index].profilePicture}'),
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 4,
+                                                            ),
+                                                            Column(
+                                                              children: [
+                                                                Text(
+                                                                    userinfo[
+                                                                            index]
+                                                                        .username!,
+                                                                    style: const TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.bold)),
+                                                                Text(userinfo[
+                                                                        index]
+                                                                    .name!)
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }),
+                                                )),
+                                          );
+                                        } else {
+                                          return const Center(
+                                            child: Text("No data"),
+                                          );
+                                        }
+                                      } else if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      } else {
+                                        return const Center(
+                                          child: CircularProgressIndicator(
+                                            valueColor:
+                                                AlwaysStoppedAnimation<Color>(
+                                                    Colors.blue),
+                                          ),
+                                        );
+                                      }
+                                    }),
+                              );
+                            }),
+                            Obx(() {
+                              return Expanded(
+                                child: Visibility(
+                                  visible: isview.value && !isexplore.value
+                                      ? true
+                                      : false,
+                                  child: StaggeredGridView.countBuilder(
+                                    staggeredTileBuilder: (index) =>
+                                        index % 7 == 0
+                                            ? const StaggeredTile.count(2, 2)
+                                            : StaggeredTile.count(1, 1),
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 2.0,
+                                    mainAxisSpacing: 4.0,
+                                    itemCount: postlst.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return GestureDetector(
+                                        onTap: (() {
+                                          isview.value = false;
+
+                                          intialpost.value = index;
+                                          issearch.value = false;
+                                        }),
+                                        child: Stack(
+                                            fit: StackFit.expand,
+                                            children: [
+                                              Image.network(
+                                                '$baseUr${postlst[index].images![0]}',
+                                                fit: BoxFit.cover,
+                                              ),
+                                              Positioned(
+                                                top: 0,
+                                                right: 0,
+                                                child: Visibility(
+                                                    visible: postlst[index]
+                                                                .images!
+                                                                .length >
+                                                            1
+                                                        ? true
+                                                        : false,
+                                                    child: const Icon(
+                                                      Icons.file_copy,
+                                                      color: Colors.white70,
+                                                    )),
+                                              ),
+                                            ]),
+                                      );
+                                    },
+                                  ),
                                 ),
-                              ),
-                      ),
-                      Obx(() {
-                        return Visibility(
-                          visible: isexplore.value ? true : false,
-                          child: FutureBuilder<ProfileSearchResponse?>(
-                              future: ProfileRepository()
-                                  .profileSearch(search.value.text),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.done) {
-                                  if (snapshot.data != null) {
-                                    List<User> userinfo = snapshot.data!.users!;
-                                    return SingleChildScrollView(
-                                      child: Container(
-                                          color: Colors.white,
-                                          height: 500 - 56,
-                                          child: ListView.builder(
-                                            itemCount: userinfo.length,
-                                            itemBuilder: ((context, index) {
-                                              return Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 2),
-                                                child: Row(
-                                                  children: [
-                                                    CircleAvatar(
-                                                      backgroundImage: NetworkImage(
-                                                          '$baseUr${userinfo[index].profilePicture}'),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 4,
-                                                    ),
-                                                    Column(
-                                                      children: [
-                                                        Text(userinfo[index]
-                                                            .username!),
-                                                        Text(userinfo[index]
-                                                            .name!)
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                              );
-                                            }),
-                                          )),
-                                    );
-                                  } else {
-                                    return const Center(
-                                      child: Text("No data"),
-                                    );
-                                  }
-                                } else if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                } else {
-                                  return const Center(
-                                    child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                          Colors.blue),
+                              );
+                            }),
+                            Obx(() => Visibility(
+                                  visible: isview.value && issearch.value
+                                      ? false
+                                      : true,
+                                  child: CarouselSlider.builder(
+                                    carouselController: controller,
+                                    itemCount: postlst.length,
+                                    options: CarouselOptions(
+                                      height: 720 - 53,
+                                      initialPage: intialpost.value,
+
+                                      scrollDirection: Axis.vertical,
+
+                                      //  pageSnapping: false,
+                                      enableInfiniteScroll: false,
+                                      enlargeCenterPage: true,
+                                      viewportFraction: 1,
+                                      onPageChanged: (index, reason) =>
+                                          activeIndex.value = index,
                                     ),
-                                  );
-                                }
-                              }),
+                                    itemBuilder: (context, index, realIndex) {
+                                      final post = postlst[index];
+                                      return buildImage(post, index);
+                                    },
+                                  ),
+                                )),
+                          ],
                         );
-                      }),
-                      Obx(() {
-                        return Expanded(
-                          child: Visibility(
-                            visible:
-                                isview.value && !isexplore.value ? true : false,
-                            child: StaggeredGridView.countBuilder(
-                              staggeredTileBuilder: (index) => index % 7 == 0
-                                  ? const StaggeredTile.count(2, 2)
-                                  : StaggeredTile.count(1, 1),
-                              crossAxisCount: 3,
-                              crossAxisSpacing: 2.0,
-                              mainAxisSpacing: 4.0,
-                              itemCount: postlst.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return GestureDetector(
-                                  onTap: (() {
-                                    isview.value = false;
-
-                                    intialpost.value = index;
-                                    issearch.value = false;
-                                  }),
-                                  child: Stack(fit: StackFit.expand, children: [
-                                    Image.network(
-                                      '$baseUr${postlst[index].images![0]}',
-                                      fit: BoxFit.cover,
-                                    ),
-                                    Positioned(
-                                      top: 0,
-                                      right: 0,
-                                      child: Visibility(
-                                          visible:
-                                              postlst[index].images!.length > 1
-                                                  ? true
-                                                  : false,
-                                          child: const Icon(
-                                            Icons.file_copy,
-                                            color: Colors.white70,
-                                          )),
-                                    ),
-                                  ]),
-                                );
-                              },
-                            ),
-                          ),
+                      } else {
+                        return const Center(
+                          child: Text("No data"),
                         );
-                      }),
-                      Obx(() => Visibility(
-                            visible:
-                                isview.value && issearch.value ? false : true,
-                            child: CarouselSlider.builder(
-                              carouselController: controller,
-                              itemCount: postlst.length,
-                              options: CarouselOptions(
-                                height: 720 - 53,
-                                initialPage: intialpost.value,
-
-                                scrollDirection: Axis.vertical,
-
-                                //  pageSnapping: false,
-                                enableInfiniteScroll: false,
-                                enlargeCenterPage: true,
-                                viewportFraction: 1,
-                                onPageChanged: (index, reason) =>
-                                    activeIndex.value = index,
-                              ),
-                              itemBuilder: (context, index, realIndex) {
-                                final post = postlst[index];
-                                return buildImage(post, index);
-                              },
-                            ),
-                          )),
-                    ],
-                  );
-                } else {
-                  return const Center(
-                    child: Text("No data"),
-                  );
-                }
-              } else if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                  ),
-                );
-              }
-            },
-          ),
+                      }
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.blue),
+                        ),
+                      );
+                    }
+                  },
+                ),
+                Obx(() {
+                  return ProfileScreen(profileid.value);
+                })
+              ]),
         ),
       ),
     );

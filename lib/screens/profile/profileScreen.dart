@@ -8,6 +8,7 @@ import 'package:socialmedia/models/User.dart';
 import 'package:socialmedia/repository/ProfileRepository.dart';
 import 'package:socialmedia/response/profileResponse/ProfileResponse.dart';
 import 'package:socialmedia/utils/url.dart';
+
 class ProfileScreen extends StatefulWidget {
   static const String id = 'profieScreen_id';
   final String? arguments;
@@ -18,16 +19,11 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
- 
-
-  
-
   bool isFollowing = false;
   RxString userid = ''.obs;
   RxInt activeTab = 0.obs;
 
-
-    @override
+  @override
   void initState() {
     _loadCounter();
     super.initState();
@@ -35,249 +31,213 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _loadCounter() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    
+
     setState(() {
       var data = (prefs.getString('userdata') ?? '');
-        var userdatas = User.fromJson(jsonDecode(data.toString()));  
-        userid.value = userdatas.id.toString();
-
-
-      
-
-      
+      var userdatas = User.fromJson(jsonDecode(data.toString()));
+      userid.value = userdatas.id.toString();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:SafeArea(child: 
-
-      FutureBuilder<ProfileResponse?>(
-        
+      body: SafeArea(
+          child: FutureBuilder<ProfileResponse?>(
         future: ProfileRepository().userProfile(widget.arguments!),
         builder: ((context, snapshot) {
-          if(snapshot.connectionState == ConnectionState.done){
-                if(snapshot.data !=null){
-
-                  ProfileResponse? profile = snapshot.data! ;
-                  return Padding(
-                    padding:  EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.02,
-                      ),
-                    child: Column(children: [
-
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: Row(children: [
-                          Text(profile.user.username!.toUpperCase(),
-                          style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.width * 0.06,
-                            fontWeight: FontWeight.bold
-                          
-                          ),
-                          
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.data != null) {
+              ProfileResponse? profile = snapshot.data!;
+              return Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.02,
+                ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Row(
+                        children: [
+                          Text(
+                            profile.user.username!.toUpperCase(),
+                            style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.06,
+                                fontWeight: FontWeight.bold),
                           )
-                        ],),
+                        ],
                       ),
-
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              backgroundColor: Colors.grey,
-                              backgroundImage: NetworkImage(
-                                baseUr +profile.user.profilePicture!
-                              ),
-                              radius: 40,
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Column(
+                    ),
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.grey,
+                          backgroundImage: NetworkImage(
+                              baseUr + profile.user.profilePicture!),
+                          radius: 40,
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      buildStatColumn(profile.post!.length, "posts"),
-                                      buildStatColumn(profile.followers!.length, "followers"),
-                                      buildStatColumn(profile.followings!.length, "following"),
-                                    ],
-                                  ),
-                                  
+                                  buildStatColumn(
+                                      profile.post!.length, "posts"),
+                                  buildStatColumn(
+                                      profile.followers!.length, "followers"),
+                                  buildStatColumn(
+                                      profile.followings!.length, "following"),
                                 ],
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-
-
-                        Row(
-                                    
-                                    children: [
-                                      userid.value == widget.arguments
-                                          ? Expanded(
-                                            child: FollowButton(
-                                                text: 'Edit Profile',
-                                                backgroundColor:
-                                                    Color(0XFFEFEFEF),
-                                                textColor: Colors.black87,
-                                                borderColor: Colors.transparent,
-                                                function: (){}
-                                              ),
-                                          )
-                                          : isFollowing
-                                              ? FollowButton(
-                                                  text: 'Unfollow',
-                                                  backgroundColor: Colors.white,
-                                                  textColor: Colors.black,
-                                                  borderColor: Colors.grey,
-                                                  function: (){}
-                                                )
-                                              : FollowButton(
-                                                  text: 'Follow',
-                                                  backgroundColor: Colors.blue,
-                                                  textColor: Colors.white,
-                                                  borderColor: Colors.blue,
-                                                  function: (){}
-                                                ),
-
-                                          ElevatedButton(onPressed: (){}, child: 
-                                          
-                                          const Icon(Icons.verified_user_sharp,color: Colors.black45,),
-                                          style: ElevatedButton.styleFrom(
-                                            primary: const Color(0XFFEFEFEF)
-                                          ),
-                                          )
-                                    ],
-                                  ),
-
-
-
-                                Row(
-                                  children: [
-                                    Obx(()=>
-                                    
-                                    Expanded(
-                                      child: Container(
-                                        
-                                        decoration:  BoxDecoration(
-                                          border: activeTab.value == 0? const Border(bottom: BorderSide(
-                                            color: Colors.black87
-                                            
-                                            )
-                                            ): const Border(bottom: BorderSide(
-                                            color: Colors.transparent
-                                            
-                                            )
-                                            ),
-                                            ),
-                                        child: ElevatedButton(onPressed: (){
-                                          activeTab.value=0;
-                                        },
-                                        style: ElevatedButton.styleFrom(primary: Colors.transparent,
-                                        shadowColor: Colors.transparent,
-                                        onPrimary: activeTab == 0? Colors.black87:Colors.black45,
-                                        
-                                        ),
-                                        
-                                         child: const Icon(Icons.apps)
-                                         
-                                         ),
-                                      ),
-                                    ),
-                                    ),
-
-                                    Obx(()=>
-                                    
-                                    Expanded(
-                                      child: Container(
-                                        
-                                        decoration:  BoxDecoration(
-                                          border: activeTab.value == 1? const Border(bottom: BorderSide(
-                                            color: Colors.black87
-                                            
-                                            )
-                                            ): const Border(bottom: BorderSide(
-                                            color: Colors.transparent
-                                            
-                                            )
-                                            ),
-                                            ),
-                                        child: ElevatedButton(onPressed: (){
-                                          activeTab.value = 1;
-                                        },
-                                        style: ElevatedButton.styleFrom(primary: Colors.transparent,
-                                        shadowColor: Colors.transparent,
-                                        // ignore: unrelated_type_equality_checks
-                                        onPrimary: activeTab == 1? Colors.black87:Colors.black45,
-                                        
-                                        ),
-                                        
-                                         child: const Icon(Icons.photo_album)
-                                         
-                                         ),
-                                      ),
-                                    ),
-                                    ),
-                                  ],
-                                ),
-
-                                 Expanded(
-                                   child: Padding(
-                                     padding: const EdgeInsets.only(top:8.0),
-                                     child: GridView.builder(
-                                      gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 3,  
-                                      crossAxisSpacing: 2.0,  
-                                      mainAxisSpacing: 4.0 
-                                      ),
-                                      itemCount: profile.post!.length, 
-                                      itemBuilder: (BuildContext context, int index){
-                                 
-                                        return Image.network('$baseUr${profile.post![index].images![1]}',fit: BoxFit.cover,);  
-                                      },  
-                                      
-                                      ),
-                                   ),
-                                 )
-
-                               
-
-
-
-
                       ],
                     ),
-                  );
-                  
-                }else{
-                  return const Center(
-                      child: Text("No data"),
-                    );
-
-                }
-              }
-              else if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }else {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                    Row(
+                      children: [
+                        userid.value == widget.arguments
+                            ? Expanded(
+                                child: FollowButton(
+                                    text: 'Edit Profile',
+                                    backgroundColor: Color(0XFFEFEFEF),
+                                    textColor: Colors.black87,
+                                    borderColor: Colors.transparent,
+                                    function: () {}),
+                              )
+                            : isFollowing
+                                ? Expanded(
+                                    child: FollowButton(
+                                        text: 'Unfollow',
+                                        backgroundColor: Colors.white,
+                                        textColor: Colors.black,
+                                        borderColor: Colors.grey,
+                                        function: () {}),
+                                  )
+                                : Expanded(
+                                    child: FollowButton(
+                                        text: 'Follow',
+                                        backgroundColor: Colors.blue,
+                                        textColor: Colors.white,
+                                        borderColor: Colors.blue,
+                                        function: () {}),
+                                  ),
+                        ElevatedButton(
+                          onPressed: () {},
+                          child: const Icon(
+                            Icons.verified_user_sharp,
+                            color: Colors.black45,
+                          ),
+                          style: ElevatedButton.styleFrom(
+                              primary: const Color(0XFFEFEFEF)),
+                        )
+                      ],
                     ),
-                  );
-                }
-          
-        }),)
-      
-      
-      ),
+                    Row(
+                      children: [
+                        Obx(
+                          () => Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: activeTab.value == 0
+                                    ? const Border(
+                                        bottom:
+                                            BorderSide(color: Colors.black87))
+                                    : const Border(
+                                        bottom: BorderSide(
+                                            color: Colors.transparent)),
+                              ),
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    activeTab.value = 0;
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.transparent,
+                                    shadowColor: Colors.transparent,
+                                    onPrimary: activeTab == 0
+                                        ? Colors.black87
+                                        : Colors.black45,
+                                  ),
+                                  child: const Icon(Icons.apps)),
+                            ),
+                          ),
+                        ),
+                        Obx(
+                          () => Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: activeTab.value == 1
+                                    ? const Border(
+                                        bottom:
+                                            BorderSide(color: Colors.black87))
+                                    : const Border(
+                                        bottom: BorderSide(
+                                            color: Colors.transparent)),
+                              ),
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    activeTab.value = 1;
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.transparent,
+                                    shadowColor: Colors.transparent,
+                                    // ignore: unrelated_type_equality_checks
+                                    onPrimary: activeTab == 1
+                                        ? Colors.black87
+                                        : Colors.black45,
+                                  ),
+                                  child: const Icon(Icons.photo_album)),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  crossAxisSpacing: 2.0,
+                                  mainAxisSpacing: 4.0),
+                          itemCount: profile.post!.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Image.network(
+                              '$baseUr${profile.post![index].images![1]}',
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              );
+            } else {
+              return const Center(
+                child: Text("No data"),
+              );
+            }
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+              ),
+            );
+          }
+        }),
+      )),
     );
-
-
-    
   }
 
   Column buildStatColumn(int value, String label) {
@@ -286,7 +246,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-      value.toString(),
+          value.toString(),
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
