@@ -63,11 +63,29 @@ class ExplorePost extends StatelessWidget {
                                 onTap: (() {
                                   isexplore.value = true;
                                 }),
-                                child: CupertinoSearchTextField(
-                                  borderRadius: BorderRadius.circular(20),
-                                  onChanged: (value) {
-                                    isexplore.value = true;
-                                  },
+                                child: Row(
+                                  children: [
+                                    Visibility(
+                                      visible: isexplore.value ? true : false,
+                                      child: IconButton(
+                                        onPressed: () {
+                                          isexplore.value = false;
+                                        },
+                                        icon: const Icon(Icons.arrow_back_ios),
+                                        padding: const EdgeInsets.all(0),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: CupertinoSearchTextField(
+                                        borderRadius: BorderRadius.circular(20),
+                                        controller: search,
+                                        onChanged: (value) {
+                                          isexplore.value = true;
+                                          search.text = value;
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               )
                             : Container(
