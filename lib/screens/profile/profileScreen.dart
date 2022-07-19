@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialmedia/components/FollowButton.dart';
 import 'package:socialmedia/models/User.dart';
+import 'package:socialmedia/repository/PostRepository.dart';
 import 'package:socialmedia/repository/ProfileRepository.dart';
 import 'package:socialmedia/response/profileResponse/ProfileResponse.dart';
 import 'package:socialmedia/utils/url.dart';
@@ -19,7 +20,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  bool isFollowing = false;
+  RxBool isFollowing = false.obs;
   RxString userid = ''.obs;
   RxInt activeTab = 0.obs;
 
@@ -31,12 +32,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _loadCounter() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    var data = (prefs.getString('userdata') ?? '');
+    var userdatas = User.fromJson(jsonDecode(data.toString()));
+    ProfileRepository profileRepository = ProfileRepository();
+    ProfileResponse? profileInfo =
+        await profileRepository.userProfile(userdatas.id.toString());
+
+    String id = userdatas.id.toString();
 
     setState(() {
-      var data = (prefs.getString('userdata') ?? '');
-      var userdatas = User.fromJson(jsonDecode(data.toString()));
       userid.value = userdatas.id.toString();
+
+      isFollowing.value =
+          profileInfo!.followers!.contains(userdatas) ? true : false;
     });
+  }
+
+  _followUser(String id) async {
+    try {
+      ProfileRepository profileRepository = ProfileRepository();
+      bool? isfollowed = await profileRepository.followuser(id);
+      if (isfollowed!) {
+        isFollowing.value = true;
+      }
+    } catch (e) {}
+  }
+
+  _unfollowUser(String id) async {
+    try {} catch (e) {}
   }
 
   @override
@@ -110,23 +133,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     borderColor: Colors.transparent,
                                     function: () {}),
                               )
-                            : isFollowing
-                                ? Expanded(
-                                    child: FollowButton(
-                                        text: 'Unfollow',
-                                        backgroundColor: Colors.white,
-                                        textColor: Colors.black,
-                                        borderColor: Colors.grey,
-                                        function: () {}),
-                                  )
-                                : Expanded(
-                                    child: FollowButton(
-                                        text: 'Follow',
-                                        backgroundColor: Colors.blue,
-                                        textColor: Colors.white,
-                                        borderColor: Colors.blue,
-                                        function: () {}),
-                                  ),
+                            : Obx(
+                                () => isFollowing.value
+                                    ? Expanded(
+                                        child: FollowButton(
+                                            text: 'Unfollow',
+                                            backgroundColor: Colors.white,
+                                            textColor: isFollowing.value
+                                                ? Colors.black
+                                                : Colors.white,
+                                            borderColor: isFollowing.value
+                                                ? Colors.grey
+                                                : Colors.blue,
+                                            function: () {
+                                              isFollowing.value
+                                                  ? _unfollowUser(
+                                                      profile.user.id!)
+                                                  : _followUser(
+                                                      profile.user.id!);
+                                            }),
+                                      )
+                                    : Expanded(
+                                        child: FollowButton(
+                                            text: !isFollowing.value
+                                                ? 'Follow'
+                                                : 'UnFollow',
+                                            backgroundColor: !isFollowing.value
+                                                ? Colors.blue
+                                                : Colors.white,
+                                            textColor: !isFollowing.value
+                                                ? Colors.white
+                                                : Colors.black,
+                                            borderColor: !isFollowing.value
+                                                ? Colors.blue
+                                                : Colors.grey,
+                                            function: () {
+                                              isFollowing.value
+                                                  ? _unfollowUser(
+                                                      profile.user.id!)
+                                                  : _followUser(
+                                                      profile.user.id!);
+                                            }),
+                                      ),
+                              ),
                         ElevatedButton(
                           onPressed: () {},
                           child: const Icon(
