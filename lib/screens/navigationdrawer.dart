@@ -20,24 +20,24 @@ import 'package:socialmedia/screens/post/explorePost.dart';
 class NavigationDrawer extends StatefulWidget {
   static const String id = 'NavigagtionDrawer_screen';
 
+  int? activeTab = 0;
+
+  NavigationDrawer({this.activeTab});
+
   @override
   State<NavigationDrawer> createState() => _NavigationDrawerState();
 }
 
 class _NavigationDrawerState extends State<NavigationDrawer> {
-
-
-  RxInt _selectedIndex = 0.obs;
-
+  final RxInt _selectedIndex = 0.obs;
 
   final ImagePicker _picker = ImagePicker();
-  
-  final  List<File> _imageList = [];
+
+  final List<File> _imageList = [];
   File? img;
 
   RxString userid = ''.obs;
   RxString userpic = ''.obs;
-
 
   @override
   void initState() {
@@ -47,57 +47,44 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
 
   _loadCounter() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    
+
     setState(() {
       var data = (prefs.getString('userdata') ?? '');
-        var userdatas = User.fromJson(jsonDecode(data.toString()));  
-        userid.value = userdatas.id.toString();
-        userpic.value = userdatas.profilePicture!;
-
-
-      
-
-      
-    });
-  }
- 
- 
-  void imageSelect() async{
-    final selectedImage = await _picker.pickMultiImage();
-    if(selectedImage!.isNotEmpty){
-      
-    setState(() {
-
-      for(var image in selectedImage){
-
-      img =File(image.path) ;
-      
-      _imageList.add(File(image.path));
+      var userdatas = User.fromJson(jsonDecode(data.toString()));
+      userid.value = userdatas.id.toString();
+      userpic.value = userdatas.profilePicture!;
+      if (widget.activeTab != null) {
+        _selectedIndex.value = widget.activeTab!;
       }
     });
+  }
 
-    Navigator.pushNamed(context, PostPreviewScreen.id,arguments: _imageList);
+  void imageSelect() async {
+    final selectedImage = await _picker.pickMultiImage();
+    if (selectedImage!.isNotEmpty) {
+      setState(() {
+        for (var image in selectedImage) {
+          img = File(image.path);
+
+          _imageList.add(File(image.path));
+        }
+      });
+
+      Navigator.pushNamed(context, PostPreviewScreen.id, arguments: _imageList);
     }
   }
-  
-
-  
- 
 
   @override
   Widget build(BuildContext context) {
-  List<Widget> lstWidget = [
-    FeedScreen(),
-    ExplorePost(),
-    FeedScreen(),
-    Obx(() => 
-    ProfileScreen(userid.value),
-    ),
+    List<Widget> lstWidget = [
+      FeedScreen(),
+      ExplorePost(),
+      FeedScreen(),
+      Obx(
+        () => ProfileScreen(userid.value),
+      ),
+    ];
 
-   
-  ];
-    
-  
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color.fromARGB(255, 228, 228, 228),
@@ -107,31 +94,22 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
         elevation: 10,
         onTap: (index) {
           setState(() {
-             
-
-            if(index == 2 ){
+            if (index == 2) {
               imageSelect();
-                
-
-
             }
             // if(index == 3){
             //       Navigator.pushNamed(context, ProfileScreen.id,arguments: userid.value);
-
 
             // }
 
             // if(index == 3 ){
             //       Navigator.pushNamed(context, PostPreviewScreen.id);
 
-                
-
-
             // }
             _selectedIndex.value = index;
           });
         },
-        items:  [
+        items: [
           const BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -144,9 +122,11 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             icon: Icon(Icons.add_a_photo_sharp),
             label: 'Add',
           ),
-          
           BottomNavigationBarItem(
-            icon: CircleAvatar(backgroundImage:NetworkImage('$baseUr${userpic.value}',)),
+            icon: CircleAvatar(
+                backgroundImage: NetworkImage(
+              '$baseUr${userpic.value}',
+            )),
             label: 'profile',
           ),
         ],
@@ -154,6 +134,4 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
       body: lstWidget[_selectedIndex.value],
     );
   }
-  
-  
 }

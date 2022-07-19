@@ -22,5 +22,6 @@ const exploreFeedsUrl = 'posts/explorepost';
 const searchProfileUrl = 'profile/search?username=';
 const followUrl = 'profile/';
 const unfollowUrl = 'profile/unfollow/';
+const updateUser = "profile/updateprofile/";
 
 String? token;

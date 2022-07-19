@@ -167,6 +167,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       Navigator.pushNamed(
                                           context, EditProfileScreen.id,
                                           arguments: {
+                                            "id": profile.user.id,
                                             "username": profile.user.username,
                                             "name": profile.user.name,
                                             "location": profile.user.location,

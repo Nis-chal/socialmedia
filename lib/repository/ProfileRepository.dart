@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:socialmedia/api/profileapi.dart';
 import 'package:socialmedia/response/profileResponse/ProfileResponse.dart';
 import 'package:socialmedia/response/profileResponse/ProfileSearchResponse.dart';
@@ -17,5 +19,25 @@ class ProfileRepository {
 
   Future<bool?> unfollowuser(String userid) async {
     return ProfileApi().unfollowUser(userid);
+  }
+
+  Future<bool?> updateUser({
+    String? username,
+    String? name,
+    String? location,
+    File? fimage,
+    String? nimage,
+    String? email,
+    String? userid,
+  }) async {
+    return ProfileApi().updateProfile(
+      username: username,
+      name: name,
+      location: location,
+      fimage: fimage,
+      nimage: nimage,
+      email: email,
+      userid:userid,
+    );
   }
 }

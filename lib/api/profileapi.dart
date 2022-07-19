@@ -1,11 +1,14 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialmedia/api/httpServices.dart';
 import 'package:socialmedia/response/profileResponse/ProfileResponse.dart';
 import 'package:socialmedia/response/profileResponse/ProfileSearchResponse.dart';
 import 'package:socialmedia/utils/url.dart';
+import 'package:mime/mime.dart';
+import 'package:http_parser/http_parser.dart';
 
 class ProfileApi {
   Future<ProfileResponse?> userProfile(String profileid) async {
@@ -90,8 +93,7 @@ class ProfileApi {
     return folllow;
   }
 
-
-   Future<bool> unfollowUser(String userid) async {
+  Future<bool> unfollowUser(String userid) async {
     bool folllow;
 
     var followurl = baseUrl + '$unfollowUrl$userid';
@@ -117,5 +119,86 @@ class ProfileApi {
     }
 
     return folllow;
+  }
+
+  Future<bool> updateProfile({
+    File? fimage,
+    String? username,
+    String? name,
+    String? email,
+    String? location,
+    String? nimage,
+    String? userid,
+  }) async {
+    bool posts;
+
+    var postsurl = baseUrl + updateUser + userid!;
+    FormData formData;
+
+    try {
+      var dio = HttpServices().getDiorInstance();
+      // Obtain shared preferences.
+      final prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+
+      if (fimage != null) {
+        var mimeType = lookupMimeType(fimage.path);
+        MultipartFile multipartFile = await MultipartFile.fromFile(
+          fimage.path,
+          filename: fimage.path.split("/").last,
+          contentType: MediaType("image", mimeType!.split("/")[1]),
+        );
+        FormData formData = FormData.fromMap({
+          "profilePicture": multipartFile,
+          "location": location,
+          "email": email,
+          "name": name,
+          "username": username
+        });
+
+        var response = await dio.put(
+          postsurl,
+          data: formData,
+          options: Options(
+              headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
+        );
+
+        if (response.statusCode == 200) {
+          posts = true;
+        } else {
+          posts = false;
+        }
+      } else {
+        FormData formData = FormData.fromMap({
+          "location": location,
+          "email": email,
+          "name": name,
+          "username": username
+        });
+
+        var response = await dio.put(
+          postsurl,
+          data: formData,
+          options: Options(
+              headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
+        );
+
+        if (response.statusCode == 200) {
+          posts = true;
+        } else {
+          posts = false;
+        }
+      }
+
+      // for (var file in images) {
+
+      //   uploadList.add(multipartFile);
+      // }
+
+    } catch (e) {
+      throw Exception(e);
+    }
+
+    return posts;
   }
 }

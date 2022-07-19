@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         LoginLayout.id:(context) => const LoginLayout(),
         LoginScreen.id: (context) => LoginScreen(),
         RegisterScreen.id: (context) => RegisterScreen(),
-        NavigationDrawer.id: (context) => NavigationDrawer(),
+        NavigationDrawer.id: (context) => NavigationDrawer(activeTab: ModalRoute.of(context)!.settings.arguments as int),
         FeedLayout.id:(context)=>FeedLayout(),
         PostEditScreen.id:(context) => PostEditScreen(),
         PostDetailScreen.id:((context) => PostDetailScreen(ModalRoute.of(context)!.settings.arguments as String)), 

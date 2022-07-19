@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final String? token = (prefs.getString('token') ?? '');
 
     if (token!.isNotEmpty) {
-      Navigator.pushNamed(context, NavigationDrawer.id);
+      Navigator.pushNamed(context, NavigationDrawer.id, arguments: 0);
     }
   }
 
@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _navigateToScreen(bool isLogin) {
     if (isLogin) {
-      Navigator.pushNamed(context, NavigationDrawer.id);
+      Navigator.pushNamed(context, NavigationDrawer.id, arguments: 0);
     } else {
       MotionToast.error(description: const Text('Enter user or passowrd'))
           .show(context);
