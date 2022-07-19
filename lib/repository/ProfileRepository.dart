@@ -14,4 +14,8 @@ class ProfileRepository {
   Future<bool?> followuser(String userid) async {
     return ProfileApi().followUser(userid);
   }
+
+  Future<bool?> unfollowuser(String userid) async {
+    return ProfileApi().unfollowUser(userid);
+  }
 }
