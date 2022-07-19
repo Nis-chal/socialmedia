@@ -13,6 +13,7 @@ import 'package:socialmedia/utils/url.dart';
 class ProfileScreen extends StatefulWidget {
   static const String id = 'profieScreen_id';
   final String? arguments;
+
   ProfileScreen(this.arguments, {Key? key}) : super(key: key);
 
   @override
@@ -23,6 +24,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   RxBool isFollowing = false.obs;
   RxString userid = ''.obs;
   RxInt activeTab = 0.obs;
+  RxInt followercount = 0.obs;
+  RxInt followingcount = 0.obs;
 
   @override
   void initState() {
@@ -30,22 +33,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
   }
 
+  // @override
+  // void dispose() {
+  //   _loadCounter();
+  //   super.dispose();
+  // }
+
   _loadCounter() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var data = (prefs.getString('userdata') ?? '');
     var userdatas = User.fromJson(jsonDecode(data.toString()));
     ProfileRepository profileRepository = ProfileRepository();
     ProfileResponse? profileInfo =
-        await profileRepository.userProfile(userdatas.id.toString());
+        await profileRepository.userProfile(widget.arguments!);
 
-    String id = userdatas.id.toString();
+    var id = userdatas.id.toString();
+    var follower = profileInfo!.user.followers!;
 
-    setState(() {
-      userid.value = userdatas.id.toString();
+    userid.value = userdatas.id.toString();
 
-      isFollowing.value =
-          profileInfo!.followers!.contains(userdatas) ? true : false;
-    });
+    isFollowing.value = follower.contains(id) ? true : false;
+    followercount.value = follower.length;
+    followingcount.value = profileInfo.user.following!.length;
+
+    // if (profileInfo!.followers!.length! > 0) {
+    //   for (int i = 0; i < profileInfo!.followers!.length; i++) {
+    //     if (profileInfo.followers[i].id == userdatas.id.toString()) {
+    //       isFollowing.value = true;
+    //     }
+    //   }
+    // }
   }
 
   _followUser(String id) async {
@@ -54,12 +71,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
       bool? isfollowed = await profileRepository.followuser(id);
       if (isfollowed!) {
         isFollowing.value = true;
+        followercount++;
       }
     } catch (e) {}
   }
 
   _unfollowUser(String id) async {
-    try {} catch (e) {}
+    try {
+      ProfileRepository profileRepository = ProfileRepository();
+      bool? unfollowed = await profileRepository.unfollowuser(id);
+      if (unfollowed!) {
+        isFollowing.value = false;
+        followercount--;
+      }
+    } catch (e) {}
   }
 
   @override
@@ -111,10 +136,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 children: [
                                   buildStatColumn(
                                       profile.post!.length, "posts"),
-                                  buildStatColumn(
-                                      profile.followers!.length, "followers"),
-                                  buildStatColumn(
-                                      profile.followings!.length, "following"),
+                                  Obx(
+                                    () => buildStatColumn(
+                                        followercount.value, "followers"),
+                                  ),
+                                  Obx(
+                                    () => buildStatColumn(
+                                        followingcount.value, "following"),
+                                  )
                                 ],
                               ),
                             ],

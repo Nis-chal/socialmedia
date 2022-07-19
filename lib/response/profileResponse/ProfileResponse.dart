@@ -20,5 +20,7 @@ class ProfileResponse{
     return _$ProfileResponseFromJson(json);
   }
 
+  get id => null;
+
   Map<String,dynamic>toJson()=> _$ProfileResponseToJson(this);
 }
