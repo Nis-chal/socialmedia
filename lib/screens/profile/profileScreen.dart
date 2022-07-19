@@ -89,7 +89,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     } catch (e) {}
   }
-
+  final contoller = PageController(initialPage: 0);
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -277,6 +278,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 child: ElevatedButton(
                                     onPressed: () {
                                       activeTab.value = 1;
+                                      contoller.jumpTo(1);
                                     },
                                     style: ElevatedButton.styleFrom(
                                       primary: Colors.transparent,
@@ -296,20 +298,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 8.0),
-                        child: GridView.builder(
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3,
-                                  crossAxisSpacing: 2.0,
-                                  mainAxisSpacing: 4.0),
-                          itemCount: profile.post!.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Image.network(
-                              '$baseUr${profile.post![index].images![1]}',
-                              fit: BoxFit.cover,
-                            );
-                          },
-                        ),
+                        child: PageView(
+                          controller: contoller,
+                          children: [
+                          GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 2.0,
+                                    mainAxisSpacing: 4.0),
+                            itemCount: profile.post!.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Image.network(
+                                '$baseUr${profile.post![index].images![1]}',
+                                fit: BoxFit.cover,
+                              );
+                            },
+                          ),
+                        ]),
                       ),
                     )
                   ],
