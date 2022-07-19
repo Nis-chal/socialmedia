@@ -231,64 +231,67 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         )
                       ],
                     ),
-                    Row(
-                      children: [
-                        Obx(
-                          () => Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: activeTab.value == 0
-                                    ? const Border(
-                                        bottom:
-                                            BorderSide(color: Colors.black87))
-                                    : const Border(
-                                        bottom: BorderSide(
-                                            color: Colors.transparent)),
+                    Positioned(
+                      top: 50,
+                      child: Row(
+                        children: [
+                          Obx(
+                            () => Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: activeTab.value == 0
+                                      ? const Border(
+                                          bottom:
+                                              BorderSide(color: Colors.black87))
+                                      : const Border(
+                                          bottom: BorderSide(
+                                              color: Colors.transparent)),
+                                ),
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      activeTab.value = 0;
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.transparent,
+                                      shadowColor: Colors.transparent,
+                                      onPrimary: activeTab == 0
+                                          ? Colors.black87
+                                          : Colors.black45,
+                                    ),
+                                    child: const Icon(Icons.apps)),
                               ),
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    activeTab.value = 0;
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.transparent,
-                                    shadowColor: Colors.transparent,
-                                    onPrimary: activeTab == 0
-                                        ? Colors.black87
-                                        : Colors.black45,
-                                  ),
-                                  child: const Icon(Icons.apps)),
                             ),
                           ),
-                        ),
-                        Obx(
-                          () => Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: activeTab.value == 1
-                                    ? const Border(
-                                        bottom:
-                                            BorderSide(color: Colors.black87))
-                                    : const Border(
-                                        bottom: BorderSide(
-                                            color: Colors.transparent)),
+                          Obx(
+                            () => Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: activeTab.value == 1
+                                      ? const Border(
+                                          bottom:
+                                              BorderSide(color: Colors.black87))
+                                      : const Border(
+                                          bottom: BorderSide(
+                                              color: Colors.transparent)),
+                                ),
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      activeTab.value = 1;
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.transparent,
+                                      shadowColor: Colors.transparent,
+                                      // ignore: unrelated_type_equality_checks
+                                      onPrimary: activeTab == 1
+                                          ? Colors.black87
+                                          : Colors.black45,
+                                    ),
+                                    child: const Icon(Icons.photo_album)),
                               ),
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    activeTab.value = 1;
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.transparent,
-                                    shadowColor: Colors.transparent,
-                                    // ignore: unrelated_type_equality_checks
-                                    onPrimary: activeTab == 1
-                                        ? Colors.black87
-                                        : Colors.black45,
-                                  ),
-                                  child: const Icon(Icons.photo_album)),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     Expanded(
                       child: Padding(
