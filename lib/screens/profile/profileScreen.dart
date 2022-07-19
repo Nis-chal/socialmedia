@@ -8,6 +8,7 @@ import 'package:socialmedia/models/User.dart';
 import 'package:socialmedia/repository/PostRepository.dart';
 import 'package:socialmedia/repository/ProfileRepository.dart';
 import 'package:socialmedia/response/profileResponse/ProfileResponse.dart';
+import 'package:socialmedia/screens/profile/editProfile.dart';
 import 'package:socialmedia/utils/url.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -47,14 +48,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ProfileResponse? profileInfo =
         await profileRepository.userProfile(widget.arguments!);
 
-    var id = userdatas.id.toString();
-    var follower = profileInfo!.user.followers!;
+    setState(() {
+      var id = userdatas.id.toString();
+      var follower = profileInfo!.user.followers!;
 
-    userid.value = userdatas.id.toString();
+      userid.value = userdatas.id.toString();
 
-    isFollowing.value = follower.contains(id) ? true : false;
-    followercount.value = follower.length;
-    followingcount.value = profileInfo.user.following!.length;
+      isFollowing.value = follower.contains(id) ? true : false;
+      followercount.value = follower.length;
+      followingcount.value = profileInfo.user.following!.length;
+    });
 
     // if (profileInfo!.followers!.length! > 0) {
     //   for (int i = 0; i < profileInfo!.followers!.length; i++) {
@@ -160,7 +163,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     backgroundColor: Color(0XFFEFEFEF),
                                     textColor: Colors.black87,
                                     borderColor: Colors.transparent,
-                                    function: () {}),
+                                    function: () {
+                                      Navigator.pushNamed(
+                                          context, EditProfileScreen.id,
+                                          arguments: {
+                                            "username": profile.user.username,
+                                            "name": profile.user.name,
+                                            "location": profile.user.location,
+                                            "profilePicture":
+                                                profile.user.profilePicture,
+                                            "email": profile.user.email,
+                                          });
+                                    }),
                               )
                             : Obx(
                                 () => isFollowing.value
