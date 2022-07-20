@@ -14,6 +14,7 @@ import 'package:socialmedia/repository/ProfileRepository.dart';
 import 'package:socialmedia/response/FeedsResponse.dart';
 import 'package:socialmedia/response/profileResponse/ProfileResponse.dart';
 import 'package:socialmedia/screens/profile/editProfile.dart';
+import 'package:socialmedia/screens/profile/followerlistScreen.dart';
 import 'package:socialmedia/screens/profile/profileSliderScreen.dart';
 import 'package:socialmedia/utils/url.dart';
 
@@ -479,13 +480,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   // mainAxisAlignment: MainAxisAlignment.,
                   // crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    IconButton(
-                        onPressed: () {
-                          sliderContoller.animateToPage(0,
-                              duration: Duration(milliseconds: 500),
-                              curve: Curves.easeIn);
-                        },
-                        icon: Icon(Icons.arrow_back_ios_new)),
+                    Obx(
+                      () => activeTab.value == 0
+                          ? IconButton(
+                              onPressed: () {
+                                sliderContoller.animateToPage(0,
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.easeIn);
+                              },
+                              icon: Icon(Icons.arrow_back_ios_new))
+                          : IconButton(
+                              onPressed: () {
+                                activeTab.value = 0;
+                                // contoller.animateToPage(1,
+                                //     duration: Duration(milliseconds: 500),
+                                //     curve: Curves.easeIn);
+                                sliderContoller.animateToPage(0,
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.easeIn);
+                              },
+                              icon: Icon(Icons.arrow_back_ios_new)),
+                    ),
                     Padding(
                       padding: EdgeInsets.only(
                           left: MediaQuery.of(context).size.width * 0.31,
@@ -537,7 +552,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ],
           ),
-        )
+        ),
+        Obx(() => Followerlist(widget.arguments!))
       ])),
     );
   }
