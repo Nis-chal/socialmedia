@@ -6,12 +6,13 @@ part of 'ExplorePostResponse.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ExplorePostResponse _$ExplorePostResponseFromJson(Map<String, dynamic> json) =>
-    ExplorePostResponse(
-      posts: (json['posts'] as List<dynamic>?)
-          ?.map((e) => Posts.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
+ExplorePostResponse _$ExplorePostResponseFromJson(Map<String, dynamic> json) {
+  return ExplorePostResponse(
+    posts: (json['posts'] as List<dynamic>?)
+        ?.map((e) => Posts.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
+}
 
 Map<String, dynamic> _$ExplorePostResponseToJson(
         ExplorePostResponse instance) =>

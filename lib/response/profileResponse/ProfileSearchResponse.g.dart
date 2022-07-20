@@ -7,12 +7,13 @@ part of 'ProfileSearchResponse.dart';
 // **************************************************************************
 
 ProfileSearchResponse _$ProfileSearchResponseFromJson(
-        Map<String, dynamic> json) =>
-    ProfileSearchResponse(
-      users: (json['users'] as List<dynamic>?)
-          ?.map((e) => User.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
+    Map<String, dynamic> json) {
+  return ProfileSearchResponse(
+    users: (json['users'] as List<dynamic>?)
+        ?.map((e) => User.fromJson(e as Map<String, dynamic>))
+        .toList(),
+  );
+}
 
 Map<String, dynamic> _$ProfileSearchResponseToJson(
         ProfileSearchResponse instance) =>
