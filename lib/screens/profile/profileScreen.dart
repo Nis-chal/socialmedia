@@ -91,6 +91,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     followercount++;
   }
 
+  _goback() {
+    sliderContoller.jumpToPage(0);
+  }
+
   _followUser(String id) async {
     try {
       ProfileRepository profileRepository = ProfileRepository();
@@ -572,8 +576,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ],
           ),
         ),
-        Obx(() => Followerlist(widget.arguments!, _decreasefollower,
-            _increasefollower, followercount.value, followingpage.value)),
+        Obx(() => Followerlist(
+            widget.arguments!,
+            _decreasefollower,
+            _increasefollower,
+            followercount.value,
+            followingpage.value,
+            sliderContoller,
+            _goback)),
       ])),
     );
   }

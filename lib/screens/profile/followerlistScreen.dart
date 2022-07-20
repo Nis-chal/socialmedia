@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:socialmedia/components/Follower.dart';
 import 'package:socialmedia/repository/ProfileRepository.dart';
 import 'package:socialmedia/response/profileResponse/ProfileResponse.dart';
 
@@ -10,8 +12,10 @@ class Followerlist extends StatefulWidget {
   VoidCallback increase;
   int followercount;
   int initialpage;
+  PageController contoller;
+  VoidCallback backoption;
   Followerlist(this.profileid, this.decrease, this.increase, this.followercount,
-      this.initialpage,
+      this.initialpage, this.contoller, this.backoption,
       {Key? key})
       : super(key: key);
 
@@ -49,7 +53,8 @@ class _FollowerlistState extends State<Followerlist> {
                       height: 45,
                       child: Row(children: [
                         IconButton(
-                            onPressed: () {}, icon: Icon(Icons.arrow_back_ios)),
+                            onPressed: widget.backoption,
+                            icon: Icon(Icons.arrow_back_ios)),
                         Padding(
                             padding: EdgeInsets.only(
                                 left: MediaQuery.of(context).size.width * 0.31,
@@ -64,28 +69,17 @@ class _FollowerlistState extends State<Followerlist> {
                       ]),
                     ),
                     Expanded(
-                      child: ListView.builder(
-                        itemCount: profile.followers!.length,
-                        itemBuilder: (context, index) {
-                          return Row(
-                            // crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CircleAvatar(
-                                backgroundImage: NetworkImage(baseUr +
-                                    profile.followers![index].profilePicture!),
-                              ),
-                              Text(profile.followers![index].username!),
-                              ElevatedButton(
-                                onPressed: () {},
-                                child: Text('Remove'),
-                                style: ElevatedButton.styleFrom(
-                                    primary: Colors.grey,
-                                    padding: EdgeInsets.symmetric(vertical: 4)),
-                              )
-                            ],
-                          );
-                        },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListView.builder(
+                          itemCount: profile.followers!.length,
+                          itemBuilder: (context, index) {
+                            return Follower(
+                                profile.followers![index].username!,
+                                profile.followers![index].profilePicture!,
+                                profile.followers![index].id!);
+                          },
+                        ),
                       ),
                     ),
                   ],
@@ -139,23 +133,28 @@ class _FollowerlistState extends State<Followerlist> {
                       child: ListView.builder(
                         itemCount: profile.followings!.length,
                         itemBuilder: (context, index) {
-                          return Row(
-                            // crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CircleAvatar(
-                                backgroundImage: NetworkImage(baseUr +
-                                    profile.followings![index].profilePicture!),
-                              ),
-                              Text(profile.followings![index].username!),
-                              ElevatedButton(
-                                onPressed: () {},
-                                child: Text('unfollow'),
-                                style: ElevatedButton.styleFrom(
-                                    primary: Colors.grey,
-                                    padding: EdgeInsets.symmetric(vertical: 4)),
-                              )
-                            ],
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              // crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage: NetworkImage(baseUr +
+                                      profile
+                                          .followings![index].profilePicture!),
+                                ),
+                                Text(profile.followings![index].username!),
+                                ElevatedButton(
+                                  onPressed: () {},
+                                  child: Text('unfollow'),
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Colors.grey,
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 4)),
+                                )
+                              ],
+                            ),
                           );
                         },
                       ),
