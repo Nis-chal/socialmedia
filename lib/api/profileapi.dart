@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialmedia/api/httpServices.dart';
 import 'package:socialmedia/response/profileResponse/ProfileResponse.dart';
 import 'package:socialmedia/response/profileResponse/ProfileSearchResponse.dart';
+import 'package:socialmedia/response/profileResponse/ProfileUpdateResponse.dart';
 import 'package:socialmedia/utils/url.dart';
 import 'package:mime/mime.dart';
 import 'package:http_parser/http_parser.dart';
@@ -126,7 +127,7 @@ class ProfileApi {
     return folllow;
   }
 
-  Future<bool> updateProfile({
+  Future<ProfileUpdateResponse?> updateProfile({
     File? fimage,
     String? username,
     String? name,
@@ -135,7 +136,7 @@ class ProfileApi {
     String? nimage,
     String? userid,
   }) async {
-    bool posts;
+    ProfileUpdateResponse? posts;
 
     var postsurl = baseUrl + updateUser + userid!;
     FormData formData;
@@ -169,9 +170,9 @@ class ProfileApi {
         );
 
         if (response.statusCode == 200) {
-          posts = true;
+          posts = ProfileUpdateResponse.fromJson(response.data);
         } else {
-          posts = false;
+          posts = null;
         }
       } else {
         FormData formData = FormData.fromMap({
@@ -181,7 +182,7 @@ class ProfileApi {
           "username": username
         });
 
-        var response = await dio.put(
+        Response response = await dio.put(
           postsurl,
           data: formData,
           options: Options(
@@ -189,9 +190,9 @@ class ProfileApi {
         );
 
         if (response.statusCode == 200) {
-          posts = true;
+          posts = ProfileUpdateResponse.fromJson(response.data);
         } else {
-          posts = false;
+          posts = null;
         }
       }
 

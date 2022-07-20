@@ -42,7 +42,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     LoginDispatch isLogin = await UserRepository().registerUser(user);
     bool isLog = isLogin.login!;
     if (isLog) {
-      _displayMessage(true, 'sucess');
+      _displayMessage(true, 'success');
     } else {
       _displayMessage(false, isLogin.errorMsg!);
     }

@@ -38,7 +38,10 @@ class _LoginScreenState extends State<LoginScreen> {
     final String? token = (prefs.getString('token') ?? '');
 
     if (token!.isNotEmpty) {
-      Navigator.pushNamed(context, NavigationDrawer.id, arguments: 0);
+      Navigator.pushNamed(context, NavigationDrawer.id, arguments: {
+        "pageIndex": 0,
+        "profilePicture": null,
+      });
     }
   }
 

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:socialmedia/api/profileapi.dart';
 import 'package:socialmedia/response/profileResponse/ProfileResponse.dart';
 import 'package:socialmedia/response/profileResponse/ProfileSearchResponse.dart';
+import 'package:socialmedia/response/profileResponse/ProfileUpdateResponse.dart';
 
 class ProfileRepository {
   Future<ProfileResponse?> userProfile(String profileid) async {
@@ -21,11 +22,11 @@ class ProfileRepository {
     return ProfileApi().unfollowUser(userid);
   }
 
-   Future<bool?> removeFollower(String followerid) async {
+  Future<bool?> removeFollower(String followerid) async {
     return ProfileApi().removeFollower(followerid);
   }
 
-  Future<bool?> updateUser({
+  Future<ProfileUpdateResponse?> updateUser({
     String? username,
     String? name,
     String? location,

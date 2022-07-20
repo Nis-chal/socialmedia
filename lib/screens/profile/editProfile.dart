@@ -8,6 +8,8 @@ import 'package:socialmedia/repository/ProfileRepository.dart';
 import 'package:socialmedia/responsive/navigation_drawer.dart';
 import 'package:socialmedia/utils/url.dart';
 
+import '../../response/profileResponse/ProfileUpdateResponse.dart';
+
 // ignore: must_be_immutable
 class EditProfileScreen extends StatelessWidget {
   static const String id = 'edit_profile';
@@ -19,7 +21,7 @@ class EditProfileScreen extends StatelessWidget {
   _updateProfile() async {
     ProfileRepository profileRepository = ProfileRepository();
 
-    bool? update = await profileRepository.updateUser();
+    ProfileUpdateResponse? updated = await profileRepository.updateUser();
   }
 
   File? fimage;
@@ -130,18 +132,22 @@ class EditProfileScreen extends StatelessWidget {
                         ProfileRepository profileRepository =
                             ProfileRepository();
 
-                        bool? update = await profileRepository.updateUser(
-                            name: _name.text,
-                            username: _username.text,
-                            email: _email.text,
-                            fimage: fimage,
-                            nimage: nimage,
-                            userid: arguments["id"],
-                            location: _location.text);
+                        ProfileUpdateResponse? update =
+                            await profileRepository.updateUser(
+                                name: _name.text,
+                                username: _username.text,
+                                email: _email.text,
+                                fimage: fimage,
+                                nimage: nimage,
+                                userid: arguments["id"],
+                                location: _location.text);
 
-                        if (update!) {
+                        if (update != null) {
                           Navigator.pushNamed(context, NavigationDrawer.id,
-                              arguments: 3);
+                              arguments: {
+                                "pageIndex": 3,
+                                "profilePicture": update.users!.profilePicture!,
+                              });
                         } else {
                           MotionToast.warning(
                                   description: Text('error Invalid credential'))

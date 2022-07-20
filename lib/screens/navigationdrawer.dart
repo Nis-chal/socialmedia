@@ -22,7 +22,9 @@ class NavigationDrawer extends StatefulWidget {
 
   int? activeTab = 0;
 
-  NavigationDrawer({this.activeTab});
+  Map? idImage;
+
+  NavigationDrawer({this.idImage});
 
   @override
   State<NavigationDrawer> createState() => _NavigationDrawerState();
@@ -39,6 +41,8 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   RxString userid = ''.obs;
   RxString userpic = ''.obs;
 
+  String? profilePicture;
+  bool ispic = false;
   @override
   void initState() {
     _loadCounter();
@@ -53,8 +57,12 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
       var userdatas = User.fromJson(jsonDecode(data.toString()));
       userid.value = userdatas.id.toString();
       userpic.value = userdatas.profilePicture!;
-      if (widget.activeTab != null) {
-        _selectedIndex.value = widget.activeTab!;
+      if (widget.idImage!['pageIndex'] != null) {
+        _selectedIndex.value = widget.idImage!['pageIndex']!;
+
+        if (widget.idImage!['profilePicture'] != null) {
+          ispic = true;
+        }
       }
     });
   }
@@ -80,9 +88,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
       FeedScreen(),
       ExplorePost(),
       FeedScreen(),
-      Obx(
-        () => ProfileScreen(userid.value),
-      ),
+      ProfileScreen(userid.value),
     ];
 
     return Scaffold(
@@ -123,12 +129,12 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             label: 'Add',
           ),
           BottomNavigationBarItem(
-            icon: Obx(
-              () => CircleAvatar(
-                  backgroundImage: NetworkImage(
-                baseUr + userpic.value,
-              )),
-            ),
+            icon: CircleAvatar(
+                backgroundImage: NetworkImage(
+              ispic
+                  ? baseUr + widget.idImage!['profilePicture']
+                  : baseUr + userpic.value,
+            )),
             label: 'profile',
           ),
         ],
