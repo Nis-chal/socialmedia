@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:socialmedia/components/Follower.dart';
+import 'package:socialmedia/components/Following.dart';
 import 'package:socialmedia/repository/ProfileRepository.dart';
 import 'package:socialmedia/response/profileResponse/ProfileResponse.dart';
 
@@ -9,13 +10,23 @@ import '../../utils/url.dart';
 class Followerlist extends StatefulWidget {
   final String profileid;
   VoidCallback decrease;
-  VoidCallback increase;
   int followercount;
   int initialpage;
   PageController contoller;
   VoidCallback backoption;
-  Followerlist(this.profileid, this.decrease, this.increase, this.followercount,
-      this.initialpage, this.contoller, this.backoption,
+  String userid;
+  VoidCallback increasefollowing;
+  VoidCallback decreasefollowing;
+  Followerlist(
+      this.profileid,
+      this.decrease,
+      this.followercount,
+      this.initialpage,
+      this.contoller,
+      this.backoption,
+      this.userid,
+      this.increasefollowing,
+      this.decreasefollowing,
       {Key? key})
       : super(key: key);
 
@@ -25,9 +36,12 @@ class Followerlist extends StatefulWidget {
 
 class _FollowerlistState extends State<Followerlist> {
   PageController? controller;
+  RxBool isedit = false.obs;
 
   @override
   void initState() {
+    isedit.value = widget.profileid == widget.userid ? true : false;
+
     super.initState();
     controller = PageController(initialPage: widget.initialpage);
   }
@@ -75,9 +89,12 @@ class _FollowerlistState extends State<Followerlist> {
                           itemCount: profile.followers!.length,
                           itemBuilder: (context, index) {
                             return Follower(
-                                profile.followers![index].username!,
-                                profile.followers![index].profilePicture!,
-                                profile.followers![index].id!);
+                              profile.followers![index].username!,
+                              profile.followers![index].profilePicture!,
+                              profile.followers![index].id!,
+                              widget.userid,
+                              isedit.value,
+                            );
                           },
                         ),
                       ),
@@ -136,10 +153,15 @@ class _FollowerlistState extends State<Followerlist> {
                         itemBuilder: (context, index) {
                           return Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Follower(
-                                  profile.followings![index].username!,
-                                  profile.followings![index].profilePicture!,
-                                  profile.followings![index].id!));
+                              child: Following(
+                                profile.followings![index].username!,
+                                profile.followings![index].profilePicture!,
+                                profile.followings![index].id!,
+                                widget.userid,
+                                isedit.value,
+                                widget.increasefollowing,
+                                widget.decreasefollowing
+                              ));
                         },
                       ),
                     ),
