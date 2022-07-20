@@ -50,6 +50,10 @@ class PostRepository{
     return PostAPI().exploreFeeds();
   }
 
+  Future<FeedsResponse?> likedfeeds(String userId) async {
+    return PostAPI().likedfeeds(userId);
+  }
+
 
 
 

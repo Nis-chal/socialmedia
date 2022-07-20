@@ -37,7 +37,7 @@ class ProfileRepository {
       fimage: fimage,
       nimage: nimage,
       email: email,
-      userid:userid,
+      userid: userid,
     );
   }
 }

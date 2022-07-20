@@ -17,14 +17,11 @@ const kTextFieldDecoration = InputDecoration(
   ),
 );
 
-
 const kWTextFieldDecoration = InputDecoration(
   isDense: true,
   contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-
   fillColor: Color.fromARGB(255, 201, 22, 22),
   hintText: 'Enter your value',
-  
   border: OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(32.0)),
   ),

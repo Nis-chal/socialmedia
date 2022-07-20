@@ -16,10 +16,9 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
-
   RxBool onDelete = true.obs;
   final controller = ScrollController();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,63 +44,55 @@ class _FeedScreenState extends State<FeedScreen> {
       body: Container(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
-          child:FutureBuilder<FeedsResponse?>(
-          future: PostRepository().getFeeds(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.data != null) {
-                // ProductResponse productResponse = snapshot.data!;
-                List<Posts> postlst = snapshot.data!.posts!;
+          child: FutureBuilder<FeedsResponse?>(
+            future: PostRepository().getFeeds(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.data != null) {
+                  // ProductResponse productResponse = snapshot.data!;
+                  List<Posts> postlst = snapshot.data!.posts!;
 
-                return ListView.separated(
-                  itemCount: postlst.length,
-                  separatorBuilder: (context, index) => const Divider(),
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return (
-                    
-                    PostCard(
-                      id: postlst[index].id,
-                      username: postlst[index].userid!.username!,
-                      image: postlst[index].images,
-                      date: postlst[index].createdAt,
-                      address: postlst[index].location,
-                      description: postlst[index].description,
-                      userimage: postlst[index].userid!.profilePicture,
-                      likesid: postlst[index].likesid,
-                      commentsid: postlst[index].commentsid,
-                      updatedAt: postlst[index].updatedAt,
-                      createdAt: postlst[index].createdAt,
-                      saved: postlst[index].saved,
-                     
-                    )
-                    
-                    
-                    );
-                  }
+                  return ListView.separated(
+                      itemCount: postlst.length,
+                      separatorBuilder: (context, index) => const Divider(),
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return (PostCard(
+                          id: postlst[index].id,
+                          username: postlst[index].userid!.username!,
+                          image: postlst[index].images,
+                          date: postlst[index].createdAt,
+                          address: postlst[index].location,
+                          description: postlst[index].description,
+                          userimage: postlst[index].userid!.profilePicture,
+                          likesid: postlst[index].likesid,
+                          commentsid: postlst[index].commentsid,
+                          updatedAt: postlst[index].updatedAt,
+                          createdAt: postlst[index].createdAt,
+                          saved: postlst[index].saved,
+                        ));
+                      });
+                } else {
+                  return const Center(
+                    child: Text("No data"),
                   );
-
+                }
+              } else if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
               } else {
                 return const Center(
-                  child: Text("No data"),
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                  ),
                 );
               }
-            } else if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                ),
-              );
-            }
-          },
-        ), 
+            },
+          ),
 
           // Column(
           //   children: [
@@ -124,7 +115,6 @@ class _FeedScreenState extends State<FeedScreen> {
           //           );
           //         }),
 
-              
           //   ],
           // ),
         ),

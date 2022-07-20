@@ -2,20 +2,25 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:socialmedia/components/post_card.dart';
-import 'package:socialmedia/components/post_cardv2.dart';
 import 'package:socialmedia/models/Posts.dart';
 
-class ExploreVerticalView extends StatelessWidget {
+// ignore: must_be_immutable
+class ProfileSliderScreen extends StatelessWidget {
   static const String id = 'Explore_VerticalView';
-  Map? arguments;
-  ExploreVerticalView(this.arguments, {Key? key}) : super(key: key);
+
+  PageController sliderContoller;
+  List<Posts> sliderpost;
+  int currntePage;
+  ProfileSliderScreen(this.sliderContoller, this.sliderpost, this.currntePage,
+      {Key? key})
+      : super(key: key);
 
   final controller = CarouselController();
   RxInt activeIndex = 0.obs;
 
   Widget buildImage(Posts post, int index) => Container(
       color: Colors.black,
-      child: PostCardV2(
+      child: PostCard(
         id: post.id,
         username: post.userid!.username!,
         image: post.images,
@@ -35,7 +40,7 @@ class ExploreVerticalView extends StatelessWidget {
       body: SafeArea(
         child: CarouselSlider.builder(
           carouselController: controller,
-          itemCount: arguments!.length,
+          itemCount: sliderpost.length,
           options: CarouselOptions(
             height: MediaQuery.of(context).size.height,
 
@@ -46,7 +51,7 @@ class ExploreVerticalView extends StatelessWidget {
             onPageChanged: (index, reason) => activeIndex.value = index,
           ),
           itemBuilder: (context, index, realIndex) {
-            final urlImage = arguments![index];
+            final urlImage = sliderpost[index];
             return buildImage(urlImage, index);
           },
         ),

@@ -143,7 +143,8 @@ class EditProfileScreen extends StatelessWidget {
                           Navigator.pushNamed(context, NavigationDrawer.id,
                               arguments: 3);
                         } else {
-                          MotionToast.warning(description: Text('error Invalid credential'))
+                          MotionToast.warning(
+                                  description: Text('error Invalid credential'))
                               .show(context);
                         }
                       },

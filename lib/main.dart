@@ -31,26 +31,27 @@ class MyApp extends StatelessWidget {
       initialRoute: LoginLayout.id,
 
       routes: {
-        LoginLayout.id:(context) => const LoginLayout(),
+        LoginLayout.id: (context) => const LoginLayout(),
         LoginScreen.id: (context) => LoginScreen(),
         RegisterScreen.id: (context) => RegisterScreen(),
-        NavigationDrawer.id: (context) => NavigationDrawer(activeTab: ModalRoute.of(context)!.settings.arguments as int),
-        FeedLayout.id:(context)=>FeedLayout(),
-        PostEditScreen.id:(context) => PostEditScreen(),
-        PostDetailScreen.id:((context) => PostDetailScreen(ModalRoute.of(context)!.settings.arguments as String)), 
-
-        AddPost.id:((context) => AddPost(ModalRoute.of(context)!.settings.arguments as List<File>)),
-        PostCarousel.id:(context) => PostCarousel(),
-        PostPreviewScreen.id:(context) => PostPreviewScreen(ModalRoute.of(context)!.settings.arguments as List<File>),
-        AddPostDecriptionScreen.id:(context) =>AddPostDecriptionScreen(),
-        ProfileScreen.id:(context) => ProfileScreen(ModalRoute.of(context)!.settings.arguments as String),
-        
-        ExploreVerticalView.id:(context) => ExploreVerticalView(ModalRoute.of(context)!.settings.arguments as Map),
+        NavigationDrawer.id: (context) => NavigationDrawer(
+            activeTab: ModalRoute.of(context)!.settings.arguments as int),
+        FeedLayout.id: (context) => FeedLayout(),
+        PostEditScreen.id: (context) => PostEditScreen(),
+        PostDetailScreen.id: ((context) => PostDetailScreen(
+            ModalRoute.of(context)!.settings.arguments as String)),
+        AddPost.id: ((context) =>
+            AddPost(ModalRoute.of(context)!.settings.arguments as List<File>)),
+        PostCarousel.id: (context) => PostCarousel(),
+        PostPreviewScreen.id: (context) => PostPreviewScreen(
+            ModalRoute.of(context)!.settings.arguments as List<File>),
+        AddPostDecriptionScreen.id: (context) => AddPostDecriptionScreen(),
+        ProfileScreen.id: (context) =>
+            ProfileScreen(ModalRoute.of(context)!.settings.arguments as String),
+        ExploreVerticalView.id: (context) => ExploreVerticalView(
+            ModalRoute.of(context)!.settings.arguments as Map),
         EditProfileScreen.id: (context) => EditProfileScreen(
             ModalRoute.of(context)!.settings.arguments as Map),
-
-        
-
       },
     );
   }

@@ -23,6 +23,6 @@ const searchProfileUrl = 'profile/search?username=';
 const followUrl = 'profile/';
 const unfollowUrl = 'profile/unfollow/';
 const updateUser = "profile/updateprofile/";
-const likedPostsUrl = "posts/likedlist";
+const likedPostsUrl = "posts/likedlist/";
 
 String? token;
