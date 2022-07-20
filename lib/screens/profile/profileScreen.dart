@@ -36,6 +36,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   RxInt followingcount = 0.obs;
   RxString profileuserid = ''.obs;
 
+  RxInt initfollowerCount = 0.obs;
+  RxInt followingpage = 0.obs;
+
   @override
   void initState() {
     _loadCounter();
@@ -65,6 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       isFollowing.value = follower.contains(id) ? true : false;
       followercount.value = follower.length;
       followingcount.value = profileInfo.user.following!.length;
+      initfollowerCount.value = profileInfo.user.following!.length;
       profileuserid.value = userdatas.id! == widget.arguments!
           ? userdatas.id!
           : widget.arguments!;
@@ -79,13 +83,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // }
   }
 
+  _decreasefollower() {
+    followercount--;
+  }
+
+  _increasefollower() {
+    followercount++;
+  }
+
   _followUser(String id) async {
     try {
       ProfileRepository profileRepository = ProfileRepository();
       bool? isfollowed = await profileRepository.followuser(id);
       if (isfollowed!) {
         isFollowing.value = true;
-        followercount++;
+        _increasefollower();
       }
     } catch (e) {}
   }
@@ -96,7 +108,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       bool? unfollowed = await profileRepository.unfollowuser(id);
       if (unfollowed!) {
         isFollowing.value = false;
-        followercount--;
+        _decreasefollower();
       }
     } catch (e) {}
   }
@@ -184,12 +196,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     buildStatColumn(
                                         profile.post!.length, "posts"),
                                     Obx(
-                                      () => buildStatColumn(
-                                          followercount.value, "followers"),
+                                      () => GestureDetector(
+                                        onTap: () {
+                                          followingpage.value = 0;
+                                          sliderContoller.jumpToPage(2);
+                                        },
+                                        child: buildStatColumn(
+                                            followercount.value, "followers"),
+                                      ),
                                     ),
                                     Obx(
-                                      () => buildStatColumn(
-                                          followingcount.value, "following"),
+                                      () => GestureDetector(
+                                        onTap: () {
+                                          followingpage.value = 1;
+                                          sliderContoller.jumpToPage(2);
+                                        },
+                                        child: buildStatColumn(
+                                            followingcount.value, "following"),
+                                      ),
                                     )
                                   ],
                                 ),
@@ -276,78 +300,73 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           )
                         ],
                       ),
-                      Positioned(
-                        top: 50,
-                        child: Row(
-                          children: [
-                            Obx(
-                              () => Expanded(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: activeTab.value == 0
-                                        ? const Border(
-                                            bottom: BorderSide(
-                                                color: Colors.black87))
-                                        : const Border(
-                                            bottom: BorderSide(
-                                                color: Colors.transparent)),
-                                  ),
-                                  child: ElevatedButton(
-                                      onPressed: () {
-                                        activeTab.value = 0;
-                                        sliderlist = feedlist;
-                                        contoller.animateToPage(0,
-                                            duration:
-                                                Duration(milliseconds: 500),
-                                            curve: Curves.easeIn);
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Colors.transparent,
-                                        shadowColor: Colors.transparent,
-                                        onPrimary: activeTab == 0
-                                            ? Colors.black87
-                                            : Colors.black45,
-                                      ),
-                                      child: const Icon(Icons.apps)),
+                      Row(
+                        children: [
+                          Obx(
+                            () => Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: activeTab.value == 0
+                                      ? const Border(
+                                          bottom:
+                                              BorderSide(color: Colors.black87))
+                                      : const Border(
+                                          bottom: BorderSide(
+                                              color: Colors.transparent)),
                                 ),
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      activeTab.value = 0;
+                                      sliderlist = feedlist;
+                                      contoller.animateToPage(0,
+                                          duration: Duration(milliseconds: 500),
+                                          curve: Curves.easeIn);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.transparent,
+                                      shadowColor: Colors.transparent,
+                                      onPrimary: activeTab == 0
+                                          ? Colors.black87
+                                          : Colors.black45,
+                                    ),
+                                    child: const Icon(Icons.apps)),
                               ),
                             ),
-                            Obx(
-                              () => Expanded(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: activeTab.value == 1
-                                        ? const Border(
-                                            bottom: BorderSide(
-                                                color: Colors.black87))
-                                        : const Border(
-                                            bottom: BorderSide(
-                                                color: Colors.transparent)),
-                                  ),
-                                  child: ElevatedButton(
-                                      onPressed: () {
-                                        activeTab.value = 1;
-                                        sliderlist = likedlist;
+                          ),
+                          Obx(
+                            () => Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: activeTab.value == 1
+                                      ? const Border(
+                                          bottom:
+                                              BorderSide(color: Colors.black87))
+                                      : const Border(
+                                          bottom: BorderSide(
+                                              color: Colors.transparent)),
+                                ),
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      activeTab.value = 1;
+                                      sliderlist = likedlist;
 
-                                        contoller.animateToPage(1,
-                                            duration:
-                                                Duration(milliseconds: 500),
-                                            curve: Curves.easeIn);
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Colors.transparent,
-                                        shadowColor: Colors.transparent,
-                                        // ignore: unrelated_type_equality_checks
-                                        onPrimary: activeTab == 1
-                                            ? Colors.black87
-                                            : Colors.black45,
-                                      ),
-                                      child: const Icon(Icons.photo_album)),
-                                ),
+                                      contoller.animateToPage(1,
+                                          duration: Duration(milliseconds: 500),
+                                          curve: Curves.easeIn);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.transparent,
+                                      shadowColor: Colors.transparent,
+                                      // ignore: unrelated_type_equality_checks
+                                      onPrimary: activeTab == 1
+                                          ? Colors.black87
+                                          : Colors.black45,
+                                    ),
+                                    child: const Icon(Icons.photo_album)),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                       Expanded(
                         child: Padding(
@@ -413,7 +432,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   sliderlist = likedlist;
                                                   sliderContoller.animateToPage(
                                                       1,
-                                                      duration: Duration(
+                                                      duration: const Duration(
                                                           milliseconds: 500),
                                                       curve: Curves.easeIn);
                                                 },
@@ -553,7 +572,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ],
           ),
         ),
-        Obx(() => Followerlist(widget.arguments!))
+        Obx(() => Followerlist(widget.arguments!, _decreasefollower,
+            _increasefollower, followercount.value, followingpage.value)),
       ])),
     );
   }
