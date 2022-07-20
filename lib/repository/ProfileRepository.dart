@@ -21,6 +21,10 @@ class ProfileRepository {
     return ProfileApi().unfollowUser(userid);
   }
 
+   Future<bool?> removeFollower(String followerid) async {
+    return ProfileApi().removeFollower(followerid);
+  }
+
   Future<bool?> updateUser({
     String? username,
     String? name,

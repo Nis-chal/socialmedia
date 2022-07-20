@@ -115,7 +115,8 @@ class _FollowerlistState extends State<Followerlist> {
                       height: 45,
                       child: Row(children: [
                         IconButton(
-                            onPressed: () {}, icon: Icon(Icons.arrow_back_ios)),
+                            onPressed: widget.backoption,
+                            icon: Icon(Icons.arrow_back_ios)),
                         Padding(
                             padding: EdgeInsets.only(
                                 left: MediaQuery.of(context).size.width * 0.31,
@@ -134,28 +135,11 @@ class _FollowerlistState extends State<Followerlist> {
                         itemCount: profile.followings!.length,
                         itemBuilder: (context, index) {
                           return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              // crossAxisAlignment: CrossAxisAlignment.stretch,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                CircleAvatar(
-                                  backgroundImage: NetworkImage(baseUr +
-                                      profile
-                                          .followings![index].profilePicture!),
-                                ),
-                                Text(profile.followings![index].username!),
-                                ElevatedButton(
-                                  onPressed: () {},
-                                  child: Text('unfollow'),
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Colors.grey,
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 4)),
-                                )
-                              ],
-                            ),
-                          );
+                              padding: const EdgeInsets.all(8.0),
+                              child: Follower(
+                                  profile.followings![index].username!,
+                                  profile.followings![index].profilePicture!,
+                                  profile.followings![index].id!));
                         },
                       ),
                     ),

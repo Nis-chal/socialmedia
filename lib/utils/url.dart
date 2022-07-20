@@ -25,4 +25,6 @@ const unfollowUrl = 'profile/unfollow/';
 const updateUser = "profile/updateprofile/";
 const likedPostsUrl = "posts/likedlist/";
 
+const removeFollower = "profile/removefollower/";
+
 String? token;
