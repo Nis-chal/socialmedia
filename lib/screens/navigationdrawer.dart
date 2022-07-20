@@ -123,10 +123,12 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             label: 'Add',
           ),
           BottomNavigationBarItem(
-            icon: CircleAvatar(
-                backgroundImage: NetworkImage(
-              '$baseUr${userpic.value}',
-            )),
+            icon: Obx(
+              () => CircleAvatar(
+                  backgroundImage: NetworkImage(
+                baseUr + userpic.value,
+              )),
+            ),
             label: 'profile',
           ),
         ],

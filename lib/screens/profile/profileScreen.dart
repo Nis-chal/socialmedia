@@ -38,6 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   RxInt initfollowerCount = 0.obs;
   RxInt followingpage = 0.obs;
+  RxString profileUsername = ''.obs;
 
   @override
   void initState() {
@@ -72,6 +73,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       profileuserid.value = userdatas.id! == widget.arguments!
           ? userdatas.id!
           : widget.arguments!;
+
+      profileUsername.value = profileInfo.user.username!;
     });
 
     // if (profileInfo!.followers!.length! > 0) {
@@ -594,6 +597,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               userid.value,
               _increasefollowing,
               _decreasefollowing,
+              profileUsername.value,
             )),
       ])),
     );

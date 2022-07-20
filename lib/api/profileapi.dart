@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -27,6 +28,10 @@ class ProfileApi {
             headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
       );
       if (response.statusCode == 200) {
+        SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+        String userdata = jsonEncode(response.data['user']);
+        sharedPreferences.setString('userdata', userdata);
         profileResponse = ProfileResponse.fromJson(response.data);
       } else {
         profileResponse = null;
@@ -202,8 +207,7 @@ class ProfileApi {
     return posts;
   }
 
-
-   Future<bool> removeFollower(String followerid) async {
+  Future<bool> removeFollower(String followerid) async {
     bool posts;
 
     var postsurl = baseUrl + '$removeFollower$followerid';
@@ -230,6 +234,4 @@ class ProfileApi {
 
     return posts;
   }
-
-
 }

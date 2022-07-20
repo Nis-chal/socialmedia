@@ -19,7 +19,7 @@ class Follower extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Visibility(
-          visible: !isdelete.value ? false : true,
+          visible: isdelete.value ? false : true,
           child: Row(
             // crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
