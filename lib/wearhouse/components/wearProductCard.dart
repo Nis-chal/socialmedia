@@ -6,7 +6,7 @@ import 'package:socialmedia/utils/url.dart';
 class WearPostCard extends StatefulWidget {
   @override
   State<WearPostCard> createState() => _WearPostCardState();
-  String?  username, description, date, address, userimage;
+  String? username, description, date, address, userimage;
   List<String>? image;
   WearPostCard(
       {this.image,
@@ -28,45 +28,38 @@ class _WearPostCardState extends State<WearPostCard> {
         // border: Border.all(
         //   color: Colors.black,
         // ),
-      
+
         color: Colors.white,
       ),
       child: Column(
         children: [
           Container(
             height: 25,
-          
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              
               children: [
                 CircleAvatar(
                   radius: 10,
                   backgroundImage: NetworkImage(
-                   '$baseUr${widget.userimage!}',
+                    '$baseUr${widget.userimage!}',
                   ),
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(left:8.0),
+                    padding: const EdgeInsets.only(left: 8.0),
                     child: Column(
-                    
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
                           widget.username ?? 'username',
                           style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 10
-                          ),
+                              fontWeight: FontWeight.bold, fontSize: 10),
                         ),
                         Text(
                           widget.username ?? 'username',
                           style: const TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 5
-                          ),
+                              fontWeight: FontWeight.normal, fontSize: 5),
                         ),
                       ],
                     ),
@@ -88,7 +81,8 @@ class _WearPostCardState extends State<WearPostCard> {
                                     (e) => InkWell(
                                         child: Container(
                                           padding: const EdgeInsets.symmetric(
-                                              vertical: 12,),
+                                            vertical: 12,
+                                          ),
                                           child: Text(e),
                                         ),
                                         onTap: () {
@@ -101,7 +95,10 @@ class _WearPostCardState extends State<WearPostCard> {
                       },
                     );
                   },
-                  icon: const Icon(Icons.more_vert ,size: 10,),
+                  icon: const Icon(
+                    Icons.more_vert,
+                    size: 10,
+                  ),
                 )
               ],
             ),
@@ -113,37 +110,34 @@ class _WearPostCardState extends State<WearPostCard> {
               });
             },
             child: Container(
-               height: MediaQuery.of(context).size.height * 0.55,
-               width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.55,
+              width: MediaQuery.of(context).size.width,
               color: Colors.blue,
               child: Stack(
-                
                 alignment: Alignment.center,
                 children: [
-                
-
                   CarouselSlider(
-  options: CarouselOptions(
-   
-                  aspectRatio: 16 / 9,
-                  enlargeCenterPage: true,
-                  viewportFraction: 1,),
-  items: widget.image!.map((i) {
-    return Builder(
-      builder: (BuildContext context) {
-        return Container(
-          width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.symmetric(horizontal: 5.0),
-          decoration: BoxDecoration(
-              color: Colors.amber
-          ),
-          child: Image.network('$baseUr$i',fit: BoxFit.cover,),
-        );
-      },
-    );
-  }).toList(),
-),
-
+                    options: CarouselOptions(
+                      aspectRatio: 16 / 9,
+                      enlargeCenterPage: true,
+                      viewportFraction: 1,
+                    ),
+                    items: widget.image!.map((i) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(color: Colors.amber),
+                            child: Image.network(
+                              '$baseUr$i',
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        },
+                      );
+                    }).toList(),
+                  ),
                   AnimatedOpacity(
                     duration: const Duration(milliseconds: 200),
                     opacity: isLikeAnimating ? 1 : 0,
@@ -164,35 +158,33 @@ class _WearPostCardState extends State<WearPostCard> {
                       },
                     ),
                   ),
-
-                   Positioned(
+                  Positioned(
                     top: -10,
                     right: -10,
-                     child: LikeAnimation(
-                               isAnimating: false,
-                               smallLike: true,
-                               child: IconButton(
-                                 icon: isLikeAnimating
-                                     ? const Icon(
-                        Icons.favorite,
-                        color: Colors.red,
-                        size: 10,
-                      )
-                                     : const Icon(
-                        Icons.favorite_border,
-                        size: 10,
-                   
+                    child: LikeAnimation(
+                      isAnimating: false,
+                      smallLike: true,
+                      child: IconButton(
+                        icon: isLikeAnimating
+                            ? const Icon(
+                                Icons.favorite,
+                                color: Colors.red,
+                                size: 10,
+                              )
+                            : const Icon(
+                                Icons.favorite_border,
+                                size: 10,
+                              ),
+                        onPressed: () {},
                       ),
-                                 onPressed: () {},
-                               ),
-                             ),
-                   ),
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
           // LIKE, COMMENT SECTION OF THE POST
-         
+
           //DESCRIPTION AND NUMBER OF COMMENTS
           Container(
             child: Column(
@@ -203,11 +195,8 @@ class _WearPostCardState extends State<WearPostCard> {
                   height: 10,
                   child: Text(
                     '11 likes',
-                    style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.normal
-
-                    ),
+                    style:
+                        TextStyle(fontSize: 10, fontWeight: FontWeight.normal),
                   ),
                 ),
                 Container(
@@ -215,19 +204,14 @@ class _WearPostCardState extends State<WearPostCard> {
                   padding: const EdgeInsets.only(
                     top: 2,
                   ),
-                  child:
-                   
-                   RichText(
+                  child: RichText(
                     text: TextSpan(
                       style: const TextStyle(color: Colors.black),
                       children: [
-                        
                         TextSpan(
-                          text: '${ widget.username}',
+                          text: '${widget.username}',
                           style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 10
-                          ),
+                              fontWeight: FontWeight.bold, fontSize: 10),
                         ),
                         TextSpan(
                           text: ' ${widget.description}',
@@ -236,7 +220,6 @@ class _WearPostCardState extends State<WearPostCard> {
                     ),
                   ),
                 ),
-       
               ],
             ),
           )

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:socialmedia/response/PostDetailResponse.dart';
+import 'package:socialmedia/response/postResponse/ExplorePostResponse.dart';
 
 import '../api/postapi.dart';
 import '../response/FeedsResponse.dart';
@@ -43,6 +44,14 @@ class PostRepository{
 
   Future<bool>unsavePost(String? postid)async{
     return await PostAPI().unsavePost(postid: postid);
+  }
+
+  Future<ExplorePostResponse?>exploreFeeds() async {
+    return PostAPI().exploreFeeds();
+  }
+
+  Future<FeedsResponse?> likedfeeds(String userId) async {
+    return PostAPI().likedfeeds(userId);
   }
 
 

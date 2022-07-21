@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:socialmedia/components/addPostCarousel.dart';
+
 class PostPreviewScreen extends StatelessWidget {
   static const String id = "PostPreviewScreen_id";
   List<File>? arguments;
@@ -10,9 +11,10 @@ class PostPreviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: 
-      PostCarousel(listofImage: arguments,)
-      ),
+      body: SafeArea(
+          child: PostCarousel(
+        listofImage: arguments,
+      )),
     );
   }
 }

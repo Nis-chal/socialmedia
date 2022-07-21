@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:socialmedia/components/explorepageSlider.dart';
 import './like_animation.dart';
 import '../utils/url.dart';
 import 'package:socialmedia/screens/ImageSlider.dart';
@@ -13,16 +14,17 @@ import 'package:socialmedia/models/User.dart';
 import 'package:socialmedia/repository/PostRepository.dart';
 import 'package:socialmedia/screens/post/post_edit.dart';
 
-class PostCard extends StatefulWidget {
+class PostCardV2 extends StatefulWidget {
   @override
-  State<PostCard> createState() => _PostCardState();
+  State<PostCardV2> createState() => _PostCardV2State();
   String? username, description, address, userimage, updatedAt, id, postUserId;
   List<String>? image, likesid, commentsid, saved;
   DateTime? createdAt, date;
+  String? userProfileId;
   VoidCallback? navigateTo;
   VoidCallback? navigateBack;
 
-  PostCard({
+  PostCardV2({
     this.id,
     this.image,
     this.username,
@@ -35,13 +37,14 @@ class PostCard extends StatefulWidget {
     this.saved,
     this.updatedAt,
     this.createdAt,
+    this.userProfileId,
     this.navigateTo,
     this.navigateBack,
     this.postUserId,
   });
 }
 
-class _PostCardState extends State<PostCard> {
+class _PostCardV2State extends State<PostCardV2> {
   int commentLen = 0;
   var isLikeAnimating = false.obs;
   var liked = false.obs;
@@ -52,7 +55,6 @@ class _PostCardState extends State<PostCard> {
   RxBool userSaved = false.obs;
 
   RxBool isDelete = true.obs;
-  RxBool changeBottom = false.obs;
 
   var userid = ''.obs;
 
@@ -105,7 +107,6 @@ class _PostCardState extends State<PostCard> {
     bool post = await PostRepository().unsavePost(widget.id);
     if (post) {
       userSaved.value = false;
-      changeBottom.value = !changeBottom.value;
     }
   }
 
@@ -119,10 +120,8 @@ class _PostCardState extends State<PostCard> {
 
       likelength--;
       liked.value = false;
-      changeBottom.value = !changeBottom.value;
     } else {
       increament();
-      changeBottom.value = !changeBottom.value;
     }
   }
 
@@ -131,7 +130,6 @@ class _PostCardState extends State<PostCard> {
     return Obx(() => Visibility(
           visible: isDelete.value,
           child: Container(
-            height: 720,
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             margin: const EdgeInsets.only(bottom: 20),
             decoration: BoxDecoration(
@@ -141,9 +139,9 @@ class _PostCardState extends State<PostCard> {
               boxShadow: [
                 isDelete.isTrue
                     ? BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 5,
-                        blurRadius: 7,
+                        color: Colors.grey.withOpacity(0.2),
+                        spreadRadius: 3,
+                        blurRadius: 3,
                         offset: Offset(0, 3), // changes position of shadow
                       )
                     : const BoxShadow(
@@ -192,53 +190,29 @@ class _PostCardState extends State<PostCard> {
                           ),
                         ),
                       ),
-                      Obx(() => changeBottom.value
-                          ? BottomTab(
-                              likeStatus: liked.value,
-                              location: widget.address,
-                              images: widget.image,
-                              username: widget.username,
-                              userimage: widget.userimage!,
-                              description: widget.description,
-                              postuser: widget.postUserId,
-                              supost: saveandunsave,
-                              likeunlike: likeandunlike,
-                              savestatus: userSaved.value,
-                              postid: widget.id,
-                              onDelete: () async {
-                                bool post = await PostRepository()
-                                    .deletePost(widget.id);
-                                if (post) {
-                                  isDelete.value = false;
-                                  Navigator.pop(context);
-                                }
+                      BottomTab(
+                        onDelete: () async {
+                          bool post =
+                              await PostRepository().deletePost(widget.id);
+                          if (post) {
+                            isDelete.value = false;
+                            Navigator.pop(context);
+                          }
 
-                                // Navigator.push(context, MaterialPageRoute(builder: (context) => const SecondRoute()))
-                              },
-                            )
-                          : BottomTab(
-                              likeStatus: liked.value,
-                              location: widget.address,
-                              images: widget.image,
-                              username: widget.username,
-                              userimage: widget.userimage!,
-                              description: widget.description,
-                              postuser: widget.postUserId,
-                              supost: saveandunsave,
-                              likeunlike: likeandunlike,
-                              savestatus: userSaved.value,
-                              postid: widget.id,
-                              onDelete: () async {
-                                bool post = await PostRepository()
-                                    .deletePost(widget.id);
-                                if (post) {
-                                  isDelete.value = false;
-                                  Navigator.pop(context);
-                                }
-
-                                // Navigator.push(context, MaterialPageRoute(builder: (context) => const SecondRoute()))
-                              },
-                            )),
+                          // Navigator.push(context, MaterialPageRoute(builder: (context) => const SecondRoute()))
+                        },
+                        likeStatus: liked.value,
+                        location: widget.address,
+                        images: widget.image,
+                        username: widget.username,
+                        userimage: widget.userimage!,
+                        description: widget.description,
+                        postuser: widget.postUserId,
+                        supost: saveandunsave,
+                        likeunlike: likeandunlike,
+                        savestatus: userSaved.value,
+                        postid: widget.id,
+                      )
                     ],
                   ),
                 ),
@@ -270,7 +244,7 @@ class _PostCardState extends State<PostCard> {
                       //     );
                       //   }).toList(),
                       // ),
-                      ImageSlider(listofImage: widget.image),
+                      ExplorePageSlider(listofImage: widget.image),
 
                       Obx(
                         () => AnimatedOpacity(

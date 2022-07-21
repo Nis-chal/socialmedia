@@ -10,8 +10,6 @@ import 'package:socialmedia/models/User.dart';
 import 'package:socialmedia/repository/UserRepository.dart';
 import 'package:socialmedia/response/logindispatch.dart';
 
-
-
 class RegisterScreen extends StatefulWidget {
   static const String id = 'register_screen';
 
@@ -21,7 +19,6 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   bool showSpinner = false;
-  
 
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
@@ -31,34 +28,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  _displayMessage(type, msg) {
+    final String message = msg ?? "error";
 
-  _displayMessage(type,msg){
-
-    final String message = msg?? "error";
-    
-    if(type){
+    if (type) {
       MotionToast.success(description: Text('success register')).show(context);
-    }else{
+    } else {
       MotionToast.warning(description: Text('$message new')).show(context);
     }
-
   }
 
-  _registerUser(User user) async{
+  _registerUser(User user) async {
     LoginDispatch isLogin = await UserRepository().registerUser(user);
     bool isLog = isLogin.login!;
-    if(isLog){
-      _displayMessage(true,'sucess');
-
-    }else{
-      _displayMessage(false,isLogin.errorMsg!);
+    if (isLog) {
+      _displayMessage(true, 'success');
+    } else {
+      _displayMessage(false, isLogin.errorMsg!);
     }
   }
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +64,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                     SizedBox(
+                    SizedBox(
                       height: 88.0,
                     ),
                     SizedBox(
@@ -96,7 +84,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     // Image.asset('assets/images/download.jpg'),
                     TextFormField(
                       keyboardType: TextInputType.emailAddress,
-                          
                       controller: _nameController,
                       decoration: kTextFieldDecoration.copyWith(
                           hintText: 'Enter your name'),
@@ -112,7 +99,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     TextFormField(
                       keyboardType: TextInputType.emailAddress,
-                          
                       controller: _usernameController,
                       decoration: kTextFieldDecoration.copyWith(
                           hintText: 'Enter your username'),
@@ -123,13 +109,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         return null;
                       },
                     ),
-                  
+
                     SizedBox(
                       height: 8.0,
                     ),
                     TextFormField(
                       keyboardType: TextInputType.emailAddress,
-                          
                       controller: _emailController,
                       decoration: kTextFieldDecoration.copyWith(
                           hintText: 'Enter your email'),
@@ -145,7 +130,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     TextFormField(
                       keyboardType: TextInputType.emailAddress,
-                          
                       controller: _locationController,
                       decoration: kTextFieldDecoration.copyWith(
                           hintText: 'Enter your location'),
@@ -162,7 +146,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     TextFormField(
                       obscureText: true,
                       keyboardType: TextInputType.emailAddress,
-                          
                       controller: _passwordController,
                       decoration: kTextFieldDecoration.copyWith(
                           hintText: 'Enter your password'),
@@ -180,18 +163,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       title: 'Register',
                       colour: Color(0xFF363636),
                       onPressed: () {
-                          
-              
                         if (_formKey.currentState!.validate()) {
                           User user = User(
                             name: _nameController.text,
                             username: _usernameController.text,
                             email: _emailController.text,
                             location: _locationController.text,
-                           
                             password: _passwordController.text,
                           );
-                          
+
                           _registerUser(user);
                         }
                       },
@@ -213,9 +193,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           onTap: () {
-              
                             Navigator.pushNamed(context, LoginScreen.id);
-                           
                           },
                         )
                       ],

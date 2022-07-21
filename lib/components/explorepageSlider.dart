@@ -3,15 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:socialmedia/utils/url.dart';
 
-class ImageSlider extends StatefulWidget {
+class ExplorePageSlider extends StatefulWidget {
   @override
-  State<ImageSlider> createState() => _ImageSliderState();
-  List<String>? listofImage;
-  ImageSlider({required this.listofImage});
+  State<ExplorePageSlider> createState() => _ExplorePageSliderState();
+  final List<String>? listofImage;
+  const ExplorePageSlider({Key? key, required this.listofImage})
+      : super(key: key);
 }
 
-class _ImageSliderState extends State<ImageSlider> {
+class _ExplorePageSliderState extends State<ExplorePageSlider> {
   int activeIndex = 0;
+  final urlImages = [
+    "https://www.pockettactics.com/wp-content/uploads/2022/03/anime-dimensions-tier-list.jpg",
+    "https://www.pockettactics.com/wp-content/uploads/2022/03/anime-dimensions-tier-list.jpg",
+    "https://www.pockettactics.com/wp-content/uploads/2022/03/anime-dimensions-tier-list.jpg",
+    "https://www.pockettactics.com/wp-content/uploads/2022/03/anime-dimensions-tier-list.jpg",
+    "https://www.pockettactics.com/wp-content/uploads/2022/03/anime-dimensions-tier-list.jpg",
+  ];
 
   Widget buildImage(String urlImage, int index) => Container(
         color: Colors.grey,
@@ -37,8 +45,8 @@ class _ImageSliderState extends State<ImageSlider> {
         CarouselSlider.builder(
           itemCount: widget.listofImage!.length,
           options: CarouselOptions(
-            height: MediaQuery.of(context).size.height * 0.55,
-            aspectRatio: 2.0,
+            height: MediaQuery.of(context).size.height * 0.47,
+
             // pageSnapping: false,
             enableInfiniteScroll: false,
             enlargeCenterPage: true,

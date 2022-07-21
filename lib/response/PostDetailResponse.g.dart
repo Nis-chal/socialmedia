@@ -6,12 +6,13 @@ part of 'PostDetailResponse.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PostDetailResponse _$PostDetailResponseFromJson(Map<String, dynamic> json) =>
-    PostDetailResponse(
-      post: json['post'] == null
-          ? null
-          : Posts.fromJson(json['post'] as Map<String, dynamic>),
-    );
+PostDetailResponse _$PostDetailResponseFromJson(Map<String, dynamic> json) {
+  return PostDetailResponse(
+    post: json['post'] == null
+        ? null
+        : Posts.fromJson(json['post'] as Map<String, dynamic>),
+  );
+}
 
 Map<String, dynamic> _$PostDetailResponseToJson(PostDetailResponse instance) =>
     <String, dynamic>{

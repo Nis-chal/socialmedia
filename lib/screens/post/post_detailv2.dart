@@ -3,22 +3,10 @@ import 'package:socialmedia/components/post_card.dart';
 import 'package:socialmedia/models/Posts.dart';
 import 'package:socialmedia/repository/PostRepository.dart';
 import 'package:socialmedia/response/PostDetailResponse.dart';
-import 'package:socialmedia/responsive/navigation_drawer.dart';
 
-class PostDetailScreen extends StatefulWidget {
-  static const String id = 'postedit_screen';
-
-  final String? args;
-  const PostDetailScreen(this.args, {Key? key}) : super(key: key);
-
-  @override
-  State<PostDetailScreen> createState() => _PostDetailScreenState();
-}
-
-class _PostDetailScreenState extends State<PostDetailScreen> {
-  String? username, description, address, userimage, updatedAt, id;
-  List<String>? image, likesid, commentsid, saved;
-  DateTime? createdAt, date;
+class PostDetailV2 extends StatelessWidget {
+  final String args;
+  const PostDetailV2(this.args, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +21,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('cancel'),
+                child: const Icon(Icons.arrow_back),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.transparent,
                   onPrimary: Colors.black,
@@ -46,10 +34,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, NavigationDrawer.id, arguments: {
-                    "pageIndex": 0,
-                    "profilePicture": null,
-                  });
+                  // Navigator.pushNamed(context, NavigationDrawer.id);
                 },
                 child: Text('Done'),
                 style: ElevatedButton.styleFrom(
@@ -64,7 +49,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             height: 20,
           ),
           FutureBuilder<PostDetailResponse?>(
-            future: PostRepository().postDetail(widget.args!),
+            future: PostRepository().postDetail(args),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.data != null) {
