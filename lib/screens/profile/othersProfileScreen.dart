@@ -18,18 +18,18 @@ import 'package:socialmedia/screens/profile/followerlistScreen.dart';
 import 'package:socialmedia/screens/profile/profileSliderScreen.dart';
 import 'package:socialmedia/utils/url.dart';
 
-class ProfileScreen extends StatefulWidget {
+class OtherProfileScreen extends StatefulWidget {
   static const String id = 'profieScreen_id';
   final String? arguments;
   final VoidCallback? goback;
 
-  ProfileScreen( {Key? key,this.arguments,this.goback }) : super(key: key);
+  OtherProfileScreen({Key? key, this.arguments, this.goback}) : super(key: key);
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<OtherProfileScreen> createState() => _OtherProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _OtherProfileScreenState extends State<OtherProfileScreen> {
   RxBool isFollowing = false.obs;
   RxString userid = ''.obs;
   RxInt activeTab = 0.obs;

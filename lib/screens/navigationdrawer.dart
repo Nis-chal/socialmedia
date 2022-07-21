@@ -88,7 +88,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
       FeedScreen(),
       ExplorePost(),
       FeedScreen(),
-      ProfileScreen(userid.value),
+      ProfileScreen(arguments:userid.value),
     ];
 
     return Scaffold(

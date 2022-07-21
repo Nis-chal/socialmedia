@@ -19,6 +19,7 @@ class PostCard extends StatefulWidget {
   String? username, description, address, userimage, updatedAt, id;
   List<String>? image, likesid, commentsid, saved;
   DateTime? createdAt, date;
+  VoidCallback? navigateTo;
 
   PostCard(
       {this.id,
@@ -32,7 +33,9 @@ class PostCard extends StatefulWidget {
       this.commentsid,
       this.saved,
       this.updatedAt,
-      this.createdAt});
+      this.createdAt,
+      this.navigateTo
+      });
 }
 
 class _PostCardState extends State<PostCard> {

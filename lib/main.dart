@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
             ModalRoute.of(context)!.settings.arguments as List<File>),
         AddPostDecriptionScreen.id: (context) => AddPostDecriptionScreen(),
         ProfileScreen.id: (context) =>
-            ProfileScreen(ModalRoute.of(context)!.settings.arguments as String),
+            ProfileScreen(arguments:ModalRoute.of(context)!.settings.arguments as String),
         ExploreVerticalView.id: (context) => ExploreVerticalView(
             ModalRoute.of(context)!.settings.arguments as Map),
         EditProfileScreen.id: (context) => EditProfileScreen(

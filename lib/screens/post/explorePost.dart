@@ -10,6 +10,7 @@ import 'package:socialmedia/repository/PostRepository.dart';
 import 'package:socialmedia/repository/ProfileRepository.dart';
 import 'package:socialmedia/response/postResponse/ExplorePostResponse.dart';
 import 'package:socialmedia/response/profileResponse/ProfileSearchResponse.dart';
+import 'package:socialmedia/screens/profile/othersProfileScreen.dart';
 import 'package:socialmedia/screens/profile/profileScreen.dart';
 import 'package:socialmedia/utils/url.dart';
 import 'package:staggered_grid_view_flutter/staggered_grid_view_flutter.dart';
@@ -48,6 +49,7 @@ class ExplorePost extends StatelessWidget {
         saved: post.saved,
       ));
   void animateToSlide(int index) => controller.jumpToPage(index);
+  void animateToSlide1() => controller.jumpToPage(1);
 
   @override
   Widget build(BuildContext context) {
@@ -154,92 +156,96 @@ class ExplorePost extends StatelessWidget {
                             Obx(() {
                               return Visibility(
                                 visible: isexplore.value ? true : false,
-                                child: FutureBuilder<ProfileSearchResponse?>(
-                                    future: ProfileRepository()
-                                        .profileSearch(search.value.text),
-                                    builder: (context, snapshot) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.done) {
-                                        if (snapshot.data != null) {
-                                          List<User> userinfo =
-                                              snapshot.data!.users!;
-                                          return SingleChildScrollView(
-                                            child: Container(
-                                                color: Colors.white,
-                                                height: 500 - 56,
-                                                child: ListView.builder(
-                                                  itemCount: userinfo.length,
-                                                  itemBuilder:
-                                                      ((context, index) {
-                                                    return ElevatedButton(
-                                                      onPressed: () {
-                                                        profileid.value =
-                                                            userinfo[index].id!;
-                                                        contoller.animateToPage(
-                                                          2,
-                                                          duration:
-                                                              const Duration(
-                                                                  seconds: 1),
-                                                          curve:
-                                                              Curves.easeInOut,
-                                                        );
-                                                      },
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                vertical: 2),
-                                                        child: Row(
-                                                          children: [
-                                                            CircleAvatar(
-                                                              backgroundImage:
-                                                                  NetworkImage(
-                                                                      '$baseUr${userinfo[index].profilePicture}'),
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 4,
-                                                            ),
-                                                            Column(
-                                                              children: [
-                                                                Text(
-                                                                    userinfo[
-                                                                            index]
-                                                                        .username!,
-                                                                    style: const TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.bold)),
-                                                                Text(userinfo[
-                                                                        index]
-                                                                    .name!)
-                                                              ],
-                                                            )
-                                                          ],
+                                child: Obx(
+                                  () => FutureBuilder<ProfileSearchResponse?>(
+                                      future: ProfileRepository()
+                                          .profileSearch(search.value.text),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.done) {
+                                          if (snapshot.data != null) {
+                                            List<User> userinfo =
+                                                snapshot.data!.users!;
+                                            return SingleChildScrollView(
+                                              child: Container(
+                                                  color: Colors.white,
+                                                  height: 500 - 56,
+                                                  child: ListView.builder(
+                                                    itemCount: userinfo.length,
+                                                    itemBuilder:
+                                                        ((context, index) {
+                                                      return ElevatedButton(
+                                                        onPressed: () {
+                                                          profileid.value =
+                                                              userinfo[index]
+                                                                  .id!;
+                                                          contoller
+                                                              .animateToPage(
+                                                            2,
+                                                            duration:
+                                                                const Duration(
+                                                                    seconds: 1),
+                                                            curve: Curves
+                                                                .easeInOut,
+                                                          );
+                                                        },
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical: 2),
+                                                          child: Row(
+                                                            children: [
+                                                              CircleAvatar(
+                                                                backgroundImage:
+                                                                    NetworkImage(
+                                                                        '$baseUr${userinfo[index].profilePicture}'),
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 4,
+                                                              ),
+                                                              Column(
+                                                                children: [
+                                                                  Text(
+                                                                      userinfo[
+                                                                              index]
+                                                                          .username!,
+                                                                      style: const TextStyle(
+                                                                          fontWeight:
+                                                                              FontWeight.bold)),
+                                                                  Text(userinfo[
+                                                                          index]
+                                                                      .name!)
+                                                                ],
+                                                              )
+                                                            ],
+                                                          ),
                                                         ),
-                                                      ),
-                                                    );
-                                                  }),
-                                                )),
+                                                      );
+                                                    }),
+                                                  )),
+                                            );
+                                          } else {
+                                            return const Center(
+                                              child: Text("No data"),
+                                            );
+                                          }
+                                        } else if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const Center(
+                                            child: CircularProgressIndicator(),
                                           );
                                         } else {
                                           return const Center(
-                                            child: Text("No data"),
+                                            child: CircularProgressIndicator(
+                                              valueColor:
+                                                  AlwaysStoppedAnimation<Color>(
+                                                      Colors.blue),
+                                            ),
                                           );
                                         }
-                                      } else if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const Center(
-                                          child: CircularProgressIndicator(),
-                                        );
-                                      } else {
-                                        return const Center(
-                                          child: CircularProgressIndicator(
-                                            valueColor:
-                                                AlwaysStoppedAnimation<Color>(
-                                                    Colors.blue),
-                                          ),
-                                        );
-                                      }
-                                    }),
+                                      }),
+                                ),
                               );
                             }),
                             Obx(() {
@@ -346,7 +352,10 @@ class ExplorePost extends StatelessWidget {
                   },
                 ),
                 Obx(() {
-                  return ProfileScreen(profileid.value);
+                  return OtherProfileScreen(
+                    arguments: profileid.value,
+                    goback: animateToSlide1,
+                  );
                 })
               ]),
         ),
