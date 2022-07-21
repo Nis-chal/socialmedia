@@ -87,6 +87,8 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
     // }
   }
 
+
+
   _decreasefollower() {
     followercount--;
   }
@@ -182,6 +184,12 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: Row(
                           children: [
+                            IconButton(
+                                onPressed: widget.goback,
+                                icon: const Icon(Icons.arrow_back_ios_new)),
+                            SizedBox(
+                              width: 20,
+                            ),
                             Text(
                               profile.user.username!.toUpperCase(),
                               style: TextStyle(

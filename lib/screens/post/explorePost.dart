@@ -29,6 +29,9 @@ class ExplorePost extends StatelessWidget {
   RxInt intialpost = 0.obs;
   RxString searchvalue = "".obs;
   RxString profileid = "".obs;
+  RxBool isloading = false.obs;
+
+  final searchcontoller = PageController(initialPage: 0);
 
   final contoller = PageController(initialPage: 0);
 
@@ -49,7 +52,19 @@ class ExplorePost extends StatelessWidget {
         saved: post.saved,
       ));
   void animateToSlide(int index) => controller.jumpToPage(index);
-  void animateToSlide1() => controller.jumpToPage(1);
+
+  animateToSlide1() {
+    contoller.jumpToPage(0);
+  }
+
+  isprofileid(String id) {
+    profileid.value = id;
+    contoller.animateToPage(
+      2,
+      duration: const Duration(seconds: 1),
+      curve: Curves.easeInOut,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +108,8 @@ class ExplorePost extends StatelessWidget {
                                                       value.isEmpty
                                                           ? "0"
                                                           : value;
+                                                  isloading.value =
+                                                      !isloading.value;
                                                 },
                                               ),
                                             ),
@@ -157,94 +174,193 @@ class ExplorePost extends StatelessWidget {
                               return Visibility(
                                 visible: isexplore.value ? true : false,
                                 child: Obx(
-                                  () => FutureBuilder<ProfileSearchResponse?>(
-                                      future: ProfileRepository()
-                                          .profileSearch(search.value.text),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.done) {
-                                          if (snapshot.data != null) {
-                                            List<User> userinfo =
-                                                snapshot.data!.users!;
-                                            return SingleChildScrollView(
-                                              child: Container(
-                                                  color: Colors.white,
-                                                  height: 500 - 56,
-                                                  child: ListView.builder(
-                                                    itemCount: userinfo.length,
-                                                    itemBuilder:
-                                                        ((context, index) {
-                                                      return ElevatedButton(
-                                                        onPressed: () {
-                                                          profileid.value =
-                                                              userinfo[index]
-                                                                  .id!;
-                                                          contoller
-                                                              .animateToPage(
-                                                            2,
-                                                            duration:
-                                                                const Duration(
-                                                                    seconds: 1),
-                                                            curve: Curves
-                                                                .easeInOut,
-                                                          );
-                                                        },
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .symmetric(
-                                                                  vertical: 2),
-                                                          child: Row(
-                                                            children: [
-                                                              CircleAvatar(
-                                                                backgroundImage:
-                                                                    NetworkImage(
-                                                                        '$baseUr${userinfo[index].profilePicture}'),
-                                                              ),
-                                                              const SizedBox(
-                                                                width: 4,
-                                                              ),
-                                                              Column(
-                                                                children: [
-                                                                  Text(
-                                                                      userinfo[
-                                                                              index]
-                                                                          .username!,
-                                                                      style: const TextStyle(
-                                                                          fontWeight:
-                                                                              FontWeight.bold)),
-                                                                  Text(userinfo[
+                                  () => isloading.value
+                                      ? FutureBuilder<ProfileSearchResponse?>(
+                                          future: ProfileRepository()
+                                              .profileSearch(search.value.text),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.done) {
+                                              if (snapshot.data != null) {
+                                                List<User> userinfo =
+                                                    snapshot.data!.users!;
+                                                return SingleChildScrollView(
+                                                  child: Container(
+                                                      color: Colors.white,
+                                                      height: 500 - 56,
+                                                      child: ListView.builder(
+                                                        itemCount:
+                                                            userinfo.length,
+                                                        itemBuilder:
+                                                            ((context, index) {
+                                                          return ElevatedButton(
+                                                            onPressed: () {
+                                                              profileid.value =
+                                                                  userinfo[
                                                                           index]
-                                                                      .name!)
+                                                                      .id!;
+                                                              contoller
+                                                                  .animateToPage(
+                                                                2,
+                                                                duration:
+                                                                    const Duration(
+                                                                        seconds:
+                                                                            1),
+                                                                curve: Curves
+                                                                    .easeInOut,
+                                                              );
+                                                            },
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .symmetric(
+                                                                      vertical:
+                                                                          2),
+                                                              child: Row(
+                                                                children: [
+                                                                  CircleAvatar(
+                                                                    backgroundImage:
+                                                                        NetworkImage(
+                                                                            '$baseUr${userinfo[index].profilePicture}'),
+                                                                  ),
+                                                                  const SizedBox(
+                                                                    width: 4,
+                                                                  ),
+                                                                  Column(
+                                                                    children: [
+                                                                      Text(
+                                                                          userinfo[index]
+                                                                              .username!,
+                                                                          style:
+                                                                              const TextStyle(fontWeight: FontWeight.bold)),
+                                                                      Text(userinfo[
+                                                                              index]
+                                                                          .name!)
+                                                                    ],
+                                                                  )
                                                                 ],
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      );
-                                                    }),
-                                                  )),
-                                            );
-                                          } else {
-                                            return const Center(
-                                              child: Text("No data"),
-                                            );
-                                          }
-                                        } else if (snapshot.connectionState ==
-                                            ConnectionState.waiting) {
-                                          return const Center(
-                                            child: CircularProgressIndicator(),
-                                          );
-                                        } else {
-                                          return const Center(
-                                            child: CircularProgressIndicator(
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
-                                                      Colors.blue),
-                                            ),
-                                          );
-                                        }
-                                      }),
+                                                              ),
+                                                            ),
+                                                          );
+                                                        }),
+                                                      )),
+                                                );
+                                              } else {
+                                                return const Center(
+                                                  child: Text("No data"),
+                                                );
+                                              }
+                                            } else if (snapshot
+                                                    .connectionState ==
+                                                ConnectionState.waiting) {
+                                              return const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              );
+                                            } else {
+                                              return const Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  valueColor:
+                                                      AlwaysStoppedAnimation<
+                                                          Color>(Colors.blue),
+                                                ),
+                                              );
+                                            }
+                                          })
+                                      : FutureBuilder<ProfileSearchResponse?>(
+                                          future: ProfileRepository()
+                                              .profileSearch(search.value.text),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.done) {
+                                              if (snapshot.data != null) {
+                                                List<User> userinfo =
+                                                    snapshot.data!.users!;
+                                                return SingleChildScrollView(
+                                                  child: Container(
+                                                      color: Colors.white,
+                                                      height: 500 - 56,
+                                                      child: ListView.builder(
+                                                        itemCount:
+                                                            userinfo.length,
+                                                        itemBuilder:
+                                                            ((context, index) {
+                                                          return ElevatedButton(
+                                                            onPressed: () {
+                                                              profileid.value =
+                                                                  userinfo[
+                                                                          index]
+                                                                      .id!;
+                                                              contoller
+                                                                  .animateToPage(
+                                                                2,
+                                                                duration:
+                                                                    const Duration(
+                                                                        seconds:
+                                                                            1),
+                                                                curve: Curves
+                                                                    .easeInOut,
+                                                              );
+                                                            },
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                          .symmetric(
+                                                                      vertical:
+                                                                          2),
+                                                              child: Row(
+                                                                children: [
+                                                                  CircleAvatar(
+                                                                    backgroundImage:
+                                                                        NetworkImage(
+                                                                            '$baseUr${userinfo[index].profilePicture}'),
+                                                                  ),
+                                                                  const SizedBox(
+                                                                    width: 4,
+                                                                  ),
+                                                                  Column(
+                                                                    children: [
+                                                                      Text(
+                                                                          userinfo[index]
+                                                                              .username!,
+                                                                          style:
+                                                                              const TextStyle(fontWeight: FontWeight.bold)),
+                                                                      Text(userinfo[
+                                                                              index]
+                                                                          .name!)
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          );
+                                                        }),
+                                                      )),
+                                                );
+                                              } else {
+                                                return const Center(
+                                                  child: Text("No data"),
+                                                );
+                                              }
+                                            } else if (snapshot
+                                                    .connectionState ==
+                                                ConnectionState.waiting) {
+                                              return const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              );
+                                            } else {
+                                              return const Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  valueColor:
+                                                      AlwaysStoppedAnimation<
+                                                          Color>(Colors.blue),
+                                                ),
+                                              );
+                                            }
+                                          }),
                                 ),
                               );
                             }),
