@@ -43,6 +43,11 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
 
   String? profilePicture;
   RxBool ispic = false.obs;
+  RxBool issearch = false.obs;
+
+  RxInt profileview = 0.obs;
+  RxString profileid = "".obs;
+
   @override
   void initState() {
     _loadCounter();
@@ -52,17 +57,24 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   _loadCounter() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    var data = (prefs.getString('userdata') ?? '');
-    var userdatas = User.fromJson(jsonDecode(data.toString()));
-    userid.value = userdatas.id.toString();
-    userpic.value = userdatas.profilePicture!;
-    if (widget.idImage!['pageIndex'] != null) {
-      _selectedIndex.value = widget.idImage!['pageIndex']!;
+    setState(() {
+      var data = (prefs.getString('userdata') ?? '');
+      var userdatas = User.fromJson(jsonDecode(data.toString()));
+      userid.value = userdatas.id.toString();
+      userpic.value = userdatas.profilePicture!;
+      profileview.value = widget.idImage!['pageIndex'] ?? 0;
+      profileid.value = widget.idImage!['profileId'] ?? '';
+      if (widget.idImage!['pageIndex'] != null) {
+        _selectedIndex.value = widget.idImage!['pageIndex']!;
 
-      if (widget.idImage!['profilePicture'] != null) {
-        ispic.value = true;
+        if (widget.idImage!['profilePicture'] != null) {
+          // userpic.value = widget.idImage!['profilePicture'];
+          ispic.value = true;
+        } else {
+          ispic.value = false;
+        }
       }
-    }
+    });
   }
 
   void imageSelect() async {
@@ -84,7 +96,11 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   Widget build(BuildContext context) {
     List<Widget> lstWidget = [
       FeedScreen(),
-      ExplorePost(),
+      Obx(
+        () => issearch.value
+            ? ExplorePost(profileid.value, profileview.value)
+            : ExplorePost(profileid.value, profileview.value),
+      ),
       FeedScreen(),
       ProfileScreen(arguments: userid.value),
     ];
@@ -100,6 +116,9 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           setState(() {
             if (index == 2) {
               imageSelect();
+            } else {
+              issearch.value = false;
+              _selectedIndex.value = index;
             }
             // if(index == 3){
             //       Navigator.pushNamed(context, ProfileScreen.id,arguments: userid.value);
@@ -110,7 +129,6 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             //       Navigator.pushNamed(context, PostPreviewScreen.id);
 
             // }
-            _selectedIndex.value = index;
           });
         },
         items: [
@@ -120,23 +138,17 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'Cart',
+            label: 'Search',
           ),
           const BottomNavigationBarItem(
             icon: Icon(Icons.add_a_photo_sharp),
             label: 'Add',
           ),
           BottomNavigationBarItem(
-            icon: 
-            Obx(() => 
-            
-            CircleAvatar(
-                backgroundImage: NetworkImage(
-              ispic.value
-                  ? baseUr + widget.idImage!['profilePicture']
-                  : baseUr + userpic.value,
-            ))
-            ),
+            icon: Obx(() => CircleAvatar(
+                    backgroundImage: NetworkImage(
+                  baseUr + userpic.value,
+                ))),
             label: 'profile',
           ),
         ],

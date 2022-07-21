@@ -28,8 +28,8 @@ class _AddPostDecriptionScreenState extends State<AddPostDecriptionScreen> {
 
   @override
   void initState() {
-    super.initState();
     _loadCounter();
+    super.initState();
   }
 
   _loadCounter() async {
@@ -38,6 +38,12 @@ class _AddPostDecriptionScreenState extends State<AddPostDecriptionScreen> {
     var data = (prefs.getString('userdata') ?? '');
     var userdatas = User.fromJson(jsonDecode(data.toString()));
     userImage.value = userdatas.profilePicture.toString();
+  }
+
+  @override
+  void dispose() {
+    _loadCounter();
+    super.dispose();
   }
 
   @override
@@ -78,7 +84,7 @@ class _AddPostDecriptionScreenState extends State<AddPostDecriptionScreen> {
                       Navigator.pushNamed(context, NavigationDrawer.id,
                           arguments: {
                             "pageIndex": 0,
-                            "profilePicture": null,
+                            "profilePicture": userImage.value,
                           });
                     }
                   },

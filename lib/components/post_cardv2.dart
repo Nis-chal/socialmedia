@@ -20,6 +20,7 @@ class PostCardV2 extends StatefulWidget {
   String? username, description, address, userimage, updatedAt, id;
   List<String>? image, likesid, commentsid, saved;
   DateTime? createdAt, date;
+  String? userProfileId;
 
   PostCardV2(
       {this.id,
@@ -33,7 +34,9 @@ class PostCardV2 extends StatefulWidget {
       this.commentsid,
       this.saved,
       this.updatedAt,
-      this.createdAt});
+      this.createdAt,
+      this.userProfileId,
+      });
 }
 
 class _PostCardV2State extends State<PostCardV2> {
@@ -184,6 +187,7 @@ class _PostCardV2State extends State<PostCardV2> {
                         username: widget.username,
                         userimage: widget.userimage!,
                         description: widget.description,
+                        postuser: widget.userProfileId,
                       )
                     ],
                   ),

@@ -16,30 +16,29 @@ import 'package:socialmedia/screens/post/post_edit.dart';
 class PostCard extends StatefulWidget {
   @override
   State<PostCard> createState() => _PostCardState();
-  String? username, description, address, userimage, updatedAt, id,postUserId;
+  String? username, description, address, userimage, updatedAt, id, postUserId;
   List<String>? image, likesid, commentsid, saved;
   DateTime? createdAt, date;
   VoidCallback? navigateTo;
   VoidCallback? navigateBack;
 
-
-  PostCard(
-      {this.id,
-      this.image,
-      this.username,
-      this.description,
-      this.date,
-      this.address,
-      this.userimage,
-      this.likesid,
-      this.commentsid,
-      this.saved,
-      this.updatedAt,
-      this.createdAt,
-      this.navigateTo,
-      this.navigateBack,
-      this.postUserId,
-      });
+  PostCard({
+    this.id,
+    this.image,
+    this.username,
+    this.description,
+    this.date,
+    this.address,
+    this.userimage,
+    this.likesid,
+    this.commentsid,
+    this.saved,
+    this.updatedAt,
+    this.createdAt,
+    this.navigateTo,
+    this.navigateBack,
+    this.postUserId,
+  });
 }
 
 class _PostCardState extends State<PostCard> {
@@ -53,6 +52,7 @@ class _PostCardState extends State<PostCard> {
   RxBool userSaved = false.obs;
 
   RxBool isDelete = true.obs;
+  RxBool changeBottom = false.obs;
 
   var userid = ''.obs;
 
@@ -105,6 +105,24 @@ class _PostCardState extends State<PostCard> {
     bool post = await PostRepository().unsavePost(widget.id);
     if (post) {
       userSaved.value = false;
+      changeBottom.value = !changeBottom.value;
+    }
+  }
+
+  saveandunsave() {
+    !userSaved.value ? _savePost() : _unsavePost();
+  }
+
+  likeandunlike() {
+    if (liked.isTrue) {
+      PostRepository().unlikePost(widget.id);
+
+      likelength--;
+      liked.value = false;
+      changeBottom.value = !changeBottom.value;
+    } else {
+      increament();
+      changeBottom.value = !changeBottom.value;
     }
   }
 
@@ -174,25 +192,53 @@ class _PostCardState extends State<PostCard> {
                           ),
                         ),
                       ),
-                      BottomTab(
-                        postid: widget.id,
-                        onDelete: () async {
-                          bool post =
-                              await PostRepository().deletePost(widget.id);
-                          if (post) {
-                            isDelete.value = false;
-                            Navigator.pop(context);
-                          }
+                      Obx(() => changeBottom.value
+                          ? BottomTab(
+                              likeStatus: liked.value,
+                              location: widget.address,
+                              images: widget.image,
+                              username: widget.username,
+                              userimage: widget.userimage!,
+                              description: widget.description,
+                              postuser: widget.postUserId,
+                              supost: saveandunsave,
+                              likeunlike: likeandunlike,
+                              savestatus: userSaved.value,
+                              postid: widget.id,
+                              onDelete: () async {
+                                bool post = await PostRepository()
+                                    .deletePost(widget.id);
+                                if (post) {
+                                  isDelete.value = false;
+                                  Navigator.pop(context);
+                                }
 
-                          // Navigator.push(context, MaterialPageRoute(builder: (context) => const SecondRoute()))
-                        },
-                        location: widget.address,
-                        images: widget.image,
-                        username: widget.username,
-                        userimage: widget.userimage!,
-                        description: widget.description,
+                                // Navigator.push(context, MaterialPageRoute(builder: (context) => const SecondRoute()))
+                              },
+                            )
+                          : BottomTab(
+                              likeStatus: liked.value,
+                              location: widget.address,
+                              images: widget.image,
+                              username: widget.username,
+                              userimage: widget.userimage!,
+                              description: widget.description,
+                              postuser: widget.postUserId,
+                              supost: saveandunsave,
+                              likeunlike: likeandunlike,
+                              savestatus: userSaved.value,
+                              postid: widget.id,
+                              onDelete: () async {
+                                bool post = await PostRepository()
+                                    .deletePost(widget.id);
+                                if (post) {
+                                  isDelete.value = false;
+                                  Navigator.pop(context);
+                                }
 
-                      )
+                                // Navigator.push(context, MaterialPageRoute(builder: (context) => const SecondRoute()))
+                              },
+                            )),
                     ],
                   ),
                 ),

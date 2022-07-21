@@ -46,7 +46,10 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, NavigationDrawer.id);
+                  Navigator.pushNamed(context, NavigationDrawer.id, arguments: {
+                    "pageIndex": 0,
+                    "profilePicture": null,
+                  });
                 },
                 child: Text('Done'),
                 style: ElevatedButton.styleFrom(

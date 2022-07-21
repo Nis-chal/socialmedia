@@ -17,23 +17,56 @@ import 'package:staggered_grid_view_flutter/staggered_grid_view_flutter.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
-class ExplorePost extends StatelessWidget {
-  ExplorePost({Key? key}) : super(key: key);
+class ExplorePost extends StatefulWidget {
+  String? userProfileid;
+  int? startingPage;
 
-  final search = TextEditingController().obs;
-  RxBool issearch = true.obs;
-  RxBool isview = true.obs;
-  RxBool isexplore = false.obs;
-  final controller = CarouselController();
-  RxInt activeIndex = 0.obs;
-  RxInt intialpost = 0.obs;
-  RxString searchvalue = "".obs;
-  RxString profileid = "".obs;
-  RxBool isloading = false.obs;
+  ExplorePost(this.userProfileid, this.startingPage, {Key? key})
+      : super(key: key);
 
+  @override
+  State<ExplorePost> createState() => _ExplorePostState();
+}
+
+class _ExplorePostState extends State<ExplorePost> {
   final searchcontoller = PageController(initialPage: 0);
 
-  final contoller = PageController(initialPage: 0);
+  PageController? contoller;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      contoller = PageController(initialPage: widget.startingPage!);
+      profileid.value = widget.userProfileid ?? "";
+    });
+  }
+
+  @override
+  void dispose() {
+    contoller!.dispose();
+    super.dispose();
+  }
+
+  final search = TextEditingController().obs;
+
+  RxBool issearch = true.obs;
+
+  RxBool isview = true.obs;
+
+  RxBool isexplore = false.obs;
+
+  final controller = CarouselController();
+
+  RxInt activeIndex = 0.obs;
+
+  RxInt intialpost = 0.obs;
+
+  RxString searchvalue = "".obs;
+
+  RxString profileid = "".obs;
+
+  RxBool isloading = false.obs;
 
   Widget buildImage(Posts post, int index) => Container(
       color: Colors.white,
@@ -50,16 +83,18 @@ class ExplorePost extends StatelessWidget {
         updatedAt: post.updatedAt,
         createdAt: post.createdAt,
         saved: post.saved,
+        userProfileId: post.userid!.id,
       ));
+
   void animateToSlide(int index) => controller.jumpToPage(index);
 
   animateToSlide1() {
-    contoller.jumpToPage(0);
+    contoller!.jumpToPage(0);
   }
 
   isprofileid(String id) {
     profileid.value = id;
-    contoller.animateToPage(
+    contoller!.animateToPage(
       2,
       duration: const Duration(seconds: 1),
       curve: Curves.easeInOut,
@@ -199,7 +234,7 @@ class ExplorePost extends StatelessWidget {
                                                                   userinfo[
                                                                           index]
                                                                       .id!;
-                                                              contoller
+                                                              contoller!
                                                                   .animateToPage(
                                                                 2,
                                                                 duration:
@@ -292,7 +327,7 @@ class ExplorePost extends StatelessWidget {
                                                                   userinfo[
                                                                           index]
                                                                       .id!;
-                                                              contoller
+                                                              contoller!
                                                                   .animateToPage(
                                                                 2,
                                                                 duration:
@@ -374,7 +409,7 @@ class ExplorePost extends StatelessWidget {
                                     staggeredTileBuilder: (index) =>
                                         index % 7 == 0
                                             ? const StaggeredTile.count(2, 2)
-                                            : StaggeredTile.count(1, 1),
+                                            : const StaggeredTile.count(1, 1),
                                     crossAxisCount: 3,
                                     crossAxisSpacing: 2.0,
                                     mainAxisSpacing: 4.0,

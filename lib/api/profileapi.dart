@@ -186,6 +186,10 @@ class ProfileApi {
         );
 
         if (response.statusCode == 200) {
+          SharedPreferences sharedPreferences =
+              await SharedPreferences.getInstance();
+          String userdata = jsonEncode(response.data['user']);
+          sharedPreferences.setString('userdata', userdata);
           posts = ProfileUpdateResponse.fromJson(response.data);
         } else {
           posts = null;
