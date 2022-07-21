@@ -42,7 +42,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   RxString userpic = ''.obs;
 
   String? profilePicture;
-  bool ispic = false;
+  RxBool ispic = false.obs;
   @override
   void initState() {
     _loadCounter();
@@ -52,19 +52,17 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   _loadCounter() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    setState(() {
-      var data = (prefs.getString('userdata') ?? '');
-      var userdatas = User.fromJson(jsonDecode(data.toString()));
-      userid.value = userdatas.id.toString();
-      userpic.value = userdatas.profilePicture!;
-      if (widget.idImage!['pageIndex'] != null) {
-        _selectedIndex.value = widget.idImage!['pageIndex']!;
+    var data = (prefs.getString('userdata') ?? '');
+    var userdatas = User.fromJson(jsonDecode(data.toString()));
+    userid.value = userdatas.id.toString();
+    userpic.value = userdatas.profilePicture!;
+    if (widget.idImage!['pageIndex'] != null) {
+      _selectedIndex.value = widget.idImage!['pageIndex']!;
 
-        if (widget.idImage!['profilePicture'] != null) {
-          ispic = true;
-        }
+      if (widget.idImage!['profilePicture'] != null) {
+        ispic.value = true;
       }
-    });
+    }
   }
 
   void imageSelect() async {
@@ -88,7 +86,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
       FeedScreen(),
       ExplorePost(),
       FeedScreen(),
-      ProfileScreen(arguments:userid.value),
+      ProfileScreen(arguments: userid.value),
     ];
 
     return Scaffold(
@@ -129,12 +127,16 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
             label: 'Add',
           ),
           BottomNavigationBarItem(
-            icon: CircleAvatar(
+            icon: 
+            Obx(() => 
+            
+            CircleAvatar(
                 backgroundImage: NetworkImage(
-              ispic
+              ispic.value
                   ? baseUr + widget.idImage!['profilePicture']
                   : baseUr + userpic.value,
-            )),
+            ))
+            ),
             label: 'profile',
           ),
         ],

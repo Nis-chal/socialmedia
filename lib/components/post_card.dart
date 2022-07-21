@@ -16,10 +16,12 @@ import 'package:socialmedia/screens/post/post_edit.dart';
 class PostCard extends StatefulWidget {
   @override
   State<PostCard> createState() => _PostCardState();
-  String? username, description, address, userimage, updatedAt, id;
+  String? username, description, address, userimage, updatedAt, id,postUserId;
   List<String>? image, likesid, commentsid, saved;
   DateTime? createdAt, date;
   VoidCallback? navigateTo;
+  VoidCallback? navigateBack;
+
 
   PostCard(
       {this.id,
@@ -34,7 +36,9 @@ class PostCard extends StatefulWidget {
       this.saved,
       this.updatedAt,
       this.createdAt,
-      this.navigateTo
+      this.navigateTo,
+      this.navigateBack,
+      this.postUserId,
       });
 }
 
@@ -187,6 +191,7 @@ class _PostCardState extends State<PostCard> {
                         username: widget.username,
                         userimage: widget.userimage!,
                         description: widget.description,
+
                       )
                     ],
                   ),

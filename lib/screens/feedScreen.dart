@@ -18,6 +18,11 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   RxBool onDelete = true.obs;
   final controller = ScrollController();
+  RxBool viewProfile = false.obs;
+
+  RxString profileId = ''.obs;
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +76,7 @@ class _FeedScreenState extends State<FeedScreen> {
                           updatedAt: postlst[index].updatedAt,
                           createdAt: postlst[index].createdAt,
                           saved: postlst[index].saved,
+                          postUserId: postlst[index].userid!.id,
                         ));
                       });
                 } else {

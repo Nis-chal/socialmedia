@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialmedia/components/fileImageSlider.dart';
 import 'package:socialmedia/models/User.dart';
@@ -23,7 +24,7 @@ class _AddPostDecriptionScreenState extends State<AddPostDecriptionScreen> {
   final _location = TextEditingController();
 
   final _description = TextEditingController();
-  late String? userImage;
+  RxString userImage = ''.obs;
 
   @override
   void initState() {
@@ -34,11 +35,9 @@ class _AddPostDecriptionScreenState extends State<AddPostDecriptionScreen> {
   _loadCounter() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    setState(() {
-      var data = (prefs.getString('userdata') ?? '');
-      var userdatas = User.fromJson(jsonDecode(data.toString()));
-      userImage = userdatas.profilePicture.toString();
-    });
+    var data = (prefs.getString('userdata') ?? '');
+    var userdatas = User.fromJson(jsonDecode(data.toString()));
+    userImage.value = userdatas.profilePicture.toString();
   }
 
   @override
@@ -76,7 +75,11 @@ class _AddPostDecriptionScreenState extends State<AddPostDecriptionScreen> {
                         .addFeed(args, _description.text, _location.text);
 
                     if (post) {
-                      Navigator.pushNamed(context, NavigationDrawer.id);
+                      Navigator.pushNamed(context, NavigationDrawer.id,
+                          arguments: {
+                            "pageIndex": 0,
+                            "profilePicture": null,
+                          });
                     }
                   },
                   child: const Text('Done'),
@@ -96,9 +99,12 @@ class _AddPostDecriptionScreenState extends State<AddPostDecriptionScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundImage: NetworkImage('$baseUr$userImage'),
+                  Obx(
+                    () => CircleAvatar(
+                      radius: 20,
+                      backgroundImage:
+                          NetworkImage('$baseUr${userImage.value}'),
+                    ),
                   ),
                   SizedBox(
                     width: 10,

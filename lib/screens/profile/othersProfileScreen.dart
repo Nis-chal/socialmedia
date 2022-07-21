@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialmedia/components/FollowButton.dart';
-import 'package:socialmedia/components/post_card.dart';
 import 'package:socialmedia/components/post_cardv2.dart';
 import 'package:socialmedia/models/Posts.dart';
 import 'package:socialmedia/models/User.dart';
@@ -15,7 +14,6 @@ import 'package:socialmedia/response/FeedsResponse.dart';
 import 'package:socialmedia/response/profileResponse/ProfileResponse.dart';
 import 'package:socialmedia/screens/profile/editProfile.dart';
 import 'package:socialmedia/screens/profile/followerlistScreen.dart';
-import 'package:socialmedia/screens/profile/profileSliderScreen.dart';
 import 'package:socialmedia/utils/url.dart';
 
 class OtherProfileScreen extends StatefulWidget {
@@ -61,22 +59,19 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
     ProfileResponse? profileInfo =
         await profileRepository.userProfile(widget.arguments!);
 
-    setState(() {
-      var id = userdatas.id.toString();
-      var follower = profileInfo!.user.followers!;
+    var id = userdatas.id.toString();
+    var follower = profileInfo!.user.followers!;
 
-      userid.value = userdatas.id.toString();
+    userid.value = userdatas.id.toString();
 
-      isFollowing.value = follower.contains(id) ? true : false;
-      followercount.value = follower.length;
-      followingcount.value = profileInfo.user.following!.length;
-      initfollowerCount.value = profileInfo.user.following!.length;
-      profileuserid.value = userdatas.id! == widget.arguments!
-          ? userdatas.id!
-          : widget.arguments!;
+    isFollowing.value = follower.contains(id) ? true : false;
+    followercount.value = follower.length;
+    followingcount.value = profileInfo.user.following!.length;
+    initfollowerCount.value = profileInfo.user.following!.length;
+    profileuserid.value =
+        userdatas.id! == widget.arguments! ? userdatas.id! : widget.arguments!;
 
-      profileUsername.value = profileInfo.user.username!;
-    });
+    profileUsername.value = profileInfo.user.username!;
 
     // if (profileInfo!.followers!.length! > 0) {
     //   for (int i = 0; i < profileInfo!.followers!.length; i++) {
@@ -86,8 +81,6 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
     //   }
     // }
   }
-
-
 
   _decreasefollower() {
     followercount--;

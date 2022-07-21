@@ -106,7 +106,7 @@ class _FollowerlistState extends State<Followerlist> {
                               activeTab == 0 ? Colors.black87 : Colors.black45,
                         ),
                         child: const Text(
-                          'Following',
+                          'Followers',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )),
                   ),
@@ -139,7 +139,7 @@ class _FollowerlistState extends State<Followerlist> {
                               : Colors.black45,
                         ),
                         child: const Text(
-                          'Followers',
+                          'Following',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )),
                   ),

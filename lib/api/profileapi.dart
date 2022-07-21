@@ -29,10 +29,6 @@ class ProfileApi {
             headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
       );
       if (response.statusCode == 200) {
-        SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
-        String userdata = jsonEncode(response.data['user']);
-        sharedPreferences.setString('userdata', userdata);
         profileResponse = ProfileResponse.fromJson(response.data);
       } else {
         profileResponse = null;
