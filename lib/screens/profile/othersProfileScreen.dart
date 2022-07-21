@@ -12,6 +12,7 @@ import 'package:socialmedia/repository/PostRepository.dart';
 import 'package:socialmedia/repository/ProfileRepository.dart';
 import 'package:socialmedia/response/FeedsResponse.dart';
 import 'package:socialmedia/response/profileResponse/ProfileResponse.dart';
+import 'package:socialmedia/responsive/navigation_drawer.dart';
 import 'package:socialmedia/screens/profile/editProfile.dart';
 import 'package:socialmedia/screens/profile/followerlistScreen.dart';
 import 'package:socialmedia/utils/url.dart';
@@ -174,11 +175,20 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        padding: const EdgeInsets.symmetric(vertical: 1),
                         child: Row(
                           children: [
                             IconButton(
-                                onPressed: widget.goback,
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, NavigationDrawer.id, arguments: {
+                                    "pageIndex": 1,
+                                    "profilePicture": null,
+                                    "profileId": "",
+                                    "isProfile":0
+
+                                  });
+                                },
                                 icon: const Icon(Icons.arrow_back_ios_new)),
                             SizedBox(
                               width: 20,

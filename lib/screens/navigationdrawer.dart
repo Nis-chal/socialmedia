@@ -62,7 +62,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
       var userdatas = User.fromJson(jsonDecode(data.toString()));
       userid.value = userdatas.id.toString();
       userpic.value = userdatas.profilePicture!;
-      profileview.value = widget.idImage!['pageIndex'] ?? 0;
+      profileview.value = widget.idImage!['isProfile'] ?? 0;
       profileid.value = widget.idImage!['profileId'] ?? '';
       if (widget.idImage!['pageIndex'] != null) {
         _selectedIndex.value = widget.idImage!['pageIndex']!;

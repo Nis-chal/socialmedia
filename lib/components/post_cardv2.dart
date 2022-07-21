@@ -17,26 +17,31 @@ import 'package:socialmedia/screens/post/post_edit.dart';
 class PostCardV2 extends StatefulWidget {
   @override
   State<PostCardV2> createState() => _PostCardV2State();
-  String? username, description, address, userimage, updatedAt, id;
+  String? username, description, address, userimage, updatedAt, id, postUserId;
   List<String>? image, likesid, commentsid, saved;
   DateTime? createdAt, date;
   String? userProfileId;
+  VoidCallback? navigateTo;
+  VoidCallback? navigateBack;
 
-  PostCardV2(
-      {this.id,
-      this.image,
-      this.username,
-      this.description,
-      this.date,
-      this.address,
-      this.userimage,
-      this.likesid,
-      this.commentsid,
-      this.saved,
-      this.updatedAt,
-      this.createdAt,
-      this.userProfileId,
-      });
+  PostCardV2({
+    this.id,
+    this.image,
+    this.username,
+    this.description,
+    this.date,
+    this.address,
+    this.userimage,
+    this.likesid,
+    this.commentsid,
+    this.saved,
+    this.updatedAt,
+    this.createdAt,
+    this.userProfileId,
+    this.navigateTo,
+    this.navigateBack,
+    this.postUserId,
+  });
 }
 
 class _PostCardV2State extends State<PostCardV2> {
@@ -102,6 +107,21 @@ class _PostCardV2State extends State<PostCardV2> {
     bool post = await PostRepository().unsavePost(widget.id);
     if (post) {
       userSaved.value = false;
+    }
+  }
+
+  saveandunsave() {
+    !userSaved.value ? _savePost() : _unsavePost();
+  }
+
+  likeandunlike() {
+    if (liked.isTrue) {
+      PostRepository().unlikePost(widget.id);
+
+      likelength--;
+      liked.value = false;
+    } else {
+      increament();
     }
   }
 
@@ -171,7 +191,6 @@ class _PostCardV2State extends State<PostCardV2> {
                         ),
                       ),
                       BottomTab(
-                        postid: widget.id,
                         onDelete: () async {
                           bool post =
                               await PostRepository().deletePost(widget.id);
@@ -182,12 +201,17 @@ class _PostCardV2State extends State<PostCardV2> {
 
                           // Navigator.push(context, MaterialPageRoute(builder: (context) => const SecondRoute()))
                         },
+                        likeStatus: liked.value,
                         location: widget.address,
                         images: widget.image,
                         username: widget.username,
                         userimage: widget.userimage!,
                         description: widget.description,
-                        postuser: widget.userProfileId,
+                        postuser: widget.postUserId,
+                        supost: saveandunsave,
+                        likeunlike: likeandunlike,
+                        savestatus: userSaved.value,
+                        postid: widget.id,
                       )
                     ],
                   ),

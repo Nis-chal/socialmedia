@@ -182,7 +182,8 @@ class _BottomTabState extends State<BottomTab> {
                 Navigator.pushNamed(context, NavigationDrawer.id, arguments: {
                   "pageIndex": 1,
                   "profilePicture": null,
-                  "profileId": widget.postuser
+                  "profileId": widget.postuser,
+                  "isProfile": 1,
                 });
               },
               child: Text(
