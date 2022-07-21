@@ -22,7 +22,9 @@ class _FeedScreenState extends State<FeedScreen> {
 
   RxString profileId = ''.obs;
 
- 
+  Future<void> updateData() async {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,28 +59,31 @@ class _FeedScreenState extends State<FeedScreen> {
                   // ProductResponse productResponse = snapshot.data!;
                   List<Posts> postlst = snapshot.data!.posts!;
 
-                  return ListView.separated(
-                      itemCount: postlst.length,
-                      separatorBuilder: (context, index) => const Divider(),
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return (PostCard(
-                          id: postlst[index].id,
-                          username: postlst[index].userid!.username!,
-                          image: postlst[index].images,
-                          date: postlst[index].createdAt,
-                          address: postlst[index].location,
-                          description: postlst[index].description,
-                          userimage: postlst[index].userid!.profilePicture,
-                          likesid: postlst[index].likesid,
-                          commentsid: postlst[index].commentsid,
-                          updatedAt: postlst[index].updatedAt,
-                          createdAt: postlst[index].createdAt,
-                          saved: postlst[index].saved,
-                          postUserId: postlst[index].userid!.id,
-                        ));
-                      });
+                  return RefreshIndicator(
+                    onRefresh: updateData,
+                    child: ListView.separated(
+                        itemCount: postlst.length,
+                        separatorBuilder: (context, index) => const Divider(),
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return (PostCard(
+                            id: postlst[index].id,
+                            username: postlst[index].userid!.username!,
+                            image: postlst[index].images,
+                            date: postlst[index].createdAt,
+                            address: postlst[index].location,
+                            description: postlst[index].description,
+                            userimage: postlst[index].userid!.profilePicture,
+                            likesid: postlst[index].likesid,
+                            commentsid: postlst[index].commentsid,
+                            updatedAt: postlst[index].updatedAt,
+                            createdAt: postlst[index].createdAt,
+                            saved: postlst[index].saved,
+                            postUserId: postlst[index].userid!.id,
+                          ));
+                        }),
+                  );
                 } else {
                   return const Center(
                     child: Text("No data"),

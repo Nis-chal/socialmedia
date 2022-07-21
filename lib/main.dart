@@ -16,8 +16,10 @@ import './responsive/login_layout.dart';
 import 'package:socialmedia/responsive/feed_layout.dart';
 import 'package:socialmedia/screens/post/post_edit.dart';
 import 'package:socialmedia/screens/post/post_detail.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
   runApp(MyApp());
 }
 
