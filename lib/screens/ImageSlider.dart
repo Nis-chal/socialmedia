@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:socialmedia/utils/url.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ImageSlider extends StatefulWidget {
   @override
@@ -15,8 +16,9 @@ class _ImageSliderState extends State<ImageSlider> {
 
   Widget buildImage(String urlImage, int index) => Container(
         color: Colors.grey,
-        child: Image.network(
-          '$baseUr$urlImage',
+        child: CachedNetworkImage(
+          // placeholder: (context, url) => const CircularProgressIndicator(),
+          imageUrl: '$baseUr$urlImage',
           fit: BoxFit.cover,
         ),
       );
