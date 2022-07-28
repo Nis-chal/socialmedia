@@ -18,6 +18,7 @@ import 'package:socialmedia/responsive/feed_layout.dart';
 import 'package:socialmedia/screens/post/post_edit.dart';
 import 'package:socialmedia/screens/post/post_detail.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:socialmedia/screens/shorts/ShortsLstScreen.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -67,6 +68,10 @@ class MyApp extends StatelessWidget {
             ModalRoute.of(context)!.settings.arguments as Map),
         EditProfileScreen.id: (context) => EditProfileScreen(
             ModalRoute.of(context)!.settings.arguments as Map),
+
+        ShortsLstScreen.id :(context)=>ShortsLstScreen()
+
+
       },
     );
   }

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:socialmedia/components/post_card.dart';
 import 'package:socialmedia/models/post.dart';
 import 'package:socialmedia/models/Posts.dart';
+import 'package:socialmedia/screens/shorts/ShortsLstScreen.dart';
 import '../response/FeedsResponse.dart';
 import '../repository/PostRepository.dart';
 
@@ -44,7 +45,9 @@ class _FeedScreenState extends State<FeedScreen> {
               Icons.messenger_outline,
               color: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, ShortsLstScreen.id);
+            },
           ),
         ],
       ),
