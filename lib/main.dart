@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:socialmedia/components/addPostCarousel.dart';
 import 'package:socialmedia/screens/add_post.dart';
@@ -16,8 +17,22 @@ import './responsive/login_layout.dart';
 import 'package:socialmedia/responsive/feed_layout.dart';
 import 'package:socialmedia/screens/post/post_edit.dart';
 import 'package:socialmedia/screens/post/post_detail.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+
+  AwesomeNotifications().initialize('resource://drawable/launcher', [
+    NotificationChannel(
+      channelGroupKey: 'basic_channel_group',
+      channelKey: 'basic_channel',
+      channelName: 'Basic Notifications',
+      importance: NotificationImportance.Max,
+      ledColor: Colors.white,
+      channelShowBadge: true,
+      channelDescription: 'Notification for the basic test of the app',
+    ),
+  ]);
   runApp(MyApp());
 }
 
@@ -46,8 +61,8 @@ class MyApp extends StatelessWidget {
         PostPreviewScreen.id: (context) => PostPreviewScreen(
             ModalRoute.of(context)!.settings.arguments as List<File>),
         AddPostDecriptionScreen.id: (context) => AddPostDecriptionScreen(),
-        ProfileScreen.id: (context) =>
-            ProfileScreen(arguments:ModalRoute.of(context)!.settings.arguments as String),
+        ProfileScreen.id: (context) => ProfileScreen(
+            arguments: ModalRoute.of(context)!.settings.arguments as String),
         ExploreVerticalView.id: (context) => ExploreVerticalView(
             ModalRoute.of(context)!.settings.arguments as Map),
         EditProfileScreen.id: (context) => EditProfileScreen(

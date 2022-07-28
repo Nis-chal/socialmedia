@@ -1,8 +1,8 @@
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:socialmedia/response/PostDetailResponse.dart';
 import 'package:socialmedia/response/postResponse/ExplorePostResponse.dart';
 
@@ -12,20 +12,32 @@ import '../api/httpServices.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mime/mime.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 
 class PostAPI {
   Future<FeedsResponse?> feeds() async {
     Future.delayed(const Duration(seconds: 2), () {});
 
     FeedsResponse? feedsResponse;
-
+    Box box;
     var postsurl = baseUrl + getFeedsUrl;
+
+    var dir = await getApplicationDocumentsDirectory();
+    Hive.init(dir.path);
+    box = await Hive.openBox('mybox');
+    var stored = box.get(postsurl);
+    var encoded = jsonDecode(stored);
+
+    feedsResponse = FeedsResponse.fromJson(encoded);
 
     try {
       var dio = HttpServices().getDiorInstance();
       // Obtain shared preferences.
-      dio.interceptors
-          .add(DioCacheManager(CacheConfig(baseUrl: ipaddress)).interceptor);
+      // dio.interceptors
+      //     .add(DioCacheManager(CacheConfig(baseUrl: ipaddress)).interceptor);
+
       final prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('token');
       var response = await dio.get(
@@ -35,15 +47,49 @@ class PostAPI {
       );
       if (response.statusCode == 200) {
         feedsResponse = FeedsResponse.fromJson(response.data);
+        String postdata = jsonEncode(response.data);
+        await box.clear();
+        box.put(postsurl, postdata);
       } else {
-        feedsResponse = null;
+        var stored = box.get(postsurl);
+        var encoded = jsonDecode(stored);
+
+        feedsResponse = FeedsResponse.fromJson(encoded);
       }
-    } catch (e) {
-      throw Exception(e);
+    } catch (SocketException) {
+      print('No Internet');
     }
+
+    // var mymap = box.toMap().values.toList();
+    // if(mymap.isEmpty){
+    //   feedsResponse = null;
+
+    // }else{
+
+    // }
 
     return feedsResponse;
   }
+
+  // Future<void>updateData()async{
+  //   Box box;
+  //   var postsurl = baseUrl + getFeedsUrl;
+
+  //     var dir = await getApplicationDocumentsDirectory();
+  //     Hive.init(dir.path);
+  //     box = await Hive.openBox('mybox');
+
+  //   try{
+  //       var stored = box.get(postsurl);
+
+  //     setState((){
+
+  //     })
+
+  //   }catch(SocketException){
+
+  //   }
+  // }
 
   Future<bool> addPost(
       List<File> images, String description, String location) async {
@@ -329,7 +375,6 @@ class PostAPI {
     return explorePostResponse;
   }
 
-
   Future<FeedsResponse?> likedfeeds(String userId) async {
     Future.delayed(const Duration(seconds: 2), () {});
 
@@ -361,6 +406,3 @@ class PostAPI {
     return feedsResponse;
   }
 }
-
-
-

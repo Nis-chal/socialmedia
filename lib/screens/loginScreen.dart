@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:socialmedia/components/roundedbtn.dart';
 
@@ -29,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _autoLogin();
+    // _autoLogin();
   }
 
   _autoLogin() async {
@@ -60,6 +61,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _navigateToScreen(bool isLogin) {
     if (isLogin) {
+      AwesomeNotifications().createNotification(
+          content: NotificationContent(
+              channelKey: 'basic_channel',
+              title: 'Getstarted',
+              body: "Welcome to Winkle",
+              id: 1));
       Navigator.pushNamed(context, NavigationDrawer.id, arguments: {
         "pageIndex": 0,
         "profilePicture": null,
