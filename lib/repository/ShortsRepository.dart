@@ -17,4 +17,8 @@ class ShortsRepository {
   Future<bool> dislikeShort(String shortid) async {
     return SHORTSAPI().dislikeShort(shortid: shortid);
   }
+
+   Future<bool> undislikeShort(String shortid) async {
+    return SHORTSAPI().undislikeShort(shortid: shortid);
+  }
 }

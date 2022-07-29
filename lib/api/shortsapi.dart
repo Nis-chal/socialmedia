@@ -133,4 +133,35 @@ class SHORTSAPI {
 
     return shorts;
   }
+
+
+
+  
+  Future<bool> undislikeShort({shortid}) async {
+    bool shorts;
+
+    var shortsurl = baseUrl + '$likeshortUrl$shortid/undislike';
+
+    try {
+      var dio = HttpServices().getDiorInstance();
+      // Obtain shared preferences.
+      final prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+
+      Response response = await dio.patch(
+        shortsurl,
+        options: Options(
+            headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
+      );
+      if (response.statusCode == 200) {
+        shorts = true;
+      } else {
+        shorts = false;
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+
+    return shorts;
+  }
 }
