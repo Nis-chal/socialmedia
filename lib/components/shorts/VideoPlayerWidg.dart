@@ -67,8 +67,11 @@ class _VideoPlayerWidgState extends State<VideoPlayerWidg> {
     super.dispose();
   }
 
-  _unlike() {
-    islike.value = false;
+  _unlike() async {
+    bool short = await ShortsRepository().unlikeShort(widget.id!);
+    if (short) {
+      islike.value = false;
+    }
   }
 
   _undislike() {
