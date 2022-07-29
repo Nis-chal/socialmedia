@@ -13,7 +13,7 @@ class VideoPlayerWidg extends StatefulWidget {
   String profilePicture, username, description, createdBy, loginuserid;
   String? location, id;
   DateTime createdAt;
-  List? likes, dislikes;
+  List? likes, dislikes, saved;
   VideoPlayerWidg(
       {this.id,
       required this.url,
@@ -26,6 +26,7 @@ class VideoPlayerWidg extends StatefulWidget {
       required this.loginuserid,
       this.likes,
       this.dislikes,
+      this.saved,
       Key? key})
       : super(key: key);
 
@@ -40,6 +41,7 @@ class _VideoPlayerWidgState extends State<VideoPlayerWidg> {
   RxBool islike = false.obs;
   RxBool isdislike = false.obs;
   RxBool isPauseAnimation = false.obs;
+  RxBool isSaved = false.obs;
 
   @override
   void initState() {
@@ -59,6 +61,9 @@ class _VideoPlayerWidgState extends State<VideoPlayerWidg> {
     if (widget.dislikes!.contains(widget.loginuserid)) {
       isdislike.value = true;
     }
+    if (widget.saved!.contains(widget.loginuserid)) {
+      isSaved.value = true;
+    }
   }
 
   @override
@@ -71,6 +76,13 @@ class _VideoPlayerWidgState extends State<VideoPlayerWidg> {
     bool short = await ShortsRepository().unlikeShort(widget.id!);
     if (short) {
       islike.value = false;
+    }
+  }
+
+  _saveShort() async {
+    bool short = await ShortsRepository().saveShort(widget.id!);
+    if (short) {
+      isSaved.value = true;
     }
   }
 
@@ -175,17 +187,28 @@ class _VideoPlayerWidgState extends State<VideoPlayerWidg> {
                                   size: 30,
                                 ),
                               )),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.bookmark_add_sharp,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                        )
+                        Obx(() => !isSaved.value
+                            ? IconButton(
+                                onPressed: () {
+                                  _saveShort();
+                                },
+                                icon: const Icon(
+                                  Icons.bookmark_sharp,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                              )
+                            : IconButton(
+                                onPressed: () {},
+                                icon: const Icon(
+                                  Icons.bookmark_sharp,
+                                  color: Colors.yellowAccent,
+                                  size: 30,
+                                ),
+                              )),
                       ],
                     ),
                   ),

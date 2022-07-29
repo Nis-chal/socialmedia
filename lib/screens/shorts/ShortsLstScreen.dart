@@ -93,7 +93,9 @@ class _ShortsLstScreenState extends State<ShortsLstScreen> {
                           createdBy: shortlst[index]!.userid!.id!,
                           loginuserid: userid.value,
                           likes: shortlst[index]!.likesid,
-                          dislikes: shortlst[index]!.dislikesid);
+                          dislikes: shortlst[index]!.dislikesid,
+                          saved:shortlst[index]!.saved,
+                          );
                     }),
                 Positioned(
                   top: 20,

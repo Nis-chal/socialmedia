@@ -21,4 +21,8 @@ class ShortsRepository {
    Future<bool> undislikeShort(String shortid) async {
     return SHORTSAPI().undislikeShort(shortid: shortid);
   }
+
+  Future<bool> saveShort(String shortid) async {
+    return SHORTSAPI().saveShort(shortid: shortid);
+  }
 }
