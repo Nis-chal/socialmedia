@@ -89,11 +89,14 @@ class _VideoPlayerWidgState extends State<VideoPlayerWidg> {
     }
   }
 
-  _dislikeshorts() {
-    if (islike.value) {
-      islike.value = false;
+  _dislikeshorts() async {
+    bool short = await ShortsRepository().dislikeShort(widget.id!);
+    if (short) {
+      if (islike.value) {
+        islike.value = false;
+      }
+      isdislike.value = true;
     }
-    isdislike.value = true;
   }
 
   @override
