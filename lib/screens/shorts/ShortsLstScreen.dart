@@ -76,24 +76,39 @@ class _ShortsLstScreenState extends State<ShortsLstScreen> {
             if (snapshot.data != null) {
               List<ShortsModel?> shortlst = snapshot.data!.shorts;
 
-              return PageView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: shortlst.length,
-                  itemBuilder: (context, index) {
-                    return VideoPlayerWidg(
-                        url: shortlst[index]!.video,
-                        profilePicture:
-                            shortlst[index]!.userid!.profilePicture!,
-                        username: shortlst[index]!.userid!.username!,
-                        location: shortlst[index]?.userid?.location,
-                        description: shortlst[index]!.description!,
-                        createdAt: shortlst[index]!.createdAt!,
-                        createdBy: shortlst[index]!.userid!.id!,
-                        loginuserid:userid.value,
-                        likes:shortlst[index]!.likesid,
-                        dislikes:shortlst[index]!.dislikesid
-                        );
-                  });
+              return Stack(children: [
+                PageView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: shortlst.length,
+                    itemBuilder: (context, index) {
+                      return VideoPlayerWidg(
+                        id:shortlst[index]!.id,
+                          url: shortlst[index]!.video,
+                          profilePicture:
+                              shortlst[index]!.userid!.profilePicture!,
+                          username: shortlst[index]!.userid!.username!,
+                          location: shortlst[index]?.userid?.location,
+                          description: shortlst[index]!.description!,
+                          createdAt: shortlst[index]!.createdAt!,
+                          createdBy: shortlst[index]!.userid!.id!,
+                          loginuserid: userid.value,
+                          likes: shortlst[index]!.likesid,
+                          dislikes: shortlst[index]!.dislikesid);
+                    }),
+                Positioned(
+                  top: 20,
+                  left: 10,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.arrow_back_ios_new,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ]);
             } else {
               return const Center(
                 child: Text("No data"),

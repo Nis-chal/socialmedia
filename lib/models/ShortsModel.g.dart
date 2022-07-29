@@ -8,6 +8,7 @@ part of 'ShortsModel.dart';
 
 ShortsModel _$ShortsModelFromJson(Map<String, dynamic> json) {
   return ShortsModel(
+    id: json['_id'] as String?,
     video: json['video'] as String,
     description: json['description'] as String?,
     location: json['location'] as String?,
@@ -28,6 +29,7 @@ ShortsModel _$ShortsModelFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$ShortsModelToJson(ShortsModel instance) =>
     <String, dynamic>{
+      '_id': instance.id,
       'video': instance.video,
       'description': instance.description,
       'location': instance.location,

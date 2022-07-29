@@ -6,16 +6,17 @@ import 'package:video_player/video_player.dart';
 
 import '../../utils/url.dart';
 import 'package:timeago/timeago.dart ' as timeago;
-import 'package:socialmedia/components/like_animation.dart';
+import 'package:socialmedia/repository/ShortsRepository.dart';
 
 class VideoPlayerWidg extends StatefulWidget {
   String url;
   String profilePicture, username, description, createdBy, loginuserid;
-  String? location;
+  String? location, id;
   DateTime createdAt;
   List? likes, dislikes;
   VideoPlayerWidg(
-      {required this.url,
+      {this.id,
+      required this.url,
       required this.profilePicture,
       required this.username,
       required this.description,
@@ -74,11 +75,15 @@ class _VideoPlayerWidgState extends State<VideoPlayerWidg> {
     isdislike.value = false;
   }
 
-  _likeshorts() {
-    if (isdislike.value) {
-      isdislike.value = false;
+  _likeshorts() async {
+    bool short = await ShortsRepository().likeShort(widget.id!);
+
+    if (short) {
+      if (isdislike.value) {
+        isdislike.value = false;
+      }
+      islike.value = true;
     }
-    islike.value = true;
   }
 
   _dislikeshorts() {

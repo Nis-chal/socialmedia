@@ -5,6 +5,8 @@ part 'ShortsModel.g.dart';
 
 @JsonSerializable()
 class ShortsModel {
+  @JsonKey(name: '_id')
+  String? id;
   String video;
   String? description;
   String? location;
@@ -15,7 +17,8 @@ class ShortsModel {
   DateTime? createdAt;
 
   ShortsModel(
-      {required this.video,
+      {this.id,
+        required this.video,
       this.description,
       this.location,
       this.likesid,
