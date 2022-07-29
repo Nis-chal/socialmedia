@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../utils/url.dart';
+import 'package:timeago/timeago.dart ' as timeago;
 
 class VideoPlayerWidg extends StatefulWidget {
   String url;
-  String profilePicture, username, description;
+  String profilePicture, username, description, createdBy, loginuserid;
   String? location;
+  DateTime createdAt;
   VideoPlayerWidg(
       {required this.url,
       required this.profilePicture,
       required this.username,
       required this.description,
       this.location,
+      required this.createdAt,
+      required this.createdBy,
+      required this.loginuserid,
       Key? key})
       : super(key: key);
 
@@ -23,10 +29,12 @@ class VideoPlayerWidg extends StatefulWidget {
 class _VideoPlayerWidgState extends State<VideoPlayerWidg> {
   VideoPlayerController? _controller;
   Future<void>? _initializeVideoPlayerFuture;
+  RxBool toggleOption = false.obs;
 
   @override
   void initState() {
     _controller = VideoPlayerController.network(baseUr + widget.url)
+      ..setLooping(true)
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {
@@ -92,7 +100,7 @@ class _VideoPlayerWidgState extends State<VideoPlayerWidg> {
                   ),
                 ),
                 Positioned(
-                  bottom: 180,
+                  bottom: 120,
                   left: 20,
                   child: Row(
                     children: [
@@ -110,10 +118,64 @@ class _VideoPlayerWidgState extends State<VideoPlayerWidg> {
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                         ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        timeago.format(widget.createdAt),
+                        style: TextStyle(
+                          color: Colors.white54,
+                        ),
                       )
                     ],
                   ),
-                )
+                ),
+                Positioned(
+                    left: 20,
+                    bottom: 90,
+                    child: Text(
+                      widget.description,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w300,
+                        fontSize: 16,
+                      ),
+                    )),
+                Positioned(
+                    top: 10,
+                    right: 10,
+                    child: Visibility(
+                      visible:
+                          widget.loginuserid == widget.createdBy ? true : false,
+                      child: IconButton(
+                        onPressed: () {
+                          toggleOption.value = !toggleOption.value;
+                        },
+                        icon: Icon(
+                          Icons.more_horiz,
+                          color: Colors.white,
+                        ),
+                      ),
+                    )),
+                Positioned(
+                    top: 40,
+                    right: 10,
+                    child: Obx(() => Visibility(
+                          visible: toggleOption.value ? true : false,
+                          child: Container(
+                            padding: EdgeInsets.all(2),
+                            color: Color.fromARGB(118, 22, 22, 22),
+                            child: IconButton(
+                              color: Colors.white,
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.delete,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        )))
               ])
             : Container(
                 child: Center(
