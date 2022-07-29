@@ -19,5 +19,7 @@ class VideoPlayerWidget extends StatelessWidget {
 
     Widget buildVideo()=> buildVideoPlayer();
 
-    Widget buildVideoPlayer()=> VideoPlayer(controller!);
+    Widget buildVideoPlayer()=> AspectRatio(
+      aspectRatio: controller!.value.aspectRatio,
+      child: VideoPlayer(controller!));
 }

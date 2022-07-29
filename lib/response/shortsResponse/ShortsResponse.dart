@@ -1,26 +1,16 @@
-import 'dart:io';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:socialmedia/models/User.dart';
+import 'package:socialmedia/models/ShortsModel.dart';
 part 'ShortsResponse.g.dart';
 
-
 @JsonSerializable()
-class ShortsResponse{
+class ShortsResponse {
+  List<ShortsModel?> shorts;
 
-  String video;
-  String? description;
-  String? location;
-  List<User>? likesid;
-  List<User>? dislikesid;
-  List<User>? saved;
-  User? userid;
+  ShortsResponse({required this.shorts});
 
-  ShortsResponse({required this.video,this.description,this.location,this.likesid,this.dislikesid,this.saved,this.userid});
-
-  factory ShortsResponse.fromJson(Map<String,dynamic>json){
+  factory ShortsResponse.fromJson(Map<String, dynamic> json) {
     return _$ShortsResponseFromJson(json);
   }
 
-  Map<String,dynamic>toJson()=> _$ShortsResponseToJson(this);
-
+  Map<String, dynamic> toJson() => _$ShortsResponseToJson(this);
 }
