@@ -90,6 +90,8 @@ class _ShortsLstScreenState extends State<ShortsLstScreen> {
                         createdAt: shortlst[index]!.createdAt!,
                         createdBy: shortlst[index]!.userid!.id!,
                         loginuserid:userid.value,
+                        likes:shortlst[index]!.likesid,
+                        dislikes:shortlst[index]!.dislikesid
                         );
                   });
             } else {
