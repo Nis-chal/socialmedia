@@ -25,4 +25,8 @@ class ShortsRepository {
   Future<bool> saveShort(String shortid) async {
     return SHORTSAPI().saveShort(shortid: shortid);
   }
+
+   Future<bool> unsaveShort(String shortid) async {
+    return SHORTSAPI().unsaveShort(shortid: shortid);
+  }
 }

@@ -42,6 +42,8 @@ class _VideoPlayerWidgState extends State<VideoPlayerWidg> {
   RxBool isdislike = false.obs;
   RxBool isPauseAnimation = false.obs;
   RxBool isSaved = false.obs;
+  RxInt likelength = 0.obs;
+  RxInt savelength = 0.obs;
 
   @override
   void initState() {
@@ -53,6 +55,8 @@ class _VideoPlayerWidgState extends State<VideoPlayerWidg> {
           _controller!.play();
         });
       });
+    likelength.value = widget.likes!.length;
+    savelength.value = widget.saved!.length;
 
     if (widget.likes!.contains(widget.loginuserid)) {
       islike.value = true;
@@ -76,6 +80,7 @@ class _VideoPlayerWidgState extends State<VideoPlayerWidg> {
     bool short = await ShortsRepository().unlikeShort(widget.id!);
     if (short) {
       islike.value = false;
+      likelength.value--;
     }
   }
 
@@ -83,6 +88,15 @@ class _VideoPlayerWidgState extends State<VideoPlayerWidg> {
     bool short = await ShortsRepository().saveShort(widget.id!);
     if (short) {
       isSaved.value = true;
+      savelength.value++;
+    }
+  }
+
+  _unsaveShort() async {
+    bool short = await ShortsRepository().unsaveShort(widget.id!);
+    if (short) {
+      isSaved.value = false;
+      savelength.value--;
     }
   }
 
@@ -101,6 +115,7 @@ class _VideoPlayerWidgState extends State<VideoPlayerWidg> {
         isdislike.value = false;
       }
       islike.value = true;
+      likelength.value++;
     }
   }
 
@@ -109,6 +124,7 @@ class _VideoPlayerWidgState extends State<VideoPlayerWidg> {
     if (short) {
       if (islike.value) {
         islike.value = false;
+        likelength.value--;
       }
       isdislike.value = true;
     }
@@ -163,6 +179,15 @@ class _VideoPlayerWidgState extends State<VideoPlayerWidg> {
                                   ),
                                 ),
                         ),
+                        Obx(
+                          () => Visibility(
+                            visible: likelength > 0 ? true : false,
+                            child: Text(
+                              '$likelength',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
                         SizedBox(
                           height: 20,
                         ),
@@ -190,25 +215,38 @@ class _VideoPlayerWidgState extends State<VideoPlayerWidg> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Obx(() => !isSaved.value
-                            ? IconButton(
-                                onPressed: () {
-                                  _saveShort();
-                                },
-                                icon: const Icon(
-                                  Icons.bookmark_sharp,
-                                  color: Colors.white,
-                                  size: 30,
+                        Obx(
+                          () => !isSaved.value
+                              ? IconButton(
+                                  onPressed: () {
+                                    _saveShort();
+                                  },
+                                  icon: const Icon(
+                                    Icons.bookmark_sharp,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                )
+                              : IconButton(
+                                  onPressed: () {
+                                    _unsaveShort();
+                                  },
+                                  icon: const Icon(
+                                    Icons.bookmark_sharp,
+                                    color: Colors.yellowAccent,
+                                    size: 30,
+                                  ),
                                 ),
-                              )
-                            : IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.bookmark_sharp,
-                                  color: Colors.yellowAccent,
-                                  size: 30,
-                                ),
-                              )),
+                        ),
+                        Obx(
+                          () => Visibility(
+                            visible: savelength > 0 ? true : false,
+                            child: Text(
+                              '$savelength',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
