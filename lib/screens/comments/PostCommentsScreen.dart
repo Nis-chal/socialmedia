@@ -18,7 +18,7 @@ class _PostCommentScreenState extends State<PostCommentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const  Text('comments')),
+      appBar: AppBar(title: const Text('comments')),
       body: FutureBuilder<CommentResponse?>(
         future: CommentRepository().getComments(widget.arguments),
         builder: (context, snapshot) {
@@ -40,6 +40,8 @@ class _PostCommentScreenState extends State<PostCommentScreen> {
                       content: commentlst[index].content,
                       postid: commentlst[index].postid,
                       createdAt: commentlst[index].createdAt,
+                      commentedBy: commentlst[index].commentedBy!.id,
+                      username: commentlst[index].commentedBy!.username,
                     ));
                   });
             } else {

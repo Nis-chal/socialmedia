@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialmedia/models/User.dart';
+import 'package:socialmedia/repository/CommentRepository.dart';
 import 'package:socialmedia/utils/url.dart';
 import 'package:timeago/timeago.dart ' as timeago;
 
 class SingleComment extends StatefulWidget {
-  String? profilePicture, commentid, content, postid;
+  String? profilePicture, commentid, content, postid, commentedBy, username;
   DateTime? createdAt;
 
   SingleComment(
@@ -17,6 +18,8 @@ class SingleComment extends StatefulWidget {
       this.content,
       this.postid,
       this.createdAt,
+      this.commentedBy,
+      this.username,
       Key? key})
       : super(key: key);
 
@@ -25,16 +28,23 @@ class SingleComment extends StatefulWidget {
 }
 
 class _SingleCommentState extends State<SingleComment> {
-  final _nameController = TextEditingController();
   RxBool isupdate = false.obs;
 
   RxString userid = ''.obs;
   RxBool option = false.obs;
+  RxBool isDelete = false.obs;
 
   @override
   void initState() {
     super.initState();
     _loadCounter();
+  }
+
+  final _nameController = TextEditingController();
+  _updateComment() async {
+    CommentRepository commentRepository = CommentRepository();
+    bool isupdated = await commentRepository.updateComments(
+        widget.commentid!, _nameController.text);
   }
 
   _loadCounter() async {
@@ -44,6 +54,7 @@ class _SingleCommentState extends State<SingleComment> {
       var data = (prefs.getString('userdata') ?? '');
       var userdatas = User.fromJson(jsonDecode(data.toString()));
       userid.value = userdatas.id.toString();
+      _nameController.text = widget.content!;
     });
   }
 
@@ -60,35 +71,91 @@ class _SingleCommentState extends State<SingleComment> {
             width: 10,
           ),
           Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Obx(
-                  () => TextField(
-                    enabled: isupdate.value,
-                    controller: _nameController..text = widget.content!,
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.all(0)),
+            child: Stack(children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                textBaseline: TextBaseline.alphabetic,
+                children: [
+                  Text(
+                    widget.username!,
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
+                  Obx(
+                    () => Container(
+                      padding: EdgeInsets.all(0),
+                      child: TextField(
+                          enabled: isupdate.value,
+                          autofocus: isupdate.value ? true : false,
+                          controller: _nameController,
+                          decoration: !isupdate.value
+                              ? InputDecoration(
+                                  isDense: true,
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.all(0),
+                                  focusedBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                )
+                              : InputDecoration(
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.all(0))),
+                    ),
+                  ),
+                  Text(timeago.format(widget.createdAt!))
+                ],
+              ),
+              Positioned(
+                top: 0,
+                right: 0,
+                child: Obx(
+                  () => Visibility(
+                    visible: isupdate.value ? true : false,
+                    child: Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            _updateComment();
+                            isupdate.value = false;
+                          },
+                          child: Icon(
+                            Icons.check,
+                            color: Colors.greenAccent,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            isupdate.value = false;
+                          },
+                          child: Icon(
+                            Icons.close,
+                            color: Colors.redAccent,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-                Text(timeago.format(widget.createdAt!))
-              ],
-            ),
+              )
+            ]),
           ),
           Stack(children: [
-            IconButton(
-              onPressed: () {
-                option.value = !option.value;
-              },
-              icon: Icon(Icons.more_horiz_sharp),
+            Visibility(
+              visible: widget.commentedBy == userid.value ? true : false,
+              child: IconButton(
+                onPressed: () {
+                  option.value = !option.value;
+                },
+                icon: Icon(Icons.more_horiz_sharp),
+              ),
             ),
           ])
         ],
       ),
       Positioned(
-          top: 37,
+          top: 32,
           right: 5,
           child: Obx(
             () => Visibility(
@@ -99,13 +166,24 @@ class _SingleCommentState extends State<SingleComment> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Icon(
-                      Icons.edit,
-                      color: Colors.white,
+                    GestureDetector(
+                      onTap: () {
+                        isupdate.value = true;
+                        option.value = !option.value;
+                      },
+                      child: Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                        size: 20,
+                      ),
                     ),
-                    Icon(
-                      Icons.delete,
-                      color: Colors.white,
+                    GestureDetector(
+                      onTap: () {},
+                      child: Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                        size: 20,
+                      ),
                     ),
                   ],
                 ),

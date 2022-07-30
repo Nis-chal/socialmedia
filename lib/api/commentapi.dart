@@ -45,4 +45,35 @@ class CommentAPI {
 
     return commentResponse;
   }
+
+  Future<bool> updateComments(String commentid, String content) async {
+    bool commentResponse = false;
+
+    var commentsurl = baseUrl + 'comment/update/$commentid';
+
+    try {
+      var dio = HttpServices().getDiorInstance();
+
+      final prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+
+      FormData formData = FormData.fromMap({
+        "content": content,
+      });
+
+      var response = await dio.patch(
+        commentsurl,
+        data: formData,
+        options: Options(
+            headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
+      );
+      if (response.statusCode == 200) {
+        commentResponse = true;
+      } else {}
+    } catch (e) {
+      print('No Internet');
+    }
+
+    return commentResponse;
+  }
 }
