@@ -1,10 +1,8 @@
-
-import 'UserInfo.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'UserInfo.dart';
 part 'Posts.g.dart';
 
 @JsonSerializable()
-
 class Posts {
   @JsonKey(name: '_id')
   String? id;
