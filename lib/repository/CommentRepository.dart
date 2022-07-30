@@ -9,4 +9,8 @@ class CommentRepository {
   Future<bool> updateComments(String commentid, String content) async {
     return CommentAPI().updateComments(commentid, content);
   }
+
+  Future<bool> deleteComments(String commentid) async {
+    return CommentAPI().deleteComments(commentid);
+  }
 }

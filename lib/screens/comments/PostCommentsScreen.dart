@@ -18,7 +18,18 @@ class _PostCommentScreenState extends State<PostCommentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('comments')),
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
+        title: const Text(
+          'comments',
+          style: TextStyle(color: Colors.black),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: FutureBuilder<CommentResponse?>(
         future: CommentRepository().getComments(widget.arguments),
         builder: (context, snapshot) {

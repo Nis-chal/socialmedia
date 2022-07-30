@@ -76,4 +76,30 @@ class CommentAPI {
 
     return commentResponse;
   }
+
+  Future<bool> deleteComments(String commentid) async {
+    bool commentResponse = false;
+
+    var commentsurl = baseUrl + 'comment/delete/$commentid';
+
+    try {
+      var dio = HttpServices().getDiorInstance();
+
+      final prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+
+      var response = await dio.delete(
+        commentsurl,
+        options: Options(
+            headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
+      );
+      if (response.statusCode == 200) {
+        commentResponse = true;
+      } else {}
+    } catch (e) {
+      print('No Internet');
+    }
+
+    return commentResponse;
+  }
 }
