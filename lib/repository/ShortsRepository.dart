@@ -32,6 +32,10 @@ class ShortsRepository {
     return SHORTSAPI().unsaveShort(shortid: shortid);
   }
 
+   Future<bool> deleteShort(String shortid) async {
+    return SHORTSAPI().deleteShort(shortid: shortid);
+  }
+
 
   Future<bool> addShort(File video, String description, String location) async {
     return SHORTSAPI().addShort(video:video,description:description,location:location);

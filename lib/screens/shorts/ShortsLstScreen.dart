@@ -21,6 +21,10 @@ class ShortsLstScreen extends StatefulWidget {
 
 class _ShortsLstScreenState extends State<ShortsLstScreen> {
   RxString userid = ''.obs;
+  PageController pageController = PageController(
+    initialPage: 0,
+    keepPage: true,
+  );
 
   @override
   void initState() {
@@ -75,14 +79,19 @@ class _ShortsLstScreenState extends State<ShortsLstScreen> {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.data != null) {
               List<ShortsModel?> shortlst = snapshot.data!.shorts;
+              removeitem(index) {
+                shortlst.removeAt(index);
+                pageController.jumpToPage(index + 1);
+              }
 
               return Stack(children: [
                 PageView.builder(
+                    controller: pageController,
                     scrollDirection: Axis.vertical,
                     itemCount: shortlst.length,
                     itemBuilder: (context, index) {
                       return VideoPlayerWidg(
-                        id:shortlst[index]!.id,
+                          id: shortlst[index]!.id,
                           url: shortlst[index]!.video,
                           profilePicture:
                               shortlst[index]!.userid!.profilePicture!,
@@ -94,8 +103,11 @@ class _ShortsLstScreenState extends State<ShortsLstScreen> {
                           loginuserid: userid.value,
                           likes: shortlst[index]!.likesid,
                           dislikes: shortlst[index]!.dislikesid,
-                          saved:shortlst[index]!.saved,
-                          );
+                          saved: shortlst[index]!.saved,
+                          removeAt: () {
+                            removeitem(index);
+                            print(shortlst.length);
+                          });
                     }),
                 Positioned(
                   top: 20,
