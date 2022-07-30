@@ -348,7 +348,7 @@ class _VideoPlayerWidgState extends State<VideoPlayerWidg> {
                                       size: 60,
                                     ),
                             ),
-                          )))
+                          ),),)
                 ])
               : Container(
                   child: Center(
