@@ -2,30 +2,30 @@ import 'package:socialmedia/models/User.dart';
 
 import '../models/Posts.dart';
 import 'package:json_annotation/json_annotation.dart';
-part 'Comments.g.dart';
+part 'CommentsModel.g.dart';
 
 @JsonSerializable()
-class Comments {
+class CommentsModel {
   @JsonKey(name: '_id')
   String? id;
   String? content;
   List<String>? likes;
-  User? commentedby;
-  Posts? postid;
+  User? commentedBy;
+  String? postid;
 
   DateTime? createdAt;
 
-  Comments({
+  CommentsModel({
     this.id,
     this.content,
     this.likes,
-    this.commentedby,
+    this.commentedBy,
     this.createdAt,
   });
 
-  factory Comments.fromJson(Map<String, dynamic> json) {
-    return _$CommentsFromJson(json);
+  factory CommentsModel.fromJson(Map<String, dynamic> json) {
+    return _$CommentsModelFromJson(json);
   }
 
-  Map<String, dynamic> toJson() => _$CommentsToJson(this);
+  Map<String, dynamic> toJson() => _$CommentsModelToJson(this);
 }
