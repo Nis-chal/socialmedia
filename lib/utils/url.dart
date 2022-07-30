@@ -3,7 +3,9 @@ const baseUrl = "http://10.0.2.2:5000/api/v1/";
 // const baseUrl = "http://localhost:5000/api/v1/";
 
 const baseUr = "http://10.0.2.2:5000/";
-const ipaddress = "http://192.168.1.3:5000/api/v1/posts";
+const baseUr0 = "http://10.0.2.2:5000";
+
+const ipaddress = "http://192.168.1.3:5000/";
 
 const productUrl = "";
 const loginUrl = "auth/login";
@@ -26,5 +28,9 @@ const updateUser = "profile/updateprofile/";
 const likedPostsUrl = "posts/likedlist/";
 
 const removeFollower = "profile/removefollower/";
+const getshortUrl = 'shorts/get';
+const likeshortUrl = "shorts/";
+
+
 
 String? token;

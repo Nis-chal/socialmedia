@@ -35,7 +35,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   modal_progress_hud_nsn: ^0.1.0-nullsafety-1
   image_picker: ^0.8.5+3
-  json_serializable: ^4.1.4
   dio: ^4.0.6
   motion_toast: ^2.1.9
   shared_preferences: ^2.0.15
@@ -49,12 +48,14 @@ dependencies:
   get: ^4.6.5
   blur: ^3.1.0
   staggered_grid_view_flutter: ^0.0.4
-  json_annotation: ^4.0.1
   flutter_cache_manager: ^3.3.0
   dio_http_cache: ^0.3.0
   path_provider: ^2.0.11
   cached_network_image: ^3.2.1
   awesome_notifications: ^0.6.21
+  video_player: ^2.4.5
+  json_annotation: ^4.1.0
+  json_serializable: ^4.1.4
 
 dev_dependencies:
   flutter_test:

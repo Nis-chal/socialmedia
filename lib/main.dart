@@ -13,11 +13,13 @@ import 'package:socialmedia/screens/profile/editProfile.dart';
 import 'package:socialmedia/screens/profile/profileScreen.dart';
 import 'package:socialmedia/screens/registerScreen.dart';
 import 'package:socialmedia/screens/navigationdrawer.dart';
+import 'package:socialmedia/screens/shorts/Addshort.dart';
 import './responsive/login_layout.dart';
 import 'package:socialmedia/responsive/feed_layout.dart';
 import 'package:socialmedia/screens/post/post_edit.dart';
 import 'package:socialmedia/screens/post/post_detail.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:socialmedia/screens/shorts/ShortsLstScreen.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -67,6 +69,9 @@ class MyApp extends StatelessWidget {
             ModalRoute.of(context)!.settings.arguments as Map),
         EditProfileScreen.id: (context) => EditProfileScreen(
             ModalRoute.of(context)!.settings.arguments as Map),
+        ShortsLstScreen.id: (context) => ShortsLstScreen(),
+        AddShortScreen.id: (context) =>
+            AddShortScreen(ModalRoute.of(context)!.settings.arguments as File)
       },
     );
   }

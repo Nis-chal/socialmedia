@@ -29,7 +29,7 @@ class EditProfileScreen extends StatelessWidget {
 
   Future _loadImage(ImageSource imageSource) async {
     try {
-      final image = await ImagePicker().pickImage(source: imageSource);
+      final image = await ImagePicker().getVideo(source: imageSource);
       if (image != null) {
         fimage = File(image.path);
         loaded.value = true;
@@ -185,13 +185,14 @@ class EditProfileScreen extends StatelessWidget {
             GestureDetector(
                 onTap: () {
                   showModalBottomSheet(
-                      context: context,
-                      backgroundColor: Colors.transparent,
-                      builder: (BuildContext context) => changeImage(
-                            onpop: () {
-                              Navigator.pop(context);
-                            },
-                          ));
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    builder: (BuildContext context) => changeImage(
+                      onpop: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  );
                 },
                 child: Text(
                   'change profile photo',

@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialmedia/components/FollowButton.dart';
 import 'package:socialmedia/components/post_card.dart';
@@ -16,6 +18,7 @@ import 'package:socialmedia/response/profileResponse/ProfileResponse.dart';
 import 'package:socialmedia/screens/profile/editProfile.dart';
 import 'package:socialmedia/screens/profile/followerlistScreen.dart';
 import 'package:socialmedia/screens/profile/profileSliderScreen.dart';
+import 'package:socialmedia/screens/shorts/Addshort.dart';
 import 'package:socialmedia/utils/url.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -23,7 +26,7 @@ class ProfileScreen extends StatefulWidget {
   final String? arguments;
   final VoidCallback? goback;
 
-  ProfileScreen( {Key? key,this.arguments,this.goback }) : super(key: key);
+  ProfileScreen({Key? key, this.arguments, this.goback}) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -40,6 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   RxInt initfollowerCount = 0.obs;
   RxInt followingpage = 0.obs;
   RxString profileUsername = ''.obs;
+  RxString profilePicture = ''.obs;
 
   @override
   void initState() {
@@ -76,6 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           : widget.arguments!;
 
       profileUsername.value = profileInfo.user.username!;
+      profilePicture.value = userdatas.profilePicture!;
     });
 
     // if (profileInfo!.followers!.length! > 0) {
@@ -129,6 +134,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } catch (e) {}
   }
 
+  File? fimage;
+  RxBool loaded = false.obs;
+
+  Future _loadShort(ImageSource mediaSource) async {
+    try {
+      final image = await ImagePicker().pickVideo(source: mediaSource);
+      if (image != null) {
+        fimage = File(image.path);
+        loaded.value = true;
+      } else {
+        return;
+      }
+    } catch (e) {
+      debugPrint('Failed to pick Image $e');
+    }
+    Navigator.pushNamed(context, AddShortScreen.id, arguments:fimage);
+  }
+
   Widget buildImage(Posts post, int index) => Container(
       color: Colors.white,
       child: PostCardV2(
@@ -160,6 +183,61 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   final carouselcontoller = CarouselController();
 
+  Widget changeVideo({required VoidCallback onpop}) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 8.0),
+      height: 150,
+      color: Colors.transparent,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        textDirection: TextDirection.rtl,
+        children: [
+          GestureDetector(
+            onTap: () {
+              _loadShort(ImageSource.camera);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              height: 40,
+              child: Center(child: Text('Capture Shorts')),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              _loadShort(ImageSource.gallery);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20))),
+              height: 40,
+              child: Center(child: Text('Choose From Gallery')),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          GestureDetector(
+            onTap: onpop,
+            child: Container(
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(9))),
+              height: 40,
+              child: const Center(child: Text('cancel')),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -181,6 +259,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               profile.user.username!.toUpperCase(),
@@ -188,7 +267,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   fontSize:
                                       MediaQuery.of(context).size.width * 0.06,
                                   fontWeight: FontWeight.bold),
-                            )
+                            ),
+                            IconButton(
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    backgroundColor: Colors.transparent,
+                                    builder: (BuildContext context) =>
+                                        changeVideo(
+                                      onpop: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  );
+                                },
+                                icon: Icon(Icons.add_box_outlined))
                           ],
                         ),
                       ),
