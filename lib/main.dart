@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
             ModalRoute.of(context)!.settings.arguments as Map),
         ShortsLstScreen.id: (context) => ShortsLstScreen(),
         AddShortScreen.id: (context) =>
-            AddShortScreen(ModalRoute.of(context)!.settings.arguments as Map)
+            AddShortScreen(ModalRoute.of(context)!.settings.arguments as File)
       },
     );
   }

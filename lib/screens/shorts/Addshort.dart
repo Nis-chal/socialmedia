@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socialmedia/models/User.dart';
+import 'package:socialmedia/repository/ShortsRepository.dart';
+import 'package:socialmedia/screens/shorts/ShortsLstScreen.dart';
 
 import 'package:socialmedia/utils/url.dart';
 import 'package:video_player/video_player.dart';
 
 class AddShortScreen extends StatefulWidget {
   static const String id = 'add_screen_screen';
-  Map arguments;
+  File arguments;
 
   AddShortScreen(this.arguments, {Key? key}) : super(key: key);
 
@@ -28,10 +30,12 @@ class _AddShortScreenState extends State<AddShortScreen> {
   RxBool isPauseAnimation = false.obs;
   RxString profilePicture = ''.obs;
 
+  File? video;
+
   @override
   void initState() {
     _loaduserdata();
-    _controller = VideoPlayerController.file(widget.arguments['file'])
+    _controller = VideoPlayerController.file(widget.arguments)
       ..setLooping(true)
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
@@ -48,6 +52,7 @@ class _AddShortScreenState extends State<AddShortScreen> {
     var userdatas = User.fromJson(jsonDecode(data.toString()));
     userid.value = userdatas.id.toString();
     profilePicture.value = userdatas.profilePicture!;
+    video = widget.arguments;
   }
 
   @override
@@ -91,16 +96,18 @@ class _AddShortScreenState extends State<AddShortScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    // bool post = await PostRepository().updatePost(
-                    //     _location.text,
-                    //     _description.text,
-                    //     args['postid'],
-                    //     args['postimage']);
+                    bool short = await ShortsRepository().addShort(
+                      video!,
+                      _description.text,
+                      _location.text,
+                    );
 
-                    // if (post) {
-                    //   Navigator.pushNamed(context, PostDetailScreen.id,
-                    //       arguments: args['postid']!);
-                    // }
+                    if (short) {
+                      Navigator.pushNamed(
+                        context,
+                        ShortsLstScreen.id,
+                      );
+                    }
                   },
                   child: Text('Done'),
                   style: ElevatedButton.styleFrom(
@@ -131,7 +138,7 @@ class _AddShortScreenState extends State<AddShortScreen> {
                   ),
                   Expanded(
                     child: TextField(
-                      controller: _description..text = 'he',
+                      controller: _description,
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
                           hintText: 'Add description',

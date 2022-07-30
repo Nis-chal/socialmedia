@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:socialmedia/response/shortsResponse/ShortsResponse.dart';
 import 'package:socialmedia/api/shortsapi.dart';
 
@@ -28,5 +30,10 @@ class ShortsRepository {
 
    Future<bool> unsaveShort(String shortid) async {
     return SHORTSAPI().unsaveShort(shortid: shortid);
+  }
+
+
+  Future<bool> addShort(File video, String description, String location) async {
+    return SHORTSAPI().addShort(video:video,description:description,location:location);
   }
 }

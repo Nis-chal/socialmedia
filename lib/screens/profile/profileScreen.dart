@@ -149,11 +149,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } catch (e) {
       debugPrint('Failed to pick Image $e');
     }
-    Navigator.pushNamed(context, AddShortScreen.id, arguments: {
-      "file": fimage,
-      "profilePicture": profilePicture.value,
-      "userid": userid.value,
-    });
+    Navigator.pushNamed(context, AddShortScreen.id, arguments:fimage);
   }
 
   Widget buildImage(Posts post, int index) => Container(

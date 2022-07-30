@@ -8,9 +8,9 @@ import 'package:dio_http_cache/dio_http_cache.dart';
 import '../utils/url.dart';
 import '../api/httpServices.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:http_parser/http_parser.dart';
+
+import 'package:mime/mime.dart';
 
 class SHORTSAPI {
   Future<ShortsResponse?> getshorts() async {
@@ -105,7 +105,6 @@ class SHORTSAPI {
     return shorts;
   }
 
-
   Future<bool> dislikeShort({shortid}) async {
     bool shorts;
 
@@ -134,9 +133,6 @@ class SHORTSAPI {
     return shorts;
   }
 
-
-
-  
   Future<bool> undislikeShort({shortid}) async {
     bool shorts;
 
@@ -164,8 +160,6 @@ class SHORTSAPI {
 
     return shorts;
   }
-
-
 
   Future<bool> saveShort({shortid}) async {
     bool shorts;
@@ -195,8 +189,7 @@ class SHORTSAPI {
     return shorts;
   }
 
-
-    Future<bool> unsaveShort({shortid}) async {
+  Future<bool> unsaveShort({shortid}) async {
     bool shorts;
 
     var shortsurl = baseUrl + '$likeshortUrl$shortid/unsaveshort';
@@ -221,6 +214,49 @@ class SHORTSAPI {
       throw Exception(e);
     }
 
+    return shorts;
+  }
+
+  Future<bool> addShort(
+      {required File video,
+      required String description,
+      String? location}) async {
+    bool shorts = false;
+
+    FormData formData;
+
+    try {
+      var url = baseUrl + "shorts/upload";
+      var dio = HttpServices().getDiorInstance();
+      final prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+
+      var mimeType = lookupMimeType(video.path);
+      MultipartFile multipartFile = await MultipartFile.fromFile(
+        video.path,
+        filename: video.path.split("/").last,
+        contentType: MediaType("video", mimeType!.split("/")[1]),
+      );
+
+      formData = FormData.fromMap({
+        "video": multipartFile,
+        "description": description,
+        "location": location,
+      });
+
+      Response response = await dio.post(
+        url,
+        data: formData,
+        options: Options(
+            headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
+      );
+
+      if (response.statusCode == 201) {
+        shorts = true;
+      }
+    } catch (e) {
+      // debugPrint(e.toString());
+    }
     return shorts;
   }
 }
