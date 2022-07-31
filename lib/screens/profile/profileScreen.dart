@@ -15,6 +15,7 @@ import 'package:socialmedia/repository/PostRepository.dart';
 import 'package:socialmedia/repository/ProfileRepository.dart';
 import 'package:socialmedia/response/FeedsResponse.dart';
 import 'package:socialmedia/response/profileResponse/ProfileResponse.dart';
+import 'package:socialmedia/screens/post/postBookmark.dart';
 import 'package:socialmedia/screens/profile/editProfile.dart';
 import 'package:socialmedia/screens/profile/followerlistScreen.dart';
 import 'package:socialmedia/screens/profile/profileSliderScreen.dart';
@@ -149,7 +150,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } catch (e) {
       debugPrint('Failed to pick Image $e');
     }
-    Navigator.pushNamed(context, AddShortScreen.id, arguments:fimage);
+    Navigator.pushNamed(context, AddShortScreen.id, arguments: fimage);
   }
 
   Widget buildImage(Posts post, int index) => Container(
@@ -238,6 +239,73 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  Widget options({required VoidCallback onpop}) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 8.0),
+      height: 180,
+      color: Colors.transparent,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        textDirection: TextDirection.rtl,
+        children: [
+          GestureDetector(
+            onTap: () {
+              _loadShort(ImageSource.camera);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              height: 40,
+              child: Center(child: Text('Shorts Bookmark')),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, PostBookMark.id);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              height: 40,
+              child: Center(child: Text('Post Bookmark')),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              _loadShort(ImageSource.camera);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20))),
+              height: 40,
+              child: Center(child: Text('Logout')),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          GestureDetector(
+            onTap: onpop,
+            child: Container(
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(9))),
+              height: 40,
+              child: const Center(child: Text('cancel')),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -268,20 +336,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       MediaQuery.of(context).size.width * 0.06,
                                   fontWeight: FontWeight.bold),
                             ),
-                            IconButton(
-                                onPressed: () {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    backgroundColor: Colors.transparent,
-                                    builder: (BuildContext context) =>
-                                        changeVideo(
-                                      onpop: () {
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                  );
-                                },
-                                icon: Icon(Icons.add_box_outlined))
+                            Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        backgroundColor: Colors.transparent,
+                                        builder: (BuildContext context) =>
+                                            changeVideo(
+                                          onpop: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    icon: Icon(Icons.add_box_outlined)),
+                                IconButton(
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        backgroundColor: Colors.transparent,
+                                        builder: (BuildContext context) =>
+                                            options(
+                                          onpop: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    icon:
+                                        Icon(Icons.format_list_bulleted_sharp)),
+                              ],
+                            )
                           ],
                         ),
                       ),

@@ -9,6 +9,7 @@ import 'package:socialmedia/screens/comments/PostCommentsScreen.dart';
 import 'package:socialmedia/screens/loginScreen.dart';
 import 'package:socialmedia/screens/post/add_post_description.dart';
 import 'package:socialmedia/screens/post/explorePostVerticalView.dart';
+import 'package:socialmedia/screens/post/postBookmark.dart';
 import 'package:socialmedia/screens/post/postProviewScreen.dart';
 import 'package:socialmedia/screens/profile/editProfile.dart';
 import 'package:socialmedia/screens/profile/profileScreen.dart';
@@ -74,7 +75,9 @@ class MyApp extends StatelessWidget {
         AddShortScreen.id: (context) =>
             AddShortScreen(ModalRoute.of(context)!.settings.arguments as File),
 
-        PostCommentScreen.id:(context) => PostCommentScreen(ModalRoute.of(context)!.settings.arguments as String) 
+        PostCommentScreen.id:(context) => PostCommentScreen(ModalRoute.of(context)!.settings.arguments as String),
+        PostBookMark.id: (context) => const PostBookMark(),
+         
       },
     );
   }

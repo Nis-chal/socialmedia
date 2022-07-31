@@ -140,35 +140,57 @@ class _BottomTabState extends State<BottomTab> {
             SizedBox(
               width: 10,
             ),
-            Expanded(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(31, 127, 127, 127),
-                    shadowColor: Colors.transparent,
-                    onPrimary: Colors.black87,
-                    minimumSize: Size(100, 70)),
-                onPressed: () {
-                  Navigator.pushNamed(context, PostEditScreen.id, arguments: {
-                    "postid": widget.postid,
-                    "username": widget.username,
-                    "userImage": widget.userimage,
-                    "location": widget.location,
-                    "description": widget.description,
-                    "postimage": widget.images
-                  });
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.edit,
-                      color: Color(0xFFB1ABAB),
+            widget.postuser == loginuser.value
+                ? Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(31, 127, 127, 127),
+                          shadowColor: Colors.transparent,
+                          onPrimary: Colors.black87,
+                          minimumSize: Size(100, 70)),
+                      onPressed: () {
+                        Navigator.pushNamed(context, PostEditScreen.id,
+                            arguments: {
+                              "postid": widget.postid,
+                              "username": widget.username,
+                              "userImage": widget.userimage,
+                              "location": widget.location,
+                              "description": widget.description,
+                              "postimage": widget.images
+                            });
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.edit,
+                            color: Color(0xFFB1ABAB),
+                          ),
+                          Text("Edit")
+                        ],
+                      ),
                     ),
-                    Text("Edit")
-                  ],
-                ),
-              ),
-            )
+                  )
+                : Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.blue,
+                          shadowColor: Colors.transparent,
+                          onPrimary: Colors.white,
+                          minimumSize: Size(100, 70)),
+                      onPressed: () {},
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.people,
+                            color: Colors.white,
+                          ),
+                          Text("unfollow")
+                        ],
+                      ),
+                    ),
+                  )
           ],
         ),
         Column(
