@@ -56,6 +56,8 @@ dependencies:
   video_player: ^2.4.5
   json_annotation: ^4.1.0
   json_serializable: ^4.1.4
+  integration_test:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:

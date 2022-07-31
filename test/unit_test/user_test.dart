@@ -1,75 +1,83 @@
-import 'dart:math';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:socialmedia/models/User.dart';
+import 'package:socialmedia/repository/PostRepository.dart';
 import 'package:socialmedia/repository/UserRepository.dart';
 
 import 'package:socialmedia/response/logindispatch.dart';
-import 'package:socialmedia/response/FeedsResponse.dart';
+// import 'package:socialmedia/response/FeedsResponse.dart';
+import 'package:socialmedia/api/httpServices.dart';
+import 'package:socialmedia/utils/url.dart';
 
+void main() {
+  UserRepository? userRepository;
+  PostRepository? postRepository;
 
+  group('Authorization Test', () {
+    setUp(() {
+      userRepository = UserRepository();
+      postRepository = PostRepository();
+    });
 
-void main(){
+    test('login user', () async {
+      bool expectedResult = true;
 
-  late UserRepository? userRepository;
+      User user = User(email: "cristiano@gmail.com", password: "cristiano");
 
-  setUp((){
-   userRepository = UserRepository();
+      // UserRepository userRepository = UserRepository();
+
+      bool actualResult = await userRepository!.login(user);
+
+      expect(true, actualResult);
+    });
+    test('Register user', () async {
+      bool expectedResult = true;
+      // UserRepository userRepository = UserRepository();
+
+      User user = User(
+          name: "numsasss",
+          email: "numsssi@gmail.com",
+          location: "londonsss",
+          username: "numsssssa",
+          password: "numassnuma");
+
+      LoginDispatch actualResult = await userRepository!.registerUser(user);
+
+      expect(expectedResult, actualResult.login);
+    });
   });
 
-  group('Authorization Test', (){
-  test('Register user', () async{
+  test('get product', () async {
+    var url = baseUrl + loginUrl;
 
-    LoginDispatch expectedResult = LoginDispatch(login: true);
+    var dio = HttpServices().getDiorInstance();
 
-   
+    var postsurl = baseUrl + getFeedsUrl;
 
-    User user = User(
+    var response = await dio.post(url, data: {
+      "email": "cristiano@gmail.com",
+      "password": "cristiano",
+    });
 
-      name:"sarthak",
-      email: "shresth3a@gmail.com",
-      location: "london",
-      username: "sarthak",
-      password: "sarthak"
+    String token = response.data['token'];
+
+    var postresponse = await dio.get(
+      postsurl,
+      options:
+          Options(headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
     );
 
-    LoginDispatch actualResult = await userRepository!.registerUser(user);
-
-    expect(expectedResult.login,actualResult.login);
+    expect(200, postresponse.statusCode);
   });
 
-  test('login user', () async{
-
-   bool expectedResult = true;
-
-   
-
-    User user = User(
-
-     
-      email: "cristiano@gmail.com",
-      
-      password: "cristiano"
-    );
-
-    bool actualResult = await userRepository!.login(user);
-
-    expect(expectedResult,actualResult);
-  });
+  test('add Product',() async{
+  
   });
 
-  test('get product',() async{
-
-   
-
-
-  });
-
-
-
-  tearDown((){
+  tearDown(() {
     userRepository = null;
+    postRepository = null;
   });
 }
-
-

@@ -7,7 +7,6 @@ import 'package:socialmedia/components/comment.dart/singleComment.dart';
 import 'package:socialmedia/models/CommentsModel.dart';
 import 'package:socialmedia/models/User.dart';
 import 'package:socialmedia/repository/CommentRepository.dart';
-import 'package:socialmedia/repository/ShortsRepository.dart';
 import 'package:socialmedia/response/commentResponse/CommentResponse.dart';
 import 'package:socialmedia/utils/url.dart';
 
@@ -41,6 +40,12 @@ class _PostCommentScreenState extends State<PostCommentScreen> {
     });
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _loadCounter();
+  }
+
   _addComment() async {
     CommentRepository commentRepository = CommentRepository();
     bool added = await commentRepository.addComments(
@@ -69,73 +74,51 @@ class _PostCommentScreenState extends State<PostCommentScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: Stack(children: [
-        Container(
-          height: MediaQuery.of(context).size.height * 0.9,
-          child: FutureBuilder<CommentResponse?>(
-            future: CommentRepository().getComments(widget.arguments),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.data != null) {
-                  // ProductResponse productResponse = snapshot.data!;
-                  List<CommentsModel> commentlst = snapshot.data!.comment!;
+      body: FutureBuilder<CommentResponse?>(
+        future: CommentRepository().getComments(widget.arguments),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.data != null) {
+              // ProductResponse productResponse = snapshot.data!;
+              List<CommentsModel> commentlst = snapshot.data!.comment!;
 
-                  return ListView.separated(
-                      itemCount: commentlst.length,
-                      separatorBuilder: (context, index) => const Divider(),
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return (SingleComment(
-                          profilePicture:
-                              commentlst[index].commentedBy!.profilePicture,
-                          commentid: commentlst[index].id,
-                          content: commentlst[index].content,
-                          postid: commentlst[index].postid,
-                          createdAt: commentlst[index].createdAt,
-                          commentedBy: commentlst[index].commentedBy!.id,
-                          username: commentlst[index].commentedBy!.username,
-                        ));
-                      });
-                } else {
-                  return const Center(
-                    child: Text("No data"),
-                  );
-                }
-              } else if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                  ),
-                );
-              }
-            },
-          ),
-        ),
-        Positioned(
-            bottom: 0,
-            child: Container(
-              // width: double.infinity,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                      color: Colors.black,
-                      width: 2.0,
-                      style: BorderStyle.solid)),
-              child: Row(children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(baseUr + profilePicture.value),
-                ),
-                // Text('jjj')
-              ]),
-            ))
-      ]),
+              return ListView.separated(
+                  itemCount: commentlst.length,
+                  separatorBuilder: (context, index) => const Divider(),
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return (SingleComment(
+                      profilePicture:
+                          commentlst[index].commentedBy!.profilePicture,
+                      commentid: commentlst[index].id,
+                      content: commentlst[index].content,
+                      postid: commentlst[index].postid,
+                      createdAt: commentlst[index].createdAt,
+                      commentedBy: commentlst[index].commentedBy!.id,
+                      username: commentlst[index].commentedBy!.username,
+                    ));
+                  });
+            } else {
+              return const Center(
+                child: Text("No data"),
+              );
+            }
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+              ),
+            );
+          }
+        },
+      ),
       bottomNavigationBar: SafeArea(
         child: Container(
           height: 70,
@@ -153,6 +136,7 @@ class _PostCommentScreenState extends State<PostCommentScreen> {
                   padding: const EdgeInsets.only(left: 16, right: 8),
                   child: TextField(
                     controller: _commentController,
+                    autofocus: false,
                     decoration: InputDecoration(
                       hintText: 'Comment as ${username}',
                       border: InputBorder.none,

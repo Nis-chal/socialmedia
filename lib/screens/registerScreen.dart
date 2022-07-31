@@ -83,6 +83,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     // Image.asset('assets/images/download.jpg'),
                     TextFormField(
+                      key: Key('name'),
                       keyboardType: TextInputType.emailAddress,
                       controller: _nameController,
                       decoration: kTextFieldDecoration.copyWith(
@@ -98,6 +99,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 8.0,
                     ),
                     TextFormField(
+                      key: Key('username'),
                       keyboardType: TextInputType.emailAddress,
                       controller: _usernameController,
                       decoration: kTextFieldDecoration.copyWith(
@@ -114,6 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 8.0,
                     ),
                     TextFormField(
+                      key: Key('email'),
                       keyboardType: TextInputType.emailAddress,
                       controller: _emailController,
                       decoration: kTextFieldDecoration.copyWith(
@@ -129,6 +132,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 8.0,
                     ),
                     TextFormField(
+                      key: Key('location'),
                       keyboardType: TextInputType.emailAddress,
                       controller: _locationController,
                       decoration: kTextFieldDecoration.copyWith(
@@ -144,6 +148,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 8.0,
                     ),
                     TextFormField(
+                      key: Key('password'),
                       obscureText: true,
                       keyboardType: TextInputType.emailAddress,
                       controller: _passwordController,
@@ -159,22 +164,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     SizedBox(
                       height: 24.0,
                     ),
-                    RoundedButton(
-                      title: 'Register',
-                      colour: Color(0xFF363636),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          User user = User(
-                            name: _nameController.text,
-                            username: _usernameController.text,
-                            email: _emailController.text,
-                            location: _locationController.text,
-                            password: _passwordController.text,
-                          );
+                    SizedBox(
+                      key: Key('Register'),
+                      child: RoundedButton(
+                        title: 'Register',
+                        colour: Color(0xFF363636),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            User user = User(
+                              name: _nameController.text,
+                              username: _usernameController.text,
+                              email: _emailController.text,
+                              location: _locationController.text,
+                              password: _passwordController.text,
+                            );
 
-                          _registerUser(user);
-                        }
-                      },
+                            _registerUser(user);
+                          }
+                        },
+                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,

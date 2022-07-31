@@ -33,20 +33,26 @@ class _SingleCommentState extends State<SingleComment> {
   RxString userid = ''.obs;
   RxBool option = false.obs;
   RxBool isDelete = false.obs;
-
+  RxString description = ''.obs;
   @override
   void initState() {
     super.initState();
     _loadCounter();
   }
 
-  final _nameController = TextEditingController();
+  @override
+  void dispose() {
+    super.dispose();
+    _loadCounter();
+  }
+
   _updateComment() async {
     CommentRepository commentRepository = CommentRepository();
     bool isupdated = await commentRepository.updateComments(
-        widget.commentid!, _nameController.text);
+        widget.commentid!, _editController.text);
   }
 
+  final _editController = TextEditingController();
   _deleteComment() async {
     CommentRepository commentRepository = CommentRepository();
     bool isupdated = await commentRepository.deleteComments(widget.commentid!);
@@ -62,7 +68,7 @@ class _SingleCommentState extends State<SingleComment> {
       var data = (prefs.getString('userdata') ?? '');
       var userdatas = User.fromJson(jsonDecode(data.toString()));
       userid.value = userdatas.id.toString();
-      _nameController.text = widget.content!;
+      // _editController.text = widget.content!;
     });
   }
 
@@ -74,7 +80,7 @@ class _SingleCommentState extends State<SingleComment> {
             padding: const EdgeInsets.only(left: 3.0),
             child: Stack(children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   CircleAvatar(
                     backgroundImage:
@@ -97,30 +103,27 @@ class _SingleCommentState extends State<SingleComment> {
                                 fontWeight: FontWeight.bold),
                           ),
                           Obx(
-                            () => Container(
-                              padding: EdgeInsets.all(0),
-                              child: TextField(
-                                  style: TextStyle(
-                                      color: Colors.black45, fontSize: 14),
-                                  enabled: isupdate.value,
-                                  autofocus: isupdate.value ? true : false,
-                                  controller: _nameController,
-                                  decoration: !isupdate.value
-                                      ? InputDecoration(
-                                          isDense: true,
-                                          border: InputBorder.none,
-                                          contentPadding: EdgeInsets.all(0),
-                                          focusedBorder: InputBorder.none,
-                                          enabledBorder: InputBorder.none,
-                                          errorBorder: InputBorder.none,
-                                          disabledBorder: InputBorder.none,
-                                          fillColor: Colors.black45,
-                                        )
-                                      : InputDecoration(
-                                          isDense: true,
-                                          fillColor: Colors.black54,
-                                          contentPadding: EdgeInsets.all(0))),
-                            ),
+                            () => TextField(
+                                autofocus: false,
+                                controller: _editController
+                                  ..text = widget.content!,
+                                style: const TextStyle(
+                                    color: Colors.black45, fontSize: 14),
+                                enabled: isupdate.value,
+                                decoration: !isupdate.value
+                                    ? const InputDecoration(
+                                        isDense: true,
+                                        border: InputBorder.none,
+                                        contentPadding: EdgeInsets.all(0),
+                                        focusedBorder: InputBorder.none,
+                                        enabledBorder: InputBorder.none,
+                                        errorBorder: InputBorder.none,
+                                        disabledBorder: InputBorder.none,
+                                      )
+                                    : const InputDecoration(
+                                        isDense: true,
+                                        fillColor: Colors.black54,
+                                        contentPadding: EdgeInsets.all(5))),
                           ),
                           Text(
                             timeago.format(widget.createdAt!),
@@ -149,7 +152,7 @@ class _SingleCommentState extends State<SingleComment> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    _nameController.text = widget.content!;
+                                    _editController.text = widget.content!;
                                     isupdate.value = false;
                                   },
                                   child: Icon(
@@ -164,18 +167,15 @@ class _SingleCommentState extends State<SingleComment> {
                       )
                     ]),
                   ),
-                  Stack(children: [
-                    Visibility(
-                      visible:
-                          widget.commentedBy == userid.value ? true : false,
-                      child: IconButton(
-                        onPressed: () {
-                          option.value = !option.value;
-                        },
-                        icon: Icon(Icons.more_horiz_sharp),
-                      ),
+                  Visibility(
+                    visible: widget.commentedBy == userid.value ? true : false,
+                    child: IconButton(
+                      onPressed: () {
+                        option.value = !option.value;
+                      },
+                      icon: Icon(Icons.more_horiz_sharp),
                     ),
-                  ])
+                  )
                 ],
               ),
               Positioned(
