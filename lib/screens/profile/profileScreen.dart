@@ -15,6 +15,7 @@ import 'package:socialmedia/repository/PostRepository.dart';
 import 'package:socialmedia/repository/ProfileRepository.dart';
 import 'package:socialmedia/response/FeedsResponse.dart';
 import 'package:socialmedia/response/profileResponse/ProfileResponse.dart';
+import 'package:socialmedia/responsive/login_layout.dart';
 import 'package:socialmedia/screens/post/postBookmark.dart';
 import 'package:socialmedia/screens/profile/editProfile.dart';
 import 'package:socialmedia/screens/profile/followerlistScreen.dart';
@@ -134,6 +135,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         _decreasefollower();
       }
     } catch (e) {}
+  }
+
+  _logoutUser() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.remove('userdata');
+    sharedPreferences.remove('token');
+    Navigator.pushNamed(context, LoginLayout.id);
   }
 
   File? fimage;
@@ -277,7 +285,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           GestureDetector(
             onTap: () {
-              _loadShort(ImageSource.camera);
+              _logoutUser();
             },
             child: Container(
               decoration: BoxDecoration(
