@@ -100,6 +100,8 @@ class _SingleCommentState extends State<SingleComment> {
                             () => Container(
                               padding: EdgeInsets.all(0),
                               child: TextField(
+                                  style: TextStyle(
+                                      color: Colors.black45, fontSize: 14),
                                   enabled: isupdate.value,
                                   autofocus: isupdate.value ? true : false,
                                   controller: _nameController,
@@ -112,13 +114,19 @@ class _SingleCommentState extends State<SingleComment> {
                                           enabledBorder: InputBorder.none,
                                           errorBorder: InputBorder.none,
                                           disabledBorder: InputBorder.none,
+                                          fillColor: Colors.black45,
                                         )
                                       : InputDecoration(
                                           isDense: true,
+                                          fillColor: Colors.black54,
                                           contentPadding: EdgeInsets.all(0))),
                             ),
                           ),
-                          Text(timeago.format(widget.createdAt!))
+                          Text(
+                            timeago.format(widget.createdAt!),
+                            style:
+                                TextStyle(fontSize: 10, color: Colors.black38),
+                          )
                         ],
                       ),
                       Positioned(

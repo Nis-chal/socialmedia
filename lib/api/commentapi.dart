@@ -102,4 +102,34 @@ class CommentAPI {
 
     return commentResponse;
   }
+
+  Future<bool> addComments(String content, String postId) async {
+    bool commentResponse = false;
+
+    var commentsurl = baseUrl + 'comment/post';
+
+    try {
+      var dio = HttpServices().getDiorInstance();
+
+      final prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+
+      FormData formData =
+          FormData.fromMap({"content": content, "postId": postId});
+
+      var response = await dio.post(
+        commentsurl,
+        data: formData,
+        options: Options(
+            headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
+      );
+      if (response.statusCode == 200) {
+        commentResponse = true;
+      } else {}
+    } catch (e) {
+      print('No Internet');
+    }
+
+    return commentResponse;
+  }
 }
