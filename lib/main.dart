@@ -4,6 +4,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:socialmedia/components/addPostCarousel.dart';
 import 'package:socialmedia/screens/add_post.dart';
+import 'package:socialmedia/screens/comments/PostCommentsScreen.dart';
 
 import 'package:socialmedia/screens/loginScreen.dart';
 import 'package:socialmedia/screens/post/add_post_description.dart';
@@ -71,7 +72,9 @@ class MyApp extends StatelessWidget {
             ModalRoute.of(context)!.settings.arguments as Map),
         ShortsLstScreen.id: (context) => ShortsLstScreen(),
         AddShortScreen.id: (context) =>
-            AddShortScreen(ModalRoute.of(context)!.settings.arguments as File)
+            AddShortScreen(ModalRoute.of(context)!.settings.arguments as File),
+
+        PostCommentScreen.id:(context) => PostCommentScreen(ModalRoute.of(context)!.settings.arguments as String) 
       },
     );
   }

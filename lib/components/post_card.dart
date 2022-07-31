@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:socialmedia/screens/comments/PostCommentsScreen.dart';
 import './like_animation.dart';
 import '../utils/url.dart';
 import 'package:socialmedia/screens/ImageSlider.dart';
@@ -327,7 +328,10 @@ class _PostCardState extends State<PostCard> {
                         icon: const Icon(
                           Icons.comment_outlined,
                         ),
-                        onPressed: () => {}),
+                        onPressed: () => {
+                              Navigator.pushNamed(context, PostCommentScreen.id,
+                                  arguments: widget.id)
+                            }),
                     IconButton(
                         icon: const Icon(
                           Icons.send,

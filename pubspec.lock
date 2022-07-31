@@ -444,7 +444,7 @@ packages:
     source: hosted
     version: "4.1.0"
   json_serializable:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: json_serializable
       url: "https://pub.dartlang.org"
