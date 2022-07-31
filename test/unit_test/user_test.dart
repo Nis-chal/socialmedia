@@ -49,6 +49,9 @@ void main() {
     });
   });
 
+
+group("post-test", (){
+
   test('get product', () async {
     var url = baseUrl + loginUrl;
 
@@ -72,9 +75,13 @@ void main() {
     expect(200, postresponse.statusCode);
   });
 
-  test('add Product',() async{
-  
+  test('add Product', () async {
+    
   });
+
+});
+
+  
 
   tearDown(() {
     userRepository = null;

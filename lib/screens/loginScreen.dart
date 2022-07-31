@@ -108,6 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   // Image.asset('assets/images/download.jpg'),
                   TextFormField(
+                    key: Key("email"),
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                     textAlign: TextAlign.left,
@@ -118,6 +119,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 8.0,
                   ),
                   TextFormField(
+                    key: Key("password"),
+
                     controller: _passwordController,
                     obscureText: true,
                     keyboardType: TextInputType.emailAddress,
@@ -130,19 +133,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: 24.0,
                   ),
-                  RoundedButton(
-                    title: 'Log In',
-                    colour: Color(0xFF363636),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        User user = User(
-                          email: _emailController.text,
-                          password: _passwordController.text,
-                        );
+                  SizedBox(
+                    key: Key('LogIn'),
+                    child: RoundedButton(
+                      title: 'Log In',
+                      colour: Color(0xFF363636),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          User user = User(
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                          );
 
-                        _login(user);
-                      }
-                    },
+                          _login(user);
+                        }
+                      },
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,

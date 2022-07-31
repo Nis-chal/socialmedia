@@ -2,24 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:socialmedia/components/like_animation.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:socialmedia/utils/url.dart';
+import 'package:get/get.dart';
+import 'dart:math';
 
 class WearPostCard extends StatefulWidget {
   @override
   State<WearPostCard> createState() => _WearPostCardState();
   String? username, description, date, address, userimage;
+  int? likecount;
   List<String>? image;
-  WearPostCard(
-      {this.image,
-      this.username,
-      this.description,
-      this.date,
-      this.address,
-      this.userimage});
+  WearPostCard({
+    this.image,
+    this.username,
+    this.description,
+    this.date,
+    this.address,
+    this.userimage,
+    this.likecount,
+  });
 }
 
 class _WearPostCardState extends State<WearPostCard> {
+  Random random = Random();
   int commentLen = 0;
   bool isLikeAnimating = false;
+  var liked = false.obs;
+  RxInt likecount = 0.obs;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -154,6 +163,12 @@ class _WearPostCardState extends State<WearPostCard> {
                       onEnd: () {
                         setState(() {
                           isLikeAnimating = false;
+                          liked.value = !liked.value;
+                          if (liked.value) {
+                            likecount++;
+                          } else {
+                            likecount--;
+                          }
                         });
                       },
                     ),
@@ -165,7 +180,7 @@ class _WearPostCardState extends State<WearPostCard> {
                       isAnimating: false,
                       smallLike: true,
                       child: IconButton(
-                        icon: isLikeAnimating
+                        icon: liked.value
                             ? const Icon(
                                 Icons.favorite,
                                 color: Colors.red,
@@ -192,13 +207,14 @@ class _WearPostCardState extends State<WearPostCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SizedBox(
-                  height: 10,
-                  child: Text(
-                    '11 likes',
-                    style:
-                        TextStyle(fontSize: 10, fontWeight: FontWeight.normal),
-                  ),
-                ),
+                    height: 10,
+                    child: Obx(
+                      () => Text(
+                        '$likecount likes',
+                        style: TextStyle(
+                            fontSize: 10, fontWeight: FontWeight.normal),
+                      ),
+                    )),
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.only(
