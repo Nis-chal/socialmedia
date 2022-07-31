@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:socialmedia/components/shorts/shortsCard.dart';
 import 'package:socialmedia/models/Posts.dart';
+import 'package:socialmedia/models/ShortsModel.dart';
 import 'package:socialmedia/repository/PostRepository.dart';
+import 'package:socialmedia/repository/ShortsRepository.dart';
 import 'package:socialmedia/response/FeedsResponse.dart';
+import 'package:socialmedia/response/shortsResponse/SavedShortsResponse.dart';
 import 'package:socialmedia/utils/url.dart';
+import 'package:video_player/video_player.dart';
 
-class PostBookMark extends StatelessWidget {
-  static const String id = "postBookMakr";
-  const PostBookMark({Key? key}) : super(key: key);
+class ShortBookMark extends StatelessWidget {
+  static const String id = "ShortsBookMark";
+  const ShortBookMark({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +21,7 @@ class PostBookMark extends StatelessWidget {
           color: Colors.black, //change your color here
         ),
         title: Text(
-          'Saved Posts',
+          'Saved Shorts',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.transparent,
@@ -25,13 +30,13 @@ class PostBookMark extends StatelessWidget {
       ),
       body: SafeArea(
         child: Container(
-          child: FutureBuilder<FeedsResponse?>(
-            future: PostRepository().savedPosts(),
+          child: FutureBuilder<SavedShortsResponse?>(
+            future: ShortsRepository().savedShorts(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.data != null) {
                   // ProductResponse productResponse = snapshot.data!;
-                  List<Posts> postlst = snapshot.data!.posts!;
+                  List<ShortsModel> postlst = snapshot.data!.posts!;
 
                   return GridView.builder(
                     gridDelegate:
@@ -41,13 +46,7 @@ class PostBookMark extends StatelessWidget {
                             mainAxisSpacing: 4.0),
                     itemCount: postlst.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
-                        onTap: () {},
-                        child: Image.network(
-                          '$baseUr${postlst[index].images![0]}',
-                          fit: BoxFit.cover,
-                        ),
-                      );
+                      return ShortsCard(url: postlst[index].video);
                     },
                   );
                 } else {

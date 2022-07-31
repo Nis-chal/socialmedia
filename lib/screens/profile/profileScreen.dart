@@ -20,6 +20,7 @@ import 'package:socialmedia/screens/profile/editProfile.dart';
 import 'package:socialmedia/screens/profile/followerlistScreen.dart';
 import 'package:socialmedia/screens/profile/profileSliderScreen.dart';
 import 'package:socialmedia/screens/shorts/Addshort.dart';
+import 'package:socialmedia/screens/shorts/shortsBookmark.dart';
 import 'package:socialmedia/utils/url.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -250,7 +251,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           GestureDetector(
             onTap: () {
-              _loadShort(ImageSource.camera);
+              Navigator.pushNamed(context, ShortBookMark.id);
             },
             child: Container(
               decoration: BoxDecoration(
