@@ -45,7 +45,7 @@ class _ExplorePageSliderState extends State<ExplorePageSlider> {
         CarouselSlider.builder(
           itemCount: widget.listofImage!.length,
           options: CarouselOptions(
-            height: MediaQuery.of(context).size.height * 0.47,
+            height: MediaQuery.of(context).size.height * 0.45,
 
             // pageSnapping: false,
             enableInfiniteScroll: false,

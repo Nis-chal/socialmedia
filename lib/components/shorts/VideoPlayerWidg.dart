@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
@@ -138,6 +139,12 @@ class _VideoPlayerWidgState extends State<VideoPlayerWidg> {
     if (short) {
       isdelete.value = false;
       widget.removeAt();
+      AwesomeNotifications().createNotification(
+          content: NotificationContent(
+              channelKey: 'basic_channel',
+              title: 'Shorts',
+              body: "Shorts Deleted",
+              id: 1));
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:socialmedia/response/shortsResponse/SavedShortsResponse.dart';
 import 'package:socialmedia/response/shortsResponse/ShortsResponse.dart';
 import 'dart:io';
 import 'dart:convert';
@@ -286,5 +287,32 @@ class SHORTSAPI {
     }
 
     return shorts;
+  }
+
+  Future<SavedShortsResponse?> savedShorts() async {
+    Future.delayed(const Duration(seconds: 2), () {});
+
+    SavedShortsResponse? savedShortsResponse;
+
+    var postsurl = baseUrl + 'shorts/savedShorts';
+
+    try {
+      var dio = HttpServices().getDiorInstance();
+
+      final prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      Response response = await dio.get(
+        postsurl,
+        options: Options(
+            headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
+      );
+      if (response.statusCode == 200) {
+        savedShortsResponse = SavedShortsResponse.fromJson(response.data);
+      } else {}
+    } catch (e) {
+      print('No Internet');
+    }
+
+    return savedShortsResponse;
   }
 }

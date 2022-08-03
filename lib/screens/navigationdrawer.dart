@@ -93,6 +93,11 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<Widget> lstWidget = [
       FeedScreen(),

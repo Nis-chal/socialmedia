@@ -27,10 +27,12 @@ class PostAPI {
     var dir = await getApplicationDocumentsDirectory();
     Hive.init(dir.path);
     box = await Hive.openBox('mybox');
-    var stored = box.get(postsurl);
-    var encoded = jsonDecode(stored);
+    // var stored = box.get(postsurl);
+    // if (stored) {
+    //   var encoded = jsonDecode(stored);
 
-    feedsResponse = FeedsResponse.fromJson(encoded);
+    //   feedsResponse = FeedsResponse.fromJson(encoded);
+    // }
 
     try {
       var dio = HttpServices().getDiorInstance();
@@ -406,7 +408,42 @@ class PostAPI {
     return feedsResponse;
   }
 
+  Future<FeedsResponse?> savedPosts() async {
+    Future.delayed(const Duration(seconds: 2), () {});
 
+    FeedsResponse? feedsResponse;
 
-  
+    var postsurl = baseUrl + 'posts/savedPost';
+
+    try {
+      var dio = HttpServices().getDiorInstance();
+      // Obtain shared preferences.
+      // dio.interceptors
+      //     .add(DioCacheManager(CacheConfig(baseUrl: ipaddress)).interceptor);
+
+      final prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
+      var response = await dio.get(
+        postsurl,
+        options: Options(
+            headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
+      );
+      if (response.statusCode == 200) {
+        feedsResponse = FeedsResponse.fromJson(response.data);
+        String postdata = jsonEncode(response.data);
+      } else {}
+    } catch (e) {
+      print('No Internet');
+    }
+
+    // var mymap = box.toMap().values.toList();
+    // if(mymap.isEmpty){
+    //   feedsResponse = null;
+
+    // }else{
+
+    // }
+
+    return feedsResponse;
+  }
 }

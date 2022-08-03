@@ -29,7 +29,7 @@ class EditProfileScreen extends StatelessWidget {
 
   Future _loadImage(ImageSource imageSource) async {
     try {
-      final image = await ImagePicker().getVideo(source: imageSource);
+      final image = await ImagePicker().pickImage(source: imageSource);
       if (image != null) {
         fimage = File(image.path);
         loaded.value = true;

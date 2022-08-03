@@ -21,9 +21,9 @@ class UserApi{
    
    
     var url = baseUrl + loginUrl;
-    var dio = HttpServices().getDiorInstance();
 
     
+    var dio = HttpServices().getDiorInstance();
     try{
       var response = await dio.post(
         url,
@@ -100,10 +100,6 @@ class UserApi{
       }
       
 
-
-    }on DioError catch(e){
-        
-        loginaction.errorMsg = e.response!.data['msg'];
 
     }
     catch(e){

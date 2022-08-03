@@ -9,6 +9,7 @@ import 'package:motion_toast/motion_toast.dart';
 import 'package:socialmedia/models/User.dart';
 import 'package:socialmedia/repository/UserRepository.dart';
 import 'package:socialmedia/response/logindispatch.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String id = 'register_screen';
@@ -32,7 +33,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final String message = msg ?? "error";
 
     if (type) {
-      MotionToast.success(description: Text('success register')).show(context);
+      // MotionToast.success(description: Text('success register')).show(context);
+
+      AwesomeNotifications().createNotification(
+          content: NotificationContent(
+              channelKey: 'basic_channel',
+              title: 'Register',
+              body: "Register success",
+              id: 1));
     } else {
       MotionToast.warning(description: Text('$message new')).show(context);
     }
@@ -69,10 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     SizedBox(
                       height: 70,
-                      child: Hero(
-                        tag: 'logo',
-                        child: Image.asset('assets/images/camera.png'),
-                      ),
+                      child: Image.asset('assets/images/camera.png'),
                     ),
                     SizedBox(
                       height: 50,
@@ -83,6 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     // Image.asset('assets/images/download.jpg'),
                     TextFormField(
+                      key: ValueKey('name'),
                       keyboardType: TextInputType.emailAddress,
                       controller: _nameController,
                       decoration: kTextFieldDecoration.copyWith(
@@ -98,6 +104,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 8.0,
                     ),
                     TextFormField(
+                      key: const ValueKey('username'),
                       keyboardType: TextInputType.emailAddress,
                       controller: _usernameController,
                       decoration: kTextFieldDecoration.copyWith(
@@ -114,6 +121,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 8.0,
                     ),
                     TextFormField(
+                      key: const ValueKey('email'),
                       keyboardType: TextInputType.emailAddress,
                       controller: _emailController,
                       decoration: kTextFieldDecoration.copyWith(
@@ -129,6 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 8.0,
                     ),
                     TextFormField(
+                      key: const ValueKey('location'),
                       keyboardType: TextInputType.emailAddress,
                       controller: _locationController,
                       decoration: kTextFieldDecoration.copyWith(
@@ -144,6 +153,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 8.0,
                     ),
                     TextFormField(
+                      key: const ValueKey('password'),
                       obscureText: true,
                       keyboardType: TextInputType.emailAddress,
                       controller: _passwordController,
@@ -159,22 +169,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     SizedBox(
                       height: 24.0,
                     ),
-                    RoundedButton(
-                      title: 'Register',
-                      colour: Color(0xFF363636),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          User user = User(
-                            name: _nameController.text,
-                            username: _usernameController.text,
-                            email: _emailController.text,
-                            location: _locationController.text,
-                            password: _passwordController.text,
-                          );
+                    SizedBox(
+                      key: const ValueKey('Register'),
+                      child: RoundedButton(
+                        title: 'Register',
+                        colour: Color(0xFF363636),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            User user = User(
+                              name: _nameController.text,
+                              username: _usernameController.text,
+                              email: _emailController.text,
+                              location: _locationController.text,
+                              password: _passwordController.text,
+                            );
 
-                          _registerUser(user);
-                        }
-                      },
+                            _registerUser(user);
+                          }
+                        },
+                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,

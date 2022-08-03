@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:socialmedia/screens/comments/PostCommentsScreen.dart';
 import './like_animation.dart';
@@ -132,7 +133,7 @@ class _PostCardState extends State<PostCard> {
     return Obx(() => Visibility(
           visible: isDelete.value,
           child: Container(
-            height: 720,
+            height: 723,
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             margin: const EdgeInsets.only(bottom: 20),
             decoration: BoxDecoration(
@@ -235,6 +236,12 @@ class _PostCardState extends State<PostCard> {
                                 if (post) {
                                   isDelete.value = false;
                                   Navigator.pop(context);
+                                  AwesomeNotifications().createNotification(
+                                      content: NotificationContent(
+                                          channelKey: 'basic_channel',
+                                          title: 'Post',
+                                          body: "Post Deleted",
+                                          id: 1));
                                 }
 
                                 // Navigator.push(context, MaterialPageRoute(builder: (context) => const SecondRoute()))
