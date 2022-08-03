@@ -22,54 +22,99 @@ Figure 1: Login Page
 
  
 Figure 2:Register Page
+![login image!](images/register.png)
+
 
  
 Figure 3: feed screen
+![login image!](images/FeedScreen.png)
+
  
 Figure 4:when unautherized user click on post option
+![login image!](images/post-option-1.png)
+
  
 Figure 5:when author of the post clicks on post
+![login image!](images/post-option-2.png)
+
  
 Figure 6: Comment section of the post
+![login image!](images/comment.png)
+
  
 Figure 7:Shorts Screen Page  (short video clip  )
+![login image!](images/shorts.png)
+
  
 Figure 8: profile page of logged in user
+![login image!](images/Screenshot_1659531944.png)
+
  
 Figure 9: User like posts area
+![login image!](images/likepost.png)
+
  
 Figure 10: When you search User
+![login image!](images/searchpage.png)
+
  
 Figure 11:Explore Post
+![login image!](images/explorepage.png)
+
 
  
 Figure 12: Image preview after selection Images to upload post
+![login image!](images/postpreview-1.png)
+
  
 Figure 13: Add Post From
+![login image!](images/postform.png)
+
  
 Figure 14: after you followed the user
+![login image!](images/)
+
  
 Figure 15: Bottom Sheet Modal when click on hamburger icon
+![login image!](images/hamburger-option.png)
+
  
 Figure 16: Image preview before uploading
+![login image!](images/postpreview-1.png)
+
+
 
  
 Figure 17: Saved Post Screen
+![login image!](images/savedpost.png)
+
 
  
 Figure 18: Saved Shorts Screen
+![login image!](images/shorts.png)
+
 
  
 Figure 19: Edit Profile Page
+![login image!](images/editprofile.png)
+
 
 
 Figure 20: follower list of logged in user and other user
+![login image!](images/followerlist-1.png) 
+![login image!](images/followerslost-of-loggin-user.png)
+
+
 
 
 
 
  
 Figure 21: Following list of logged in user and other user 
+![login image!](images/followinglist-2.png)
+![login image!](images/followinglist-1.png)
+
+
 
 
 

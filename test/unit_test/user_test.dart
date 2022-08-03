@@ -7,7 +7,7 @@ import 'package:socialmedia/repository/PostRepository.dart';
 import 'package:socialmedia/repository/UserRepository.dart';
 
 import 'package:socialmedia/response/logindispatch.dart';
-// import 'package:socialmedia/response/FeedsResponse.dart';
+
 import 'package:socialmedia/api/httpServices.dart';
 import 'package:socialmedia/utils/url.dart';
 
@@ -30,18 +30,18 @@ void main() {
 
       bool actualResult = await userRepository!.login(user);
 
-      expect(true, actualResult);
+      expect(expectedResult, actualResult);
     });
     test('Register user', () async {
       bool expectedResult = true;
       // UserRepository userRepository = UserRepository();
 
       User user = User(
-          name: "numsasssss",
-          email: "numsssssi@gmail.com",
-          location: "londsssonsss",
-          username: "numsssssssa",
-          password: "numassnssuma");
+          name: "numsasaasaasss",
+          email: "numsssssssi@gmail.com",
+          location: "londsaassaonsss",
+          username: "numsssssssssa",
+          password: "numassssnaassuma");
 
       LoginDispatch actualResult = await userRepository!.registerUser(user);
 
@@ -49,39 +49,32 @@ void main() {
     });
   });
 
+  group("post-test", () {
+    test('get product', () async {
+      var url = baseUrl + loginUrl;
 
-group("post-test", (){
+      var dio = HttpServices().getDiorInstance();
 
-  test('get product', () async {
-    var url = baseUrl + loginUrl;
+      var postsurl = baseUrl + getFeedsUrl;
 
-    var dio = HttpServices().getDiorInstance();
+      var response = await dio.post(url, data: {
+        "email": "cristiano@gmail.com",
+        "password": "cristiano",
+      });
 
-    var postsurl = baseUrl + getFeedsUrl;
+      String token = response.data['token'];
 
-    var response = await dio.post(url, data: {
-      "email": "cristiano@gmail.com",
-      "password": "cristiano",
+      var postresponse = await dio.get(
+        postsurl,
+        options: Options(
+            headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
+      );
+
+      expect(200, postresponse.statusCode);
     });
 
-    String token = response.data['token'];
-
-    var postresponse = await dio.get(
-      postsurl,
-      options:
-          Options(headers: {HttpHeaders.authorizationHeader: "Bearer $token"}),
-    );
-
-    expect(200, postresponse.statusCode);
+    test('add Product', () async {});
   });
-
-  test('add Product', () async {
-    
-  });
-
-});
-
-  
 
   tearDown(() {
     userRepository = null;
