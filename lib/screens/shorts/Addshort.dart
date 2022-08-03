@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -103,6 +104,12 @@ class _AddShortScreenState extends State<AddShortScreen> {
                     );
 
                     if (short) {
+                      AwesomeNotifications().createNotification(
+                          content: NotificationContent(
+                              channelKey: 'basic_channel',
+                              title: 'Shorts',
+                              body: "Shorts Added",
+                              id: 1));
                       Navigator.pushNamed(
                         context,
                         ShortsLstScreen.id,

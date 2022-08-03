@@ -58,6 +58,8 @@ dependencies:
   json_serializable: ^4.1.4
   integration_test:
     sdk: flutter
+  shake: ^2.1.0
+  
 
 dev_dependencies:
   flutter_test:

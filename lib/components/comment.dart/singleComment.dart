@@ -58,6 +58,7 @@ class _SingleCommentState extends State<SingleComment> {
     bool isupdated = await commentRepository.deleteComments(widget.commentid!);
     if (isupdated) {
       isDelete.value = true;
+      
     }
   }
 

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -81,6 +82,12 @@ class _AddPostDecriptionScreenState extends State<AddPostDecriptionScreen> {
                         .addFeed(args, _description.text, _location.text);
 
                     if (post) {
+                      AwesomeNotifications().createNotification(
+                          content: NotificationContent(
+                              channelKey: 'basic_channel',
+                              title: 'Post',
+                              body: "Post Added",
+                              id: 1));
                       Navigator.pushNamed(context, NavigationDrawer.id,
                           arguments: {
                             "pageIndex": 0,

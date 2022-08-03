@@ -9,6 +9,7 @@ import 'package:motion_toast/motion_toast.dart';
 import 'package:socialmedia/models/User.dart';
 import 'package:socialmedia/repository/UserRepository.dart';
 import 'package:socialmedia/response/logindispatch.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String id = 'register_screen';
@@ -32,7 +33,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final String message = msg ?? "error";
 
     if (type) {
-      MotionToast.success(description: Text('success register')).show(context);
+      // MotionToast.success(description: Text('success register')).show(context);
+
+      AwesomeNotifications().createNotification(
+          content: NotificationContent(
+              channelKey: 'basic_channel',
+              title: 'Register',
+              body: "Register success",
+              id: 1));
     } else {
       MotionToast.warning(description: Text('$message new')).show(context);
     }
@@ -69,10 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     SizedBox(
                       height: 70,
-                      child: Hero(
-                        tag: 'logo',
-                        child: Image.asset('assets/images/camera.png'),
-                      ),
+                      child: Image.asset('assets/images/camera.png'),
                     ),
                     SizedBox(
                       height: 50,
@@ -83,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     // Image.asset('assets/images/download.jpg'),
                     TextFormField(
-                      key: Key('name'),
+                      key: ValueKey('name'),
                       keyboardType: TextInputType.emailAddress,
                       controller: _nameController,
                       decoration: kTextFieldDecoration.copyWith(
@@ -99,7 +104,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 8.0,
                     ),
                     TextFormField(
-                      key: Key('username'),
+                      key: const ValueKey('username'),
                       keyboardType: TextInputType.emailAddress,
                       controller: _usernameController,
                       decoration: kTextFieldDecoration.copyWith(
@@ -116,7 +121,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 8.0,
                     ),
                     TextFormField(
-                      key: Key('email'),
+                      key: const ValueKey('email'),
                       keyboardType: TextInputType.emailAddress,
                       controller: _emailController,
                       decoration: kTextFieldDecoration.copyWith(
@@ -132,7 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 8.0,
                     ),
                     TextFormField(
-                      key: Key('location'),
+                      key: const ValueKey('location'),
                       keyboardType: TextInputType.emailAddress,
                       controller: _locationController,
                       decoration: kTextFieldDecoration.copyWith(
@@ -148,7 +153,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 8.0,
                     ),
                     TextFormField(
-                      key: Key('password'),
+                      key: const ValueKey('password'),
                       obscureText: true,
                       keyboardType: TextInputType.emailAddress,
                       controller: _passwordController,
@@ -165,7 +170,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 24.0,
                     ),
                     SizedBox(
-                      key: Key('Register'),
+                      key: const ValueKey('Register'),
                       child: RoundedButton(
                         title: 'Register',
                         colour: Color(0xFF363636),

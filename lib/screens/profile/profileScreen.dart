@@ -23,6 +23,7 @@ import 'package:socialmedia/screens/profile/profileSliderScreen.dart';
 import 'package:socialmedia/screens/shorts/Addshort.dart';
 import 'package:socialmedia/screens/shorts/shortsBookmark.dart';
 import 'package:socialmedia/utils/url.dart';
+import 'package:shake/shake.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String id = 'profieScreen_id';
@@ -47,18 +48,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
   RxInt followingpage = 0.obs;
   RxString profileUsername = ''.obs;
   RxString profilePicture = ''.obs;
+  late ShakeDetector detector;
 
   @override
   void initState() {
     _loadCounter();
+    setState(() {});
+
+    detector = ShakeDetector.autoStart(
+      onPhoneShake: () {
+        setState(() {
+          showModalBottomSheet(
+            context: context,
+            backgroundColor: Colors.transparent,
+            builder: (BuildContext context) => options(
+              onpop: () {
+                Navigator.pop(context);
+              },
+            ),
+          );
+          // Navigator.pushNamed(context, "/");
+        });
+      },
+    );
+    detector.startListening();
     super.initState();
   }
 
-  // @override
-  // void dispose() {
-  //   _loadCounter();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    detector.stopListening();
+    super.dispose();
+  }
 
   _loadCounter() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -250,6 +271,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget options({required VoidCallback onpop}) {
     return Container(
+      
       margin: EdgeInsets.symmetric(horizontal: 8.0),
       height: 180,
       color: Colors.transparent,

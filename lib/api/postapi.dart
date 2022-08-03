@@ -27,10 +27,12 @@ class PostAPI {
     var dir = await getApplicationDocumentsDirectory();
     Hive.init(dir.path);
     box = await Hive.openBox('mybox');
-    var stored = box.get(postsurl);
-    var encoded = jsonDecode(stored);
+    // var stored = box.get(postsurl);
+    // if (stored) {
+    //   var encoded = jsonDecode(stored);
 
-    feedsResponse = FeedsResponse.fromJson(encoded);
+    //   feedsResponse = FeedsResponse.fromJson(encoded);
+    // }
 
     try {
       var dio = HttpServices().getDiorInstance();

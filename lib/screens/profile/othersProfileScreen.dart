@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -185,8 +186,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                     "pageIndex": 1,
                                     "profilePicture": null,
                                     "profileId": "",
-                                    "isProfile":0
-
+                                    "isProfile": 0
                                   });
                                 },
                                 icon: const Icon(Icons.arrow_back_ios_new)),
@@ -290,6 +290,16 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                         profile.user.id!)
                                                     : _followUser(
                                                         profile.user.id!);
+
+                                                AwesomeNotifications()
+                                                    .createNotification(
+                                                        content: NotificationContent(
+                                                            channelKey:
+                                                                'basic_channel',
+                                                            title: 'Followed',
+                                                            body:
+                                                                "${profile.user.username}",
+                                                            id: 1));
                                               }),
                                         )
                                       : Expanded(

@@ -37,11 +37,11 @@ void main() {
       // UserRepository userRepository = UserRepository();
 
       User user = User(
-          name: "numsasss",
-          email: "numsssi@gmail.com",
-          location: "londonsss",
-          username: "numsssssa",
-          password: "numassnuma");
+          name: "numsasssss",
+          email: "numsssssi@gmail.com",
+          location: "londsssonsss",
+          username: "numsssssssa",
+          password: "numassnssuma");
 
       LoginDispatch actualResult = await userRepository!.registerUser(user);
 

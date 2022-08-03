@@ -6,6 +6,7 @@ import 'package:socialmedia/models/User.dart';
 import 'package:socialmedia/repository/ShortsRepository.dart';
 import 'package:socialmedia/response/shortsResponse/ShortsResponse.dart';
 import 'package:socialmedia/components/shorts/VideoPlayerWidg.dart';
+import 'package:socialmedia/responsive/navigation_drawer.dart';
 import 'package:video_player/video_player.dart';
 
 import 'package:socialmedia/models/ShortsModel.dart';
@@ -113,12 +114,16 @@ class _ShortsLstScreenState extends State<ShortsLstScreen> {
                   top: 20,
                   left: 10,
                   child: IconButton(
-                    icon: Icon(
+                    icon: Icon( 
                       Icons.arrow_back_ios_new,
                       color: Colors.white,
                     ),
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.popAndPushNamed(context, NavigationDrawer.id,
+                          arguments: {
+                            "pageIndex": 0,
+                            "profilePicture": null,
+                          });
                     },
                   ),
                 ),

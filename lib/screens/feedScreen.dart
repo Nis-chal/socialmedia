@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:socialmedia/components/post_card.dart';
-import 'package:socialmedia/models/post.dart';
 import 'package:socialmedia/models/Posts.dart';
 import 'package:socialmedia/screens/shorts/ShortsLstScreen.dart';
 import '../response/FeedsResponse.dart';
@@ -26,6 +25,14 @@ class _FeedScreenState extends State<FeedScreen> {
   Future<void> updateData() async {
     setState(() {});
   }
+
+  double x = 0, y = 0, z = 0;
+  String direction = "none";
+
+  
+
+
+  
 
   @override
   Widget build(BuildContext context) {
