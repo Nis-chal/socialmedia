@@ -200,7 +200,8 @@ Figure 19: Edit Profile Page
 Figure 20: follower list of logged in user and other user
 </p>
 <p align = "center">
-<img src="https://user-images.githubusercontent.com/65758608/182664029-609e1b91-a3cb-4460-b16a-bba0aff23e7b.png" width="30%"></img> 
+<img src="https://user-images.githubusercontent.com/65758608/182664029-609e1b91-a3cb-4460-b16a-bba0aff23e7b.png" width="30%"></img>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img src="https://user-images.githubusercontent.com/65758608/182664395-99ac4d2c-e015-418d-87a2-ea7fb9cd9371.png" width="30%"></img> 
 </p>
 
@@ -215,7 +216,8 @@ Figure 21: Following list of logged in user and other user
 
 
 <p align = "center">
-<img src="https://user-images.githubusercontent.com/65758608/182664541-7d17b8f6-1595-48c1-b0dd-5580aaec84a3.png" width="30%"></img> 
+<img src="https://user-images.githubusercontent.com/65758608/182664541-7d17b8f6-1595-48c1-b0dd-5580aaec84a3.png" width="30%"></img>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img src="https://user-images.githubusercontent.com/65758608/182664663-c94e6790-229c-4df7-b8af-5bdb680bf3c9.png" width="30%"></img> 
 </p>
 
