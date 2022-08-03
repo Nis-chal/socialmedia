@@ -1,20 +1,35 @@
-Winkle 
+<h1>
+Winkle
+ </h1>
 
 The title of this project is “Winkle”.
 Product Description and Features
 Winkle is a social media platform for sharing pictures and videos. It enables you to develop and share your pictures, stories, and videos with the following and friends that matter to you. The Winkle app includes simple features like users can simply follow and unfollow other friends or users according to their desire. In addition to this, users can also add a comment to the post shared by others and react like or dislike it according to their interests. Users will also get an option to save a post by clicking on the save button. However, the most important part is the user can simply search any places or users by typing a random text on the provided search bar. Furthermore, a recommendation part is also done where contents are recommended to the user on the basis of most watch content. 
 
+<h2>
 Technologies used
+</h2>
+
+<h3>
 Flutter
+</h3>
+ 
 Flutter is an open-source platform used for building applications for mobile, desktop, and web by using a single code base. Flutter is used to build the Winkle app because once developers write code it can be implemented on all the platforms easily. To illustrate iOS, Android, Wear OS, and many more.
-
+<h3>
 MongoDB
+</h3>
+ 
 Since this social media app deals with a huge amount of data it would be tuff for a relational database RDBMS to handle those data. In order to perfectly manages a large volume of data a NoSQL database is used which is MongoDB.
-
+<h3>
 NodeJS
+</h3>
+ 
 The widespread task in apps like reading and writing to the network connections as well as reading and writing to the database and file system executes at a very high speed when using NodeJS. Similarly, Node.js code written for either the browser or server runs in a similar manner on both.
 
+<h2>
 ScreenShorts
+</h2>
+ 
  
 <p align ="center">
 Figure 1: Login Page and Register
@@ -211,14 +226,29 @@ Figure 21: Following list of logged in user and other user
 
 
 
-
+<h2>
 Challenges
+</h2>
+
+<h6>
+ Keep it simple
+ </h6>
+ Making a mobile app simple and understandable to users is yet another challenge faced . this was achieved by implementing a simple structure and adding less color when desigining
+ 
+ <h6>
+ Optimization
+ </h6>
+ To not to rebuild every widget when setState was implemented , Reactive stateManagement was implemented using GetX
+ 
+ 
 
 
 
 
-
+<h2>
 Future Works
+</h2>
+ 
 To change the theme of the application so that the user can set the theme of the app either in light or dark mode according to their preferences.
 
 Report issues and block specific users or content to avoid unnecessary content.
@@ -227,16 +257,25 @@ Implementing chat and video calls so that users can contact each other.
 
 Calculate the average time spent hours per day and notify the users that they have exceeded the maximum hours of time.
 
+<h2>
 State Management
+ </h2>
+GetX is not only a state management library, but instead, it is a microframework combined with route management and dependency injection. It aims to deliver top-of-the-line development experience in an extra lightweight but powerful solution for Flutter. GetX has three basic principles on which it is built:
+
+<h6>Performance </h6>: focused on minimum consumption of memory and resources
+<h6>Productivity</h6>: intuitive and efficient tool combined with simplicity and straightforward syntax that ultimately saves development time
+<h6>Organization</h6>: decoupling business logic from view and presentation logic cannot get better than this. You do not need context to navigate between routes, nor do you need stateful widgets
 
 
-
+<h2>
 Project Architecture
+ </h2>
 In order to separate the program logic from the user interface controls, a software design pattern called Model-View-View Model (MVVM) is used. Model-view-binder, sometimes known as MVVM, was developed by Microsoft architects Ken Cooper and John Gossman.
 Utilizing view models, the MVVM design pattern enhances the separation of concerns. Data from the model layer is converted by the view model into information that the view layer can use. MVVM has the advantage of improving the testability of view controllers. Due to the view controller's independence from the model layer, testing them is easier. Similar to this, the view model gives the view controller a transparent interface it may use to fill the view layer and interact with the model layer.
 
-
+<h2>
 Conclusion
+ </h2>
 The engagement of people in social media has increased drastically around the world. Using Winkle app can help users to get involved in multiple groups and they can know the news around the world by the posts shared in that particular group. Furthermore, it can also be regarded as a source of entertainment and source of knowledge where user can go through funny videos as well as they can also like pages that shares quotes and content related to studies and all.
 
 
