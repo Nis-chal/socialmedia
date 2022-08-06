@@ -2,7 +2,6 @@
 Winkle
  </h1>
  
- https://www.youtube.com/watch?v=nF9so7StFAY
 
 The title of this project is “Winkle”.
 Product Description and Features
@@ -224,6 +223,26 @@ Figure 21: Following list of logged in user and other user
 </p>
 
 
+<p align = "center">
+Figure 21: Tablet Design
+</p>
+
+
+
+<p align = "center">
+<img src="https://user-images.githubusercontent.com/65758608/183257251-1fde6c13-f4c9-4f82-a68a-6957d9c84f85.jpg" width="30%"></img> 
+<img  alt="tabscc" src="https://user-images.githubusercontent.com/65758608/183257340-b6f38e1d-6fab-49bd-ac25-4a8f9d407320.png" width="30%">
+<img src="https://user-images.githubusercontent.com/65758608/183257827-9e87844b-53b4-449a-abaa-c129b6e73af8.jpg" width="30%"></img> 
+</p>
+
+<p align = "center">
+Figure 21: WearOs Design
+</p>
+
+<p align = "center">
+<img src="https://user-images.githubusercontent.com/65758608/183257883-21487a37-56b8-46be-8a34-1957d9796c82.jpg" width="45%"></img> 
+<img src="https://user-images.githubusercontent.com/65758608/183258001-8fb15ee3-26f2-4536-8b61-17d8c70063da.jpg" width="45%"></img> 
+</p>
 
 
 
