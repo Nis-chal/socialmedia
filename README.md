@@ -5,7 +5,7 @@ Winkle
 
 The title of this project is “Winkle”.
 Product Description and Features
-Winkle is a social media platform for sharing pictures and videos. It enables you to develop and share your pictures, stories, and videos with the following and friends that matter to you. The Winkle app includes simple features like users can simply follow and unfollow other friends or users according to their desire. In addition to this, users can also add a comment to the post shared by others and react like or dislike it according to their interests. Users will also get an option to save a post by clicking on the save button. However, the most important part is the user can simply search any places or users by typing a random text on the provided search bar. Furthermore, a recommendation part is also done where contents are recommended to the user on the basis of most watch content. 
+Winkle is a social media platform for sharing pictures and videos. It enables you to develop and share your pictures, stories, and videos with the following and friends that matter to you. The Winkle app includes simple features like users can simply follow and unfollow other friends or users according to their desire. In addition to this, users can also add a comment to the post shared by others and react like or dislike it according to their interests. Users will also get an option to save a post by clicking on the save button. However, the most important part is the user can simply search any places or users by typing a random text on the provided search bar. Furthermore, a recommendation part is also done where contents are recommended to the user on the basis of most watch content.Short video clips can be also uploaded  
 
 <h2>
 Technologies used
